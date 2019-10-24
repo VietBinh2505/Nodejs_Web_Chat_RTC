@@ -1,8 +1,44 @@
 ---------------------------------
-1 Tính năng đăng kí đăng nhập
+1 Tính năng đăng kí:
 -dùng package body parser để lấy thông tin người dùng nhập tại form đăng nhập ở folder validator
 -dùng package validator để kiểm tra dữ liệu với điều kiện ở folder validator
-- nếu có lỗi thì lấy lỗi từ folder lang/vi 
-- truyền lỗi ra ngoài view bằng package flash ở folder auth- controller
-- Lưu thông tin vào csdl thông qua authservice -> models (xử lý authservice ) nhưng gọi ở controller
+-nếu có lỗi thì lấy lỗi từ folder lang/vi 
+-truyền lỗi ra ngoài view bằng package flash ở folder auth-controller
+-Lưu thông tin vào csdl thông qua authservice -> models (xử lý authservice ) nhưng gọi ở controller
+-kiểm tra đã đăng nhập hay chưa tại controller/auth hàm check login, nếu đăng nhập rồi thì cho đăng xuất và vào trang chủ, và không vào đăng nhập tiếp
 ---------------------------------
+2 Tính năng đăng nhập(xác thực tài khoản):
+a: Với tài khoản Local
+-xử lý ở controller/passport
+-sau khi lấy được thông tin người dùng nhập tại form đăng nhập và kiểm tra tính hợp lệ ở folder validator
+-dùng package passport để kiểm tra dữ liệu có trùng với tài khoản đã đăng kí hay không
+-nếu có lỗi thì lấy lỗi từ folder lang/vi 
+-truyền lỗi ra ngoài view bằng package flash ở folder auth-controller
+b: Với tài khoản Fb
+-xử lý ở controller/passport
+-xử dụng fb dành cho dev ở web fb tạo tính năng đăng nhập
+-xử dụng modul passport-facebook
+-lưu thông tin vào csdl, 
+-người dùng đăng nhập sẽ tìm kiếm profile.id trong csdl nếu có thì đăng nhập thẳng, nếu chưa có thì tạo người dùng và lưu thông tin
+c: Với tài khoản google:
+-xử lý ở controller/passport
+-xử dụng gg api tạo tính năng đăng nhập
+-xử dụng modul passport-gg-aouth
+-lưu thông tin vào csdl, 
+-người dùng đăng nhập sẽ tìm kiếm profile.id trong csdl nếu có thì đăng nhập thẳng, nếu chưa có thì tạo người dùng và lưu thông tin
+---------------------------------
+3: Tính năng đăng xuất tài khoản: 
+a: Với tài khoản Local: 
+-Tạo routes có đường link là /logout trùng với giá trị ở phần views, 
+-tại controller vết hàm logout với req.logout để xóa tài khoản lưu trong session,
+-thông báo cho người dùng đã đăng xuất thành công và đồng thời chuyển hướng vế trang đăng nhập;
+---------------------------------
+4: Chức năng up ảnh đại diện,
+-tạo 1 route update-avatar , kiểm tra nếu đăng nhập rồi mới cho làm tiếp (routes)
+-xử lý upload bằng package multer tại user controller hàm updateavatar
+-xử dụng package fs-extra để xóa ảnh cũ khi user thay đổi vì module này hỗ trợ đồng bộ/ bất đồng bộ
+---------------------------------
+5: Chức năng thay đổi thông tin người dùng-
+-tạo 1 route /user/update-userinfo, kiểm tra nếu đăng nhập rồi mới cho làm tiếp
+-kiểm tra tính hợp lệ của info ở thư mục uservalidation / validator, 
+-xử lý update ở controller / usercontroller

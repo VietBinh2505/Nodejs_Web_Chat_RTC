@@ -1,28 +1,29 @@
 import { validationResult } from "express-validator/check";
 import { auth } from '../services/index';
+import { tranSuccess } from "./../../lang/vi"
 let getlogin = (req, res) => {
     return res.render("auth/master", {
         errors: req.flash("errors"), //định nghĩa errors là gì rồi truyền ra views
         success: req.flash("success"), //định nghĩa success là gì rồi truyền ra views
     });
 };
-// let checklogin = (req, res, next) => { //Nếu đăng nhập rồi mới được truy cập trang chủ
-//     if (!req.isAuthenticated()) { //isAuthenticated trả về true or false
-//         return res.redirect("/login"); // nếu chưa có tk thì đưa về trang login
-//     }
-//     next(); // nếu có tk rồi thì tiếp tục
-// };
-// let checklogout = (req, res, next) => { // Nếu đăng nhập rồi mới được đăng xuất
-//     if (req.isAuthenticated()) {
-//         return res.redirect("/"); // nếu có tk thì đưa về trang chủ
-//     }
-//     next(); // chưa có thì tiếp tục
-// };
-// let getlogout = (req, res) => {
-//     req.logout(); // xóa passport user(người dùng) ở trong session
-//     req.flash("success", tranSuccess.logout_success);
-//     return res.redirect("/login");
-// }
+let checklogin = (req, res, next) => { //Nếu đăng nhập rồi mới được truy cập trang chủ
+    if (!req.isAuthenticated()) { //isAuthenticated trả về true or false
+        return res.redirect("/login"); // nếu chưa có tk thì đưa về trang login
+    }
+    next(); // nếu có tk rồi thì tiếp tục
+};
+let checklogout = (req, res, next) => { // Nếu đăng nhập rồi mới được đăng xuất
+    if (req.isAuthenticated()) {
+        return res.redirect("/"); // nếu có tk thì đưa về trang chủ
+    }
+    next(); // chưa có thì tiếp tục
+};
+let getlogout = (req, res) => {
+    req.logout(); // xóa passport user(người dùng) ở trong session
+    req.flash("success", tranSuccess.logout_success);
+    return res.redirect("/login");
+}
 let postRegister = async(req, res) => {
     let errarr = [];
     let successArr = [];
@@ -65,7 +66,7 @@ module.exports = {
     getlogin: getlogin,
     postRegister: postRegister,
     verifyacc_ctl: verifyacc_ctl,
-    // getlogout: getlogout,
-    // checklogin: checklogin,
-    // checklogout: checklogout,
+    getlogout: getlogout,
+    checklogin: checklogin,
+    checklogout: checklogout,
 }
