@@ -11,4 +11,7 @@ module.exports = {
     MAIL_PASSWORD: "Binhviet2505",
     MAIL_HOST: "smtp.gmail.com",
     MAIL_PORT: 587,
+    fbid: "986422321736643",
+    fbsecret: "ddcd6e7a2a997a0d7aaec88d1fb50574",
+    fbUrl: "https://localhost:2505/auth/facebook/callback",
 };
