@@ -1,0 +1,8 @@
+---------------------------------
+1 Tính năng đăng kí đăng nhập
+-dùng package body parser để lấy thông tin người dùng nhập tại form đăng nhập ở folder validator
+-dùng package validator để kiểm tra dữ liệu với điều kiện ở folder validator
+- nếu có lỗi thì lấy lỗi từ folder lang/vi 
+- truyền lỗi ra ngoài view bằng package flash ở folder auth- controller
+- Lưu thông tin vào csdl thông qua authservice -> models (xử lý authservice ) nhưng gọi ở controller
+---------------------------------
