@@ -2,10 +2,11 @@ import passport from "passport";
 import passportfb from "passport-facebook";
 import usermodel from "../../models/UserModels";
 import { tranERR, tranSuccess } from "../../../lang/vi";
+import database from "./../../config/database";
 let fbStrategy = passportfb.Strategy;
-let fbid = "986422321736643";
-let fbsecret = "ddcd6e7a2a997a0d7aaec88d1fb50574";
-let fbUrl = "http://localhost:2505/auth/facebook/callback";
+let fbid = database.fbid;
+let fbsecret = database.fbsecret;
+let fbUrl = database.fbUrl;
 let initpassportfb = () => { // khởi tạo passport xác thực với tài khoản fb
     passport.use(new fbStrategy({
         clientID: fbid,
