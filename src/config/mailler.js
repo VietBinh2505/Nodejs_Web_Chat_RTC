@@ -1,13 +1,10 @@
 import nodemailer from "nodemailer";
-let MAIL_USER = "nvbinh.mern@gmail.com";
-let MAIL_PASSWORD = "Binhviet";
-let MAIL_HOST = "smtp.gmail.com";
-let MAIL_PORT = 587;
+import database from "./database";
 
-let admail = MAIL_USER;
-let adpassword = MAIL_PASSWORD;
-let mailhost = MAIL_HOST;
-let mailport = MAIL_PORT;
+let admail = database.MAIL_USER;
+let adpassword = database.MAIL_PASSWORD;
+let mailhost = database.MAIL_HOST;
+let mailport = database.MAIL_PORT;
 
 let sendmail = (to, subject, htmlcontent) => {
     let transporter = nodemailer.createTransport({
@@ -25,5 +22,6 @@ let sendmail = (to, subject, htmlcontent) => {
         subject: subject,
         html: htmlcontent,
     }
-    return transporter.sendmail(options);
-}
+    return transporter.sendMail(options);
+};
+module.exports = sendmail;

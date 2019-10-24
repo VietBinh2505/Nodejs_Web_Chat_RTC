@@ -7,4 +7,8 @@ module.exports = {
     DB_PassWord: "",
     hostname: "localhost",
     port: 2505,
+    MAIL_USER: "nvbinh.mern@gmail.com",
+    MAIL_PASSWORD: "Binhviet2505",
+    MAIL_HOST: "smtp.gmail.com",
+    MAIL_PORT: 587,
 };

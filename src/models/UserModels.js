@@ -11,8 +11,8 @@ let UserSchema = new Schema({
     role: { type: String, default: "user" },
     local: {
         email: { type: String, trim: true },
-        password: String,
         isactive: { type: Boolean, default: false },
+        password: String,
         verifytoken: String
     },
     facebook: {
@@ -36,17 +36,17 @@ UserSchema.statics = {
     findbyEmail(email) {
         return this.findOne({ "local.email": email }).exec(); // tìm xem email đã có chưa
     },
-    // removeById(id) {
-    //     return this.findbyIdAndRemove(id).exec();
-    // },
-    // findByToken(token) {
-    //     return this.findOne({ "local.verifytoken": email }).exec();
-    // },
-    // verify(token) {
-    //     return this.findOneAndUpdate({ "local.verifytoken": token }, // tìm token trong csdl
-    //         { "local.isactive": true, "local.verifytoken": null }, //update lại các giá trị
-    //     ).exec();
-    // },
+    removeById(id) {
+        return this.findByIdAndRemove(id).exec();
+    },
+    findByToken(token) {
+        return this.findOne({ "local.verifytoken": email }).exec();
+    },
+    verify(token) {
+        return this.findOneAndUpdate({ "local.verifytoken": token }, // tìm token trong csdl
+            { "local.isactive": false, "local.verifytoken": null }, //update lại các giá trị
+        ).exec();
+    },
 
 };
 
