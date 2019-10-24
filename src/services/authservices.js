@@ -41,9 +41,9 @@ let register = async(email, gender, password, protocol, host) => {
 };
 let verifyacc_sevice = (token) => {
     return new Promise(async(resolve, reject) => { // trả về 1 promise
-        let userByToken = await UserModels.verifytoken(token); // tìm kiếm trong csdl đã có token này chưa
-        if (!userByToken) { // nếu chưa có
-            return reject(tranERR.err_tokenundefined); //  in ra thông báo lỗi
+        let userByToken = await UserModels.findByToken(token); // tìm kiếm trong csdl đã có token này chưa
+        if (!userByToken) { // nếu chưa có nghĩa là tk đã active rồi
+            return reject(tranERR.err_tokenundefined); //  in ra thông báo lỗi 
         }
         await UserModels.verify(token); // truy vấn vào csdl tìm kiếm và thay đổi lại verify = true
         resolve(tranSuccess.acc_active); // truyền ra thông báo cho người dùng
