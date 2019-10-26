@@ -28,7 +28,6 @@
              // tới đây đã xác thực được email và mk đúng
              return done(null, user, req.flash("success", tranSuccess.login_succsess(user.username))); //nếu email và mk đúng thì báo cho người dùng đăng nhập thành công
          } catch (error) { //nếu có lỗi thì là lỗi code
-             console.log(error);
              return done(null, false, req.flash("errors", tranERR.err_server));
          }
      }));

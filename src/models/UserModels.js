@@ -4,7 +4,7 @@ let Schema = mongoose.Schema;
 let UserSchema = new Schema({
     username: String,
     gender: { type: String, default: "male" },
-    phone: { type: Number, default: null },
+    phone: { type: String, default: "0123456789" },
     address: { type: String, default: null },
     avatar: { type: String, default: "avatar-default.jpg" },
     role: { type: String, default: "user" },

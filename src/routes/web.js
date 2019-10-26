@@ -37,9 +37,9 @@ let initRouter = (app) => {
     }));
     router.get("/", auth.checklogin, home.gethome); //1
     router.get("/logout", auth.checklogin, auth.getlogout); //kiểm tra xem đăng nhập hay chưa , nếu đăng nhập rồi thì chuyển hướng đến controller để đăng xuất
-    // router.put("/user/update-avatar", auth.checklogin, user.updateavatar); //kiểm tra xem đăng nhập hay chưa , nếu đăng nhập rồi thì chuyển hướng đến controller để up avatar
-    // router.put("/user/update-userinfo", auth.checklogin, uservalid.UpdateInfo, user.updateinfo); //kiểm tra xem đăng nhập hay chưa , kiểm tra tính hợp lệ của info,nếu đăng nhập rồi thì chuyển hướng đến controller để update info
-    // router.put("/user/update-password", auth.checklogin, uservalid.UpdatePassword, user.UpdatePassword); //kiểm tra xem đăng nhập hay chưa , kiểm tra tính hợp lệ của info,nếu đăng nhập rồi thì chuyển hướng đến controller để update password
+    router.put("/user/update-avatar", auth.checklogin, user.updateavatar); //kiểm tra xem đăng nhập hay chưa , nếu đăng nhập rồi thì chuyển hướng đến controller để up avatar
+    router.put("/user/update-userinfo", auth.checklogin, uservalid.UpdateInfo, user.updateinfo); //kiểm tra xem đăng nhập hay chưa , kiểm tra tính hợp lệ của info,nếu đăng nhập rồi thì chuyển hướng đến controller để update info
+    router.put("/user/update-password", auth.checklogin, uservalid.UpdatePassword, user.UpdatePassword); //kiểm tra xem đăng nhập hay chưa , kiểm tra tính hợp lệ của info,nếu đăng nhập rồi thì chuyển hướng đến controller để update password
     return app.use("/", router);
 };
 module.exports = initRouter;
