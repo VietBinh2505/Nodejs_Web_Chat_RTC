@@ -13,10 +13,10 @@
                 <li class="person" data-chat="contact._id">
                     <div class="left-avatar">
                         <div class="dot"></div>
-                        <img src="images/users/default-avatar-trungquandev-01.jpg" alt="">
+                        <img src="images/users/<%= user.avatar %>" alt="">
                     </div>
                     <span class="name">
-                        Trung Quân
+                        Việt Bình
                     </span>
                     <span class="time">Một phút trước</span>
                     <span class="preview">Xin chào</span>
@@ -26,7 +26,7 @@
                 <li class="person group-chat" data-chat="groupChatItem._id">
                     <div class="left-avatar">
                         <!-- <div class="dot"></div> -->
-                        <img src="images/users/group-avatar-trungquandev.png" alt="">
+                        <img src="images/users/<%= user.avatar %>" alt="">
                     </div>
                     <span class="name">
                         <span class="group-chat-name">Group:</span> Group Chat
@@ -39,11 +39,11 @@
                 <li class="person active" data-chat="person-default">
                     <div class="left-avatar">
                         <div class="dot online"></div>
-                        <img class="avatar-online" src="images/users/default-avatar-trungquandev-02.jpg" alt="">
+                        <img class="avatar-online" src="images/users/<%= user.avatar %>" alt="">
                     </div>
-                    <span class="name">Trung Quân (admin)</span>
+                    <span class="name">Việt Bình (admin)</span>
                     <span class="time">Bây giờ</span>
-                    <span class="preview">Xin chào <strong>Trung Quân</strong>...</span>
+                    <span class="preview">Xin chào <strong>Việt Bình</strong>...</span>
                 </li>
             </a>
         </ul>

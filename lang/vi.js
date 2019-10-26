@@ -7,7 +7,6 @@ export const tranValidator = {
     update_gender: "Giới tính không hợp lệ!",
     update_address: "Địa chỉ không hợp lệ!",
     update_phone: "SĐT không hợp lệ",
-
 };
 export const tranERR = {
     err_email_dk: "Email đã được tồn tại!",

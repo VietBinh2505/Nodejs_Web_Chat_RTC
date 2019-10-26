@@ -14,9 +14,8 @@
 
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body onload="spinLoaded()">
+<body>
     <!--Icon loader-->
-    <div id="loader"></div>
     <%- include("alert/alert");%>
     <%- include("navbar/navbar");%>
     <%- content %>
@@ -33,13 +32,13 @@
     <script src="bower_components/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <script src="bower_components/photoset-grid/jquery.photoset-grid.min.js"></script>
     <script src="bower_components/jquery-colorbox/jquery.colorbox-min.js"></script>
-
+    <script src="js/updateuser.js"></script>
     <script src="js/mainConfig.js"></script>
     <%- include("contact/contactmodal");%>
     <%- include('streamming/streammodal'); %>
     <%- include('images/imagesmodal'); %>
     <%- include('attachs/attachsModal'); %>
-    <%- include('users/profileModal'); %>
+    <%- include('users/userModal'); %>
     <%- include('groupChat/groupChatModal'); %>
 </body>
 </html>
