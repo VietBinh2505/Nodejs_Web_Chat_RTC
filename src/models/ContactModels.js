@@ -20,6 +20,31 @@ ContactSchema.statics = {
                 { "contactid": IdCRR }
             ]
         }).exec();
-    }
+    },
+    checkExitsts(userid, contactid) { // kiểm tra tồn tại
+        return this.findOne({
+            $or: [{
+                    $and: [
+                        { "userid": userid }, //kiểm tra userid trong csdl có trùng với uerid mình truyền vào hay không
+                        { "contactid": contactid }, //kiểm tra contactid trong csdl có trùng với contactid mình truyền vào hay không
+                    ]
+                },
+                {
+                    $and: [
+                        { "userid": contactid }, //kiểm tra contactid trong csdl có trùng với contactid mình truyền vào hay không
+                        { "contactid": userid }, //kiểm tra userid trong csdl có trùng với userid mình truyền vào hay không
+                    ]
+                },
+            ],
+        }).exec();
+    },
+    removeReqContact(userid, contactid) { // khi huỷ yêu cầu kết bạn sẽ xóa bản ghi
+        return this.remove({
+            $and: [
+                { "userid": userid }, //kiểm tra userid trong csdl có trùng với uerid mình truyền vào hay không
+                { "contactid": contactid }, //kiểm tra contactid trong csdl có trùng với contactid mình truyền vào hay không
+            ],
+        }).exec();
+    },
 };
 module.exports = mongoose.model("contact", ContactSchema);

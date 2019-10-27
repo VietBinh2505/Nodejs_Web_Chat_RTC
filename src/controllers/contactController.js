@@ -21,7 +21,33 @@ let FindUsersContact = async(req, res) => {
         return res.status(500).send(error);
     }
 };
+let addNew = async(req, res) => {
+
+    try {
+        let IdCRR = req.user._id; // lấy ra id, id này đã lưu vào session;
+        let contactid = req.body.uid;
+        let newcontact = await contact.addNew(IdCRR, contactid);
+        return res.status(200).send({ success: !!newcontact });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);
+    }
+};
+let removeReqContact = async(req, res) => {
+
+    try {
+        let IdCRR = req.user._id; // lấy ra id, id này đã lưu vào session;
+        let contactid = req.body.uid;
+        let removeReq = await contact.removeReqContact(IdCRR, contactid);
+        return res.status(200).send({ success: !!removeReq });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);
+    }
+};
 
 module.exports = {
     FindUsersContact: FindUsersContact,
+    addNew: addNew,
+    removeReqContact: removeReqContact,
 };

@@ -68,10 +68,10 @@ UserSchema.statics = { // statics chỉ giúp ta tìm kiếm
                 { "local.isactive": false }, // điều kiện là các tài khoản đã active
                 {
                     $or: [
-                        { "username": { "$regex": KeyWord } }, // tìm các username gần giống hoặc giống với keyword
-                        { "local.email": { "$regex": KeyWord } }, // tìm các username gần giống hoặc giống với keyword
-                        { "facebook.email": { "$regex": KeyWord } }, // tìm các username gần giống hoặc giống với keyword
-                        { "google.email": { "$regex": KeyWord } }, // tìm các username gần giống hoặc giống với keyword
+                        { "username": { "$regex": new RegExp(KeyWord, "i") } }, // tìm các username gần giống hoặc giống với keyword
+                        { "local.email": { "$regex": new RegExp(KeyWord, "i") } }, // tìm các username gần giống hoặc giống với keyword
+                        { "facebook.email": { "$regex": new RegExp(KeyWord, "i") } }, // tìm các username gần giống hoặc giống với keyword
+                        { "google.email": { "$regex": new RegExp(KeyWord, "i") } }, // tìm các username gần giống hoặc giống với keyword
                     ],
                 },
             ],
