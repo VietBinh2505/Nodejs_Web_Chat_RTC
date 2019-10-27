@@ -1,11 +1,8 @@
 import multer from "multer";
 import { app } from "./../config/app";
 import { avatarERR, tranSuccess, tranERR } from './../../lang/vi';
-import { user, auth } from "./../services/index";
+import { user } from "./../services/index";
 import { validationResult } from "express-validator/check";
-import fsextra from "fs-extra";
-import usermd from "./../models/UserModels";
-import bcrypt from "bcrypt";
 const SaltRounds = 7;
 let storageavatar = multer.diskStorage({ //khai báo nơi chứa ảnh khi upload ảnh lên ứng dụng
     destination: (req, file, callback) => { // file là file mà user gửi lên, 
@@ -79,15 +76,15 @@ let updateinfo = async(req, res) => {
     }
 };
 let UpdatePassword = async(req, res) => {
-    // let errarr = [];
-    // let validationError = validationResult(req);
-    // if (!validationError.isEmpty()) { // nếu có lỗi thì ..
-    //     let errors = Object.values(validationError.mapped()); //chuyển lỗi từ đối tượng qua mảng
-    //     errors.forEach((item) => {
-    //         errarr.push(item.msg); // thêm các lỗi vào mảng để truyền ra view
-    //     });
-    //     return res.status(500).send(errarr);
-    // }
+    let errarr = [];
+    let validationError = validationResult(req);
+    if (!validationError.isEmpty()) { // nếu có lỗi thì ..
+        let errors = Object.values(validationError.mapped()); //chuyển lỗi từ đối tượng qua mảng
+        errors.forEach((item) => {
+            errarr.push(item.msg); // thêm các lỗi vào mảng để truyền ra view
+        });
+        return res.status(500).send(errarr);
+    }
     try {
         let DataUserPass = req.body; // req.body dữ liệu là 3 dòng password
         //new Promise(async(resolve, reject) => {

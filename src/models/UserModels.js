@@ -61,6 +61,22 @@ UserSchema.statics = { // statics chỉ giúp ta tìm kiếm
     UpdatePassword(id, HashedPass) {
         return this.findByIdAndUpdate(id, { "local.password": HashedPass }).exec(); //tìm và update theo id trong database; nhưng sẽ trả về dữ liệu password đã mã hóa
     },
+    findAllForAddContact(deprecatedUserIds, KeyWord) {
+        return this.find({
+            $and: [
+                { "_id": { $nin: deprecatedUserIds } }, // lọc ra các id ko nằm trong mảng 
+                { "local.isactive": false }, // điều kiện là các tài khoản đã active
+                {
+                    $or: [
+                        { "username": { "$regex": KeyWord } }, // tìm các username gần giống hoặc giống với keyword
+                        { "local.email": { "$regex": KeyWord } }, // tìm các username gần giống hoặc giống với keyword
+                        { "facebook.email": { "$regex": KeyWord } }, // tìm các username gần giống hoặc giống với keyword
+                        { "google.email": { "$regex": KeyWord } }, // tìm các username gần giống hoặc giống với keyword
+                    ],
+                },
+            ],
+        }, { _id: 1, username: 1, address: 1, avatar: 1 }).exec();
+    },
 };
 UserSchema.methods = { //3 tìm ra bản ghi rồi thì gọi đến phương thức xử tại đâu
     comparePassword(password) { // mã hóa mật khẩu

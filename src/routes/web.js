@@ -1,6 +1,6 @@
 import express from "express";
-import { home, auth, user } from "./../controllers/index"
-import { authvalid, uservalid } from "./../validator/index";
+import { home, auth, user, contact } from "./../controllers/index"
+import { authvalid, uservalid, contactvalid } from "./../validator/index";
 import passport from "passport";
 import initpassportlocal from "./../controllers/passportController/local"
 import initpassportfb from "./../controllers/passportController/facebook"
@@ -40,6 +40,7 @@ let initRouter = (app) => {
     router.put("/user/update-avatar", auth.checklogin, user.updateavatar); //kiểm tra xem đăng nhập hay chưa , nếu đăng nhập rồi thì chuyển hướng đến controller để up avatar
     router.put("/user/update-userinfo", auth.checklogin, uservalid.UpdateInfo, user.updateinfo); //kiểm tra xem đăng nhập hay chưa , kiểm tra tính hợp lệ của info,nếu đăng nhập rồi thì chuyển hướng đến controller để update info
     router.put("/user/update-password", auth.checklogin, uservalid.UpdatePassword, user.UpdatePassword); //kiểm tra xem đăng nhập hay chưa , kiểm tra tính hợp lệ của info,nếu đăng nhập rồi thì chuyển hướng đến controller để update password
+    router.get("/contact/find-users/:keyword", auth.checklogin, contactvalid.findUserContact, contact.FindUsersContact); //kiểm tra xem đăng nhập hay chưa , kiểm tra tính hợp lệ của info,nếu đăng nhập rồi thì chuyển hướng đến controller để tìm kiếm users
     return app.use("/", router);
 };
 module.exports = initRouter;
