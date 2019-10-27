@@ -3,14 +3,11 @@ import connectmongo from "connect-mongo";
 import database from "./database";
 let mongostore = connectmongo(session);
 let sessionstore = new mongostore({
-        url: `${database.DB_Connection}://${database.DB_Host}:${database.DB_Post}/${database.DB_Name}`,
-        autoReconnect: true,
-        //autoRemove: "native", // Khi hết thơi gian của sesion tự độg xóa trong csdl
-    })
-    /**
-     * 
-     * @param app 
-     */
+    url: `${database.DB_Connection}://${database.DB_Host}:${database.DB_Post}/${database.DB_Name}`,
+    autoReconnect: true,
+    //autoRemove: "native", // Khi hết thơi gian của sesion tự độg xóa trong csdl
+});
+
 let configSession = (app) => {
     app.use(session({
         key: "express.sid",
@@ -21,6 +18,6 @@ let configSession = (app) => {
         cookie: {
             maxAge: 1000 * 60 * 60 * 24 //1 ngày
         }
-    }))
+    }));
 };
 module.exports = configSession;
