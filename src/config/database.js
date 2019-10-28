@@ -14,4 +14,6 @@ module.exports = {
     fbid: "986422321736643",
     fbsecret: "ddcd6e7a2a997a0d7aaec88d1fb50574",
     fbUrl: "http://localhost:2505/auth/facebook/callback",
+    key: "vietbinh",
+    secret: "myvietbinh",
 };

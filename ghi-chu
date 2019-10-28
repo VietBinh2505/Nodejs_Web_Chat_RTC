@@ -42,3 +42,14 @@ a: Với tài khoản Local:
 -tạo 1 route /user/update-userinfo, kiểm tra nếu đăng nhập rồi mới cho làm tiếp
 -kiểm tra tính hợp lệ của info ở thư mục uservalidation / validator, 
 -xử lý update ở controller / usercontroller
+---------------------------------
+6: Chức năng tìm kiếm bạn bè:
+-tạo 1 route /contact/find-users/:keyword lấy keyword người dùng nhập vào, kiểm tra nếu đăng nhập rồi mới cho làm tiếp
+-kiểm tra tính hợp lệ của keyword tại validator / contact
+-Lấy id user hiện tại và keyword người dùng nhập vào (contact/controller) gửi qua service xử lý gửi qua contactModel để kết nối database
+-xử lý hiện các chức năng ở public/js
+---------------------------------
+7: Chức năng thêm/xóa bạn bè:
+-sâu khi tìm kiếm và hiện các user có dữ liệu như keyword, tạo 1 route /contact/add-new, /contact/remove-req-contact
+-kiểm tra nếu đăng nhập rồi mới cho làm tiếp
+-từ controller lấy id hiện tại và contactid hiện tại gửi qua service xử lý , từ service gửi qua model để kết nối với database

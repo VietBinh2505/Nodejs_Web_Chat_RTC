@@ -2,17 +2,17 @@ import session from "express-session";
 import connectmongo from "connect-mongo";
 import database from "./database";
 let mongostore = connectmongo(session);
-let sessionstore = new mongostore({
+let sessionStore = new mongostore({
     url: `${database.DB_Connection}://${database.DB_Host}:${database.DB_Post}/${database.DB_Name}`,
     autoReconnect: true,
     //autoRemove: "native", // Khi hết thơi gian của sesion tự độg xóa trong csdl
 });
 
-let configSession = (app) => {
+let config = (app) => {
     app.use(session({
-        key: "express.sid",
-        secret: "mySecret",
-        store: sessionstore,
+        key: database.key,
+        secret: database.secret,
+        store: sessionStore,
         resave: true,
         saveUninitialized: false,
         cookie: {
@@ -20,4 +20,7 @@ let configSession = (app) => {
         }
     }));
 };
-module.exports = configSession;
+module.exports = {
+    config: config,
+    sessionStore: sessionStore,
+};
