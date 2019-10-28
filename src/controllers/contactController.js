@@ -22,7 +22,6 @@ let FindUsersContact = async(req, res) => {
     }
 };
 let addNew = async(req, res) => {
-
     try {
         let IdCRR = req.user._id; // lấy ra id, id này đã lưu vào session;
         let contactid = req.body.uid;
