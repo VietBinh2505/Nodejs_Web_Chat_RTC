@@ -12,3 +12,14 @@ function addContact() { // thêm bạn bè
         });
     });
 };
+
+socket.on("response-add-new-contact", (user) => { //lắng nghe response-add-new-contact đưa dữ liệu vào biến user 
+    let notify = `<span data-uid="${ user.id }"> 
+                    <img class="avatar-small" src="images/users/${user.avatar}"alt="">
+                    <strong>${ user.username }</strong> đã gửi cho bạn một lời mời kết bạn!
+                </span><br><br><br>`; // nội dung câu thông báo
+    $(".noti_content").prepend(notify); //prepend sắp xếp từ trước về sau, ngược với append
+    inCreaseNumberNotifyfContact("count-request-contact-received");
+    inCreaseNumberNotification("noti_contact_counter"); //số đếm ở quản lý liên lạc
+    inCreaseNumberNotification("noti_counter"); // số đếm ở thông báo
+});

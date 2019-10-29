@@ -3,6 +3,7 @@ import { app } from "./../config/app";
 import { avatarERR, tranSuccess, tranERR } from './../../lang/vi';
 import { user } from "./../services/index";
 import { validationResult } from "express-validator/check";
+import fsextra from "fs-extra";
 const SaltRounds = 7;
 let storageavatar = multer.diskStorage({ //khai báo nơi chứa ảnh khi upload ảnh lên ứng dụng
     destination: (req, file, callback) => { // file là file mà user gửi lên, 
@@ -48,7 +49,7 @@ let updateavatar = (req, res) => {
             };
             return res.status(200).send(result);
         } catch (error) {
-
+            console.log(error);
             return res.status(500).send(error);
         }
     });
@@ -71,7 +72,7 @@ let updateinfo = async(req, res) => {
         };
         return res.status(200).send(result);
     } catch (error) { // nếu có lỗi thì thông báo cho người dùng
-
+        console.log(error);
         return res.status(500).send(errarr);
     }
 };
@@ -98,7 +99,7 @@ let UpdatePassword = async(req, res) => {
         };
         return res.status(200).send(result);
     } catch (error) { // nếu có lỗi thì thông báo cho người dùng
-
+        console.log(error);
         return res.status(500).send(error);
     }
 };

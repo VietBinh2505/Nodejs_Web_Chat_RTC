@@ -1,8 +1,20 @@
+import { PushSocketIdSocketArray, EmitNotifiToArray, RemoveSocketIdFromToArray } from "./../../helpers/socketHelper";
 let addNewContact = (io) => {
+    let clients = {};
     io.on("connection", (socket) => {
-        socket.on("add-new-contact", (data) => {
-            console.log(data);
-            console.log(socket.request.user)
+        clients = PushSocketIdSocketArray(clients, socket.request.user._id, socket.id); // kiểm tra điều kiện bên sockethelpers
+        socket.on("add-new-contact", (data) => { // lắng nghe sự kiện từ add-new-contact(truyền tới full info usercrr)
+            let userCrr = { // khởi thông tin user hiện tại
+                id: socket.request.user.id, // id
+                username: socket.request.user.username, // tên
+                avatar: socket.request.user.avatar, // avatar
+            };
+            if (clients[data.contactid]) {
+                EmitNotifiToArray(clients, data.contactid, io, "response-add-new-contact", userCrr);
+            }
+        });
+        socket.on("disconnect", () => {
+            clients = RemoveSocketIdFromToArray(clients, socket.request.user._id, socket);
         });
     });
 };
