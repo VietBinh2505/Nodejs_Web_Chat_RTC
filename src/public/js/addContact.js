@@ -14,7 +14,7 @@ function addContact() { // thêm bạn bè
 };
 
 socket.on("response-add-new-contact", (user) => { //lắng nghe response-add-new-contact đưa dữ liệu vào biến user 
-    let notify = `<span data-uid="${ user.id }"> 
+    let notify = `<span class="notif-readed-false" data-uid="${ user.id }"> 
                     <img class="avatar-small" src="images/users/${user.avatar}"alt="">
                     <strong>${ user.username }</strong> đã gửi cho bạn một lời mời kết bạn!
                 </span><br><br><br>`; // nội dung câu thông báo

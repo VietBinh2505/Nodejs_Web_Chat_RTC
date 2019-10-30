@@ -1,7 +1,8 @@
 import contactModel from "./../models/ContactModels";
 import userModel from "./../models/UserModels";
+import notificationMD from "./../models/NotificationModels";
 import _ from "lodash";
-let FindUsersContact = (IdCRR, KeyWord) => {
+let FindUsersContact = (IdCRR, KeyWord) => { // tìm kiếm người dùng
     return new Promise(async(resolve, reject) => {
         let deprecatedUserIds = [IdCRR]; // mảng id các user ko cần dùng đến
         let contactsByUser = await contactModel.findAllByUser(IdCRR); // lấy mảng từ contact model
@@ -14,7 +15,7 @@ let FindUsersContact = (IdCRR, KeyWord) => {
         resolve(users);
     });
 };
-let addNew = (IdCRR, contactid) => {
+let addNew = (IdCRR, contactid) => { // thêm người dùng 
     return new Promise(async(resolve, reject) => {
         let contactExists = await contactModel.checkExitsts(IdCRR, contactid);
         if (contactExists) { // nếu tồn tại bản ghi
@@ -25,16 +26,25 @@ let addNew = (IdCRR, contactid) => {
             contactid: contactid, // id truyền vào
             // ... các trường khác đã có defaul
         };
-        let newContact = await contactModel.createNew(newContactItem);
+        let newContact = await contactModel.createNew(newContactItem); //tạo ra 1 bảng thông báo cho csdl contact
+        let notificationItem = { // tạo dữ liệu cho thông báo
+            senderid: IdCRR, //người gửi lời mời kp (idCRR chính là mình)
+            receiverid: contactid, // người nhận là contact id
+            type: notificationMD.types.add_Contact, // lấy từ notifi models
+        };
+        await notificationMD.model.createNew(notificationItem); //tạo ra 1 bảng thông báo cho csdl notifi
         resolve(newContact);
     });
 };
 let removeReqContact = (IdCRR, contactid) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
         let removeReq = await contactModel.removeReqContact(IdCRR, contactid);
         if (removeReq.result.n === 0) {
             return reject(false);
         }
+        await notificationMD.model.removeReqContactNotification(IdCRR, contactid, notificationMD.types.add_Contact); // xóa database lưu trữ notifi
+        // xóa thông báo yêu cầu kp
+
         resolve(true);
     });
 };
