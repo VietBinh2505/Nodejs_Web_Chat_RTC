@@ -50,8 +50,17 @@ a: Với tài khoản Local:
 -xử lý hiện các chức năng ở public/js
 ---------------------------------
 7: Chức năng thêm/xóa yêu cầu kết bạn:
--sâu khi tìm kiếm và hiện các user có dữ liệu như keyword, tạo 1 route /contact/add-new, /contact/remove-req-contact
+-sau khi tìm kiếm và hiện các user có dữ liệu như keyword, tạo 1 route /contact/add-new, /contact/remove-req-contact
 -kiểm tra nếu đăng nhập rồi mới cho làm tiếp
 -từ controller lấy id hiện tại và contactid hiện tại gửi qua service xử lý , từ service gửi qua model để kết nối với database
 -sử dụng socketio để xử lý gửi lời mời xử lý thông báo ở file addcontact.js/public
 -xử lý dữ liệu khi người dùng connect và disconnect ở socketio/contact
+
+8: Chức năng gửi xử lý thông báo thêm/xóa yêu cầu kết bạn:
+-Từ homeController tạo ra 1 biến lưu trữ thông báo, biến có giá trị lấy từ service/getNotifiCations
+-Tại getNotifiCations/service xử lý lấy ra toàn bộ thông tin tại database notify,
+-Sau đó truyền qua notify model để kiểm tra và ghép dữ liệu và thông báo, và từ homeController truyền qua navbar.ejs
+-Đến số thông báo chưa đọc, thiết kế model hiển thị toàn bộ tb:
+-Đếm các thông báo có receiverid là id người dùng hiện tại, và isRead = false tại model, 
+-trả về giá trị cho countNotifiUnread tại service, từ service trả giá trị cho homeController
+-Từ homeController render cho navbar.ejs
