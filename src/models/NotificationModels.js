@@ -33,6 +33,9 @@ NotificationSchema.statics = {
             ],
         }).exec();
     },
+    readMore(id, skipNumberNoti, limit) { // id: crrid, skip: lấy tiếp tb bỏ qua skip bản ghi , limit: số lượng lấy tb in ra mh(10 thông báo)
+        return this.find({ "receiverid": id }).sort({ "createAT": -1 }).skip(skipNumberNoti).limit(limit).exec();
+    },
 };
 const notification_type = {
     add_Contact: "add_contact",
