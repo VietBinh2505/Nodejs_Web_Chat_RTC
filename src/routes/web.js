@@ -1,5 +1,5 @@
 import express from "express";
-import { home, auth, user, contact } from "./../controllers/index"
+import { home, auth, user, contact, notifi } from "./../controllers/index"
 import { authvalid, uservalid, contactvalid } from "./../validator/index";
 import passport from "passport";
 import initpassportlocal from "./../controllers/passportController/local"
@@ -45,6 +45,7 @@ let initRouter = (app) => {
     router.get("/contact/find-users/:keyword", auth.checklogin, contactvalid.findUserContact, contact.FindUsersContact); //kiểm tra xem đăng nhập hay chưa , kiểm tra tính hợp lệ của info,nếu đăng nhập rồi thì chuyển hướng đến controller để tìm kiếm users
     router.post("/contact/add-new", auth.checklogin, contact.addNew); //kiểm tra xem đăng nhập hay chưa , kiểm tra tính hợp lệ của info,nếu đăng nhập rồi thì chuyển hướng đến controller để tìm kiếm users
     router.delete("/contact/remove-req-contact", auth.checklogin, contact.removeReqContact);
+    router.get("/notification/read-more", auth.checklogin, notifi.readMore);
     return app.use("/", router);
 };
 module.exports = initRouter;

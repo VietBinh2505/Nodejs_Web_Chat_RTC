@@ -13,7 +13,7 @@
                 </div>
                 <hr>
                 <ul class="list-notifyCations">
-                    <% notifications.forEach((notification)=>{ %>
+                   <% notifications.forEach((notification)=>{ %>
                         <li><%-notification%><li>
                     <% });%>
                 </ul>
@@ -22,6 +22,11 @@
                     <a href="javascript:void(0)" id="link-read-more-notify">
                        <strong>Xem Thêm 10 thông báo!</strong>
                     </a> 
+                    <div class="read-more-notify-loader">
+                        <div></div>
+                        <div></div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
