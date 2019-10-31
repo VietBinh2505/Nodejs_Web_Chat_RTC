@@ -23,7 +23,15 @@ NotificationSchema.statics = {
         }).exec();
     },
     getByUserIdAndLimit(userId, limit) {
-        return this.find({ "receiverid": userId, }).sort({ "createAT": -1 }).limit(limit).exec();
+        return this.find({ "receiverid": userId }).sort({ "createAT": -1 }).limit(limit).exec();
+    },
+    countNotifiUnread(UserIdCRR) { // đếm tất cả thông báo lời mời kp chưa đọc theo id
+        return this.count({
+            $and: [
+                { "receiverid": UserIdCRR }, //kiểm tra điều kiện receiverid là user id hiện tại
+                { "isRead": false }, // kiểm ra những thông báo chưa đọc
+            ],
+        }).exec();
     },
 };
 const notification_type = {
@@ -33,17 +41,17 @@ const notification_content = {
     getContent: (notificationType, isRead, userid, username, useravatar) => {
         if (!isRead) {
             if (notificationType === notification_type.add_Contact) {
-                return `<span class="notif-readed-false" data-uid="${userid}"> 
+                return `<div class="notif-readed-false" data-uid="${userid}"> 
                 <img class="avatar-small" src="images/users/${useravatar}"alt="">
                 <strong>${username}</strong> đã gửi cho bạn một lời mời kết bạn!
-                </span><br><br><br>`;
+                </div>`;
             }
         }
         if (notificationType === notification_type.add_Contact) {
-            return `<span data-uid="${userid}"> 
+            return `<div data-uid="${userid}"> 
             <img class="avatar-small" src="images/users/${useravatar}"alt="">
             <strong>${username}</strong> đã gửi cho bạn một lời mời kết bạn!
-            </span><br><br><br>`;
+            </div>`;
         }
         return "Không khớp với bất kỳ loại thông báo nào!";
     },
