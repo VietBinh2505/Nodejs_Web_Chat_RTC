@@ -21,6 +21,6 @@ socket.on("response-add-new-contact", (user) => { //lắng nghe response-add-new
     $(".noti_content").prepend(notify); //prepend sắp xếp từ trước về sau, ngược với append
     $("ul.list-notifyCations").prepend(`<li>${notify}</li>`);
     inCreaseNumberNotifyfContact("count-request-contact-received");
-    inCreaseNumberNotification("noti_contact_counter"); //số đếm ở quản lý liên lạc
-    inCreaseNumberNotification("noti_counter"); // số đếm ở thông báo
+    inCreaseNumberNotification("noti_contact_counter", 1); //số đếm ở quản lý liên lạc
+    inCreaseNumberNotification("noti_counter", 1); // số đếm ở thông báo
 });

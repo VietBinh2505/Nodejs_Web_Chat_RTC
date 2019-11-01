@@ -36,6 +36,14 @@ NotificationSchema.statics = {
     readMore(id, skipNumberNoti, limit) { // id: crrid, skip: lấy tiếp tb bỏ qua skip bản ghi , limit: số lượng lấy tb in ra mh(10 thông báo)
         return this.find({ "receiverid": id }).sort({ "createAT": -1 }).skip(skipNumberNoti).limit(limit).exec();
     },
+    markAllRead(id, targetUser) {
+        return this.updateMany({
+            $and: [
+                { "receiverid": id }, //update cho chính bản ghi của mình
+                { "senderid": { $in: targetUser } }, // tìm đến các user gửi lời mời cho mình
+            ],
+        }, { "isRead": true }).exec(); // đổi isRead từ false(chưa đọc) sang true(đã đọc)
+    },
 };
 const notification_type = {
     add_Contact: "add_contact",

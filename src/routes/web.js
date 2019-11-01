@@ -46,6 +46,9 @@ let initRouter = (app) => {
     router.post("/contact/add-new", auth.checklogin, contact.addNew); //kiểm tra xem đăng nhập hay chưa , kiểm tra tính hợp lệ của info,nếu đăng nhập rồi thì chuyển hướng đến controller để tìm kiếm users
     router.delete("/contact/remove-req-contact", auth.checklogin, contact.removeReqContact);
     router.get("/notification/read-more", auth.checklogin, notifi.readMore);
+    router.put("/notification/mark-all-as-read", auth.checklogin, notifi.markAllRead);
+
+
     return app.use("/", router);
 };
 module.exports = initRouter;

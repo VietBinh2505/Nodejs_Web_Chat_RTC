@@ -21,6 +21,6 @@ socket.on("response-remove-req-contact", (user) => { //lắng nghe response-add-
     $(".noti_content").find(`div[data-uid= ${user.id}]`).remove(); //xóa thông báo đi 
     $("ul.list-notifyCations").find(`li>div[data-uid= ${user.id}]`).parent().remove(); //xóa thông báo ở phần modal
     deCreaseNumberNotifyfContact("count-request-contact-received");
-    deCreaseNumberNotification("noti_contact_counter"); //số đếm ở quản lý liên lạc
-    deCreaseNumberNotification("noti_counter"); // số đếm ở thông báo
+    deCreaseNumberNotification("noti_contact_counter", 1); //số đếm ở quản lý liên lạc
+    deCreaseNumberNotification("noti_counter", 1); // số đếm ở thông báo
 });

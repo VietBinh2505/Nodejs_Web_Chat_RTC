@@ -40,8 +40,20 @@ let readMore = (id, skipNumberNoti, limit) => {
         }
     });
 };
+let markAllRead = (id, targetUser) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            await notificationMD.model.markAllRead(id, targetUser)
+            resolve(true);
+        } catch (error) {
+            console.log(`Lỗi khi đánh dấu đã đọc ${error}`);
+            reject(false);
+        }
+    });
+};
 module.exports = {
     getNotifiCations: getNotifiCations,
     countNotifiUnread: countNotifiUnread,
     readMore: readMore,
+    markAllRead: markAllRead,
 }

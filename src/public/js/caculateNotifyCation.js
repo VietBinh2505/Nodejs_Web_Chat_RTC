@@ -1,6 +1,6 @@
-function inCreaseNumberNotification(className) {
+function inCreaseNumberNotification(className, number) {
     let CrrValue = +$(`.${className}`).text();
-    CrrValue += 1;
+    CrrValue += number;
     if (CrrValue === 0) {
         $(`.${className}`).css("display", "none").html("");
     } else {
@@ -8,9 +8,9 @@ function inCreaseNumberNotification(className) {
     }
 };
 
-function deCreaseNumberNotification(className) {
+function deCreaseNumberNotification(className, number) {
     let CrrValue = +$(`.${className}`).text();
-    CrrValue -= 1;
+    CrrValue -= number;
     if (CrrValue === 0) {
         $(`.${className}`).css("display", "none").html("");
     } else {
