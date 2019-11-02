@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="https://facebook.com/VietBinh2505" target="__blank">
-                <img src="images/logo_favicon/nodejs.svg" alt="logo-trungquandev">
+                <img src="images/logo_favicon/nodejs.svg" alt="logo-nvb">
             </a>
         </div>
         <div class="col-sm-3 no-padding">
@@ -34,7 +34,15 @@
                     <a href="#contactsModal" data-toggle="modal" title="Quản lý
                         liên lạc" id="show-modal-contacts">
                         <i class="fa fa-user-plus"></i>
-                        <div class="noti_contact_counter"></div>
+                        <%if((countAllContactsSent + countAllContactsReceived) > 0){%>
+                            <!-- nếu thông báo lớn hơn 0-->
+                            <div class="noti_contact_counter">
+                                <%= countAllContactsSent + countAllContactsReceived %>
+                                <!-- in ra sl thông báo-->
+                            </div>
+                        <%}else{%>
+                            <div class="noti_contact_counter display-none"></div>
+                        <%}%>
                     </a>
                 </li>
                 <li>
@@ -47,7 +55,7 @@
                                 <!-- in ra sl thông báo-->
                             </div>
                         <%}else{%>
-                            <div class="noti_counter dispaly-none"></div>
+                            <div class="noti_counter display-none"></div>
                         <%}%>
                         <div id="noti_Container">
                             <div id="notifications">

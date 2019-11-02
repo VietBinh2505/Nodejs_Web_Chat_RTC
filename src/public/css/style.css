@@ -1288,7 +1288,10 @@ label:focus,
     margin-right: 20px;
 }
 
-.read-move-notify {
+.read-move-notify,
+.read-move-contacts,
+.read-move-contacts-sent,
+.read-move-contacts-received {
     text-align: center;
 }
 

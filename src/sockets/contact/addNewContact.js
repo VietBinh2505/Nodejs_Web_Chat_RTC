@@ -8,6 +8,7 @@ let addNewContact = (io) => {
                 id: socket.request.user.id, // id
                 username: socket.request.user.username, // tên
                 avatar: socket.request.user.avatar, // avatar
+                address: (socket.request.user.address !== null) ? socket.request.user.address : "",
             };
             if (clients[data.contactid]) {
                 EmitNotifiToArray(clients, data.contactid, io, "response-add-new-contact", userCrr);

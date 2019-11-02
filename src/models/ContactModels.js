@@ -46,5 +46,65 @@ ContactSchema.statics = {
             ],
         }).exec();
     },
+    getContacts(userid, limit) { // chức năng lấy ra danh bạ
+        return this.find({
+            $and: [{
+                    $or: [
+                        { "userid": userid },
+                        { "contactid": userid },
+                    ]
+                },
+                { "status": true },
+            ]
+        }).sort({ "createdAT": -1 }).limit(limit).exec();
+    },
+    GetContactsSent(userid, limit) { //lời mời kết bạn mình gửi đi
+        return this.find({
+            $and: [
+                { "userid": userid },
+                { "status": false }
+            ]
+        }).sort({ "createdAT": -1 }).limit(limit).exec();
+    },
+    GetContactsReceived(userid, limit) { // lời mời kết bạn người khác gửi cho mình
+        return this.find({
+            $and: [
+                { "contactid": userid },
+                { "status": false }
+            ]
+        }).sort({ "createdAT": -1 }).limit(limit).exec();
+    },
+    countAllContacts(userid) { // đếm danh bạ
+        return this.count({
+            $and: [{
+                    $or: [
+                        { "userid": userid },
+                        { "contactid": userid },
+                    ]
+                },
+                { "status": true },
+            ]
+        }).exec();
+    },
+    countAllContactsSent(userid) { // đếm lời mời kết bạn mình gửi đi
+        return this.count({
+            $and: [
+                { "userid": userid },
+                { "status": false },
+            ]
+        }).exec();
+    },
+    countAllContactsReceived(userid) { // đếm lời mời kết bạn người khác gửi cho mình
+        return this.count({
+            $and: [{
+                    $or: [
+                        { "userid": userid },
+                        { "contactid": userid },
+                    ]
+                },
+                { "status": false },
+            ]
+        }).exec();
+    },
 };
 module.exports = mongoose.model("contact", ContactSchema);
