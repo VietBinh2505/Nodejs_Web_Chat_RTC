@@ -55,7 +55,7 @@ a: Với tài khoản Local:
 -từ controller lấy id hiện tại và contactid hiện tại gửi qua service xử lý , từ service gửi qua model để kết nối với database
 -sử dụng socketio để xử lý gửi lời mời xử lý thông báo ở file addcontact.js/public
 -xử lý dữ liệu khi người dùng connect và disconnect ở socketio/contact
-
+---------------------------------
 8: Chức năng gửi xử lý thông báo thêm/xóa yêu cầu kết bạn:
 -Từ homeController tạo ra 1 biến lưu trữ thông báo, biến có giá trị lấy từ service/getNotifiCations
 -Tại getNotifiCations/service xử lý lấy ra toàn bộ thông tin tại database notify,
@@ -64,3 +64,13 @@ a: Với tài khoản Local:
 -Đếm các thông báo có receiverid là id người dùng hiện tại, và isRead = false tại model, 
 -trả về giá trị cho countNotifiUnread tại service, từ service trả giá trị cho homeController
 -Từ homeController render cho navbar.ejs
+---------------------------------
+9: Chức năng gửi xử lý đánh dấu tất cả thông báo đã đọc:
+-Từ user(file markNotifiAsRead/js/public) bắt sự kiện khi người dùng click vào xem tất cả, lấy toàn bộ uid cho vào 1 mảng
+-Truyền dữ liệu qua ser bằng $.ajax với url là /notification/mark-all-as-read
+-tạo route tại web/route truyền cho notificationcontroller xử lý tại hàm markAllRead
+-từ controller gửi qua service xử lý tại hàm markAllRead
+-từ service gửi qua model xử lý tại hàm markAllRead để updateMany truyền vào điều kiện và đổi isread từ false qua true,
+- tại view sửa id từ chưa đọc qua đã đọc
+---------------------------------
+10:

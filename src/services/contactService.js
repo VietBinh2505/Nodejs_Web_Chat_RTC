@@ -2,6 +2,37 @@ import contactModel from "./../models/ContactModels";
 import userModel from "./../models/UserModels";
 import notificationMD from "./../models/NotificationModels";
 import _ from "lodash";
+
+let countAllContacts = (idCRR) => {
+    return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
+        try {
+            let count = await contactModel.countAllContacts(idCRR);
+            resolve(count); // trả về số đếm
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+let countAllContactsSent = (idCRR) => {
+    return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
+        try {
+            let count = await contactModel.countAllContactsSent(idCRR);
+            resolve(count); // trả về số đếm
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+let countAllContactsReceived = (idCRR) => {
+    return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
+        try {
+            let count = await contactModel.countAllContactsReceived(idCRR);
+            resolve(count); // trả về số đếm
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
 let FindUsersContact = (IdCRR, KeyWord) => { // tìm kiếm người dùng
     return new Promise(async(resolve, reject) => {
         let deprecatedUserIds = [IdCRR]; // mảng id các user ko cần dùng đến
@@ -15,13 +46,13 @@ let FindUsersContact = (IdCRR, KeyWord) => { // tìm kiếm người dùng
         resolve(users);
     });
 };
-let addNew = (IdCRR, contactid) => { // thêm người dùng 
+let addNew = (IdCRR, contactid) => { // thêm người dùng
     return new Promise(async(resolve, reject) => {
         let contactExists = await contactModel.checkExitsts(IdCRR, contactid);
         if (contactExists) { // nếu tồn tại bản ghi
             return reject(false);
         }
-        let newContactItem = { // tạo bản ghi trong csdl có: 
+        let newContactItem = { // tạo bản ghi trong csdl có:
             userid: IdCRR, // id truyền vào
             contactid: contactid, // id truyền vào
             // ... các trường khác đã có defaul
@@ -48,8 +79,57 @@ let removeReqContact = (IdCRR, contactid) => {
         resolve(true);
     });
 };
+let getContacts = (IdCRR) => { // chức năng lấy ra danh bạ
+    return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
+        try {
+            let contacts = await contactModel.getContacts(IdCRR, 10);
+            let users = contacts.map(async(contact) => { // gần giống foreach, map sẽ trả về 1 mảng mới gồm các userid
+                if (contact.contactid == IdCRR) {
+                    return await userModel.findUserbyId(contact.userid); // lấy được thông tin của người dùng (đoán vậy)
+                } else {
+                    return await userModel.findUserbyId(contact.contactid); // lấy được thông tin của người dùng (đoán vậy)
+                }
+            });
+            resolve(await Promise.all(users)); // lấy toàn bộ thông tin của user
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+let GetContactsSent = (IdCRR) => { // lời mời kết bạn mình gửi đi
+    return new Promise(async(resolve, reject) => {
+        try {
+            let contacts = await contactModel.GetContactsSent(IdCRR, 10);
+            let users = contacts.map(async(contact) => { // gần giống foreach, map sẽ trả về 1 mảng mới gồm các userid
+                return await userModel.findUserbyId(contact.contactid); // lấy được thông tin của người dùng (đoán vậy)
+            });
+            resolve(await Promise.all(users)); // lấy toàn bộ thông tin của user
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+let GetContactsReceived = (IdCRR) => {
+    return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
+        try {
+            let contacts = await contactModel.GetContactsReceived(IdCRR, 10);
+            let users = contacts.map(async(contact) => { // gần giống foreach, map sẽ trả về 1 mảng mới gồm các userid
+                return await userModel.findUserbyId(contact.userid); // lấy được thông tin của người dùng (đoán vậy)
+            });
+            resolve(await Promise.all(users)); // lấy toàn bộ thông tin của user
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
 module.exports = {
     FindUsersContact: FindUsersContact,
     addNew: addNew,
     removeReqContact: removeReqContact,
+    getContacts: getContacts,
+    GetContactsSent: GetContactsSent,
+    GetContactsReceived: GetContactsReceived,
+    countAllContacts: countAllContacts,
+    countAllContactsSent: countAllContactsSent,
+    countAllContactsReceived: countAllContactsReceived,
 };

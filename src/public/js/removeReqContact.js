@@ -11,6 +11,7 @@ function removeReqContact() {
                     $("#find-user").find(`div.user-remove-request-contact[data-uid = ${targetId}]`).hide();
                     $("#find-user").find(`div.user-add-new-contact[data-uid = ${targetId}]`).css("display", "inline-block");
                     deCreaseNumberNotifyfContact("count-request-contact-sent");
+                    $("#request-contact-sent").find(`li[data-uid = ${targetId}]`).remove();
                     socket.emit("remove-req-contact", { contactid: targetId }); // soc két đưa ra 1 khẩu lệnh và data chuyền đi là contactid
                 }
             },
@@ -20,6 +21,7 @@ function removeReqContact() {
 socket.on("response-remove-req-contact", (user) => { //lắng nghe response-add-new-contact đưa dữ liệu vào biến user 
     $(".noti_content").find(`div[data-uid= ${user.id}]`).remove(); //xóa thông báo đi 
     $("ul.list-notifyCations").find(`li>div[data-uid= ${user.id}]`).parent().remove(); //xóa thông báo ở phần modal
+    $("#request-contact-received").find(`li[data-uid = ${user.id}]`).remove();
     deCreaseNumberNotifyfContact("count-request-contact-received");
     deCreaseNumberNotification("noti_contact_counter", 1); //số đếm ở quản lý liên lạc
     deCreaseNumberNotification("noti_counter", 1); // số đếm ở thông báo
