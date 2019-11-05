@@ -1,6 +1,6 @@
 import authcontroller from "./authController";
 import homecontroller from "./homeController";
-import usercontroller from "./userController";
+import usercontroller from "./usercontroller";
 import FindUsersContact from "./contactController";
 import notifiController from "./notificationController";
 export const auth = authcontroller;

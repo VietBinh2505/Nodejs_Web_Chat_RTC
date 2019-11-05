@@ -77,6 +77,9 @@ UserSchema.statics = { // statics chỉ giúp ta tìm kiếm
             ],
         }, { _id: 1, username: 1, address: 1, avatar: 1 }).exec();
     },
+    getNomalUserDataById(id){
+        return this.findById(id, {_id: 1, username: 1, address: 1, avatar: 1}).exec(); 
+    },
 };
 UserSchema.methods = { //3 tìm ra bản ghi rồi thì gọi đến phương thức xử tại đâu
     comparePassword(password) { // mã hóa mật khẩu

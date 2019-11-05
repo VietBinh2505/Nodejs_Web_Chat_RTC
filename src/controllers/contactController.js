@@ -1,5 +1,40 @@
 import { contact } from "./../services/index";
 import { validationResult } from "express-validator/check";
+
+let readMoreContactsReceided = async(req, res) => {
+    try {
+        let skipNumberNoti = +(req.query.skipNumber);
+        // lấy thêm id
+        let newcontactUsers = await contact.readMoreContactsReceided(req.user._id, skipNumberNoti); //truyền id hiện tại,
+        return res.status(200).send(newcontactUsers);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+};
+let readMoreContactsSent = async(req, res) => {
+    try {
+        let skipNumberNoti = +(req.query.skipNumber);
+        // lấy thêm id
+        let newcontactUsers = await contact.readMoreContactsSent(req.user._id, skipNumberNoti); //truyền id hiện tại,
+        return res.status(200).send(newcontactUsers);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+};
+
+let readMoreContacts = async(req, res) => {
+    try {
+        let skipNumberNoti = +(req.query.skipNumber);
+        // lấy thêm id
+        let newcontactUsers = await contact.readMoreContacts(req.user._id, skipNumberNoti); //truyền id hiện tại,
+        return res.status(200).send(newcontactUsers);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+};
 let FindUsersContact = async(req, res) => {
     let errarr = [];
     let validationError = validationResult(req);
@@ -49,4 +84,7 @@ module.exports = {
     FindUsersContact: FindUsersContact,
     addNew: addNew,
     removeReqContact: removeReqContact,
+    readMoreContacts: readMoreContacts,
+    readMoreContactsSent: readMoreContactsSent,
+    readMoreContactsReceided: readMoreContactsReceided,
 };
