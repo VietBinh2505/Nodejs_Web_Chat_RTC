@@ -73,4 +73,7 @@ a: Với tài khoản Local:
 -từ service gửi qua model xử lý tại hàm markAllRead để updateMany truyền vào điều kiện và đổi isread từ false qua true,
 - tại view sửa id từ chưa đọc qua đã đọc
 ---------------------------------
-10:
+10: Chức năng xem thêm user tại 3 modal ở quản lý liên lạc: 
+-Từ 3 file phía user (readMoreContacts, readMoreContactsSend, readMoreContactReceided), tạo 3 route tương ứng
+-Từ route/web nhận 3 đường link và check đăng nhập, sau đó gửi dữ liệu qua Controller, 
+-Tại controller tạo 3 hàm xử lý và gửi dữ liệu qua 3 service sau đó truy suất database tại model

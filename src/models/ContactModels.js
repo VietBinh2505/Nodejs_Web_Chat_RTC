@@ -47,6 +47,7 @@ ContactSchema.statics = {
         }).exec();
     },
     getContacts(userid, limit) { // chức năng lấy ra danh bạ
+        console.log();
         return this.find({
             $and: [{
                     $or: [
@@ -105,6 +106,34 @@ ContactSchema.statics = {
                 { "status": false },
             ]
         }).exec();
+    },
+    readMoreContacts(userid, skipNumber, limit){ // chuc nang xem them danh ba
+        return this.find({
+            $and: [{
+                    $or: [
+                        { "userid": userid },
+                        { "contactid": userid },
+                    ]
+                },
+                { "status": true },
+            ]
+        }).sort({ "createdAT": -1 }).skip(skipNumber).limit(limit).exec();
+    },
+    readMoreContactsSent(userid, skipNumber, limit){ // chuc nang xem them danh ba
+        return this.find({
+            $and: [
+                { "userid": userid },
+                { "status": false }
+            ]
+        }).sort({ "createdAT": -1 }).skip(skipNumber).limit(limit).exec();
+    },
+    readMoreContactsReceided(userid, skipNumber, limit){ // chuc nang xem them danh ba
+        return this.find({
+            $and: [
+                { "contactid": userid },
+                { "status": false },
+            ]
+        }).sort({ "createdAT": -1 }).skip(skipNumber).limit(limit).exec();
     },
 };
 module.exports = mongoose.model("contact", ContactSchema);

@@ -1,4 +1,5 @@
-import { contact, notify } from "./../services/index"
+import { contact, notify } from "./../services/index";
+import database from "./../config/database";
 let gethome = async(req, res) => {
     // hiển thị ra thông báo
     let notifications = await notify.getNotifiCations(req.user._id); // 10 mục một lần
@@ -22,6 +23,8 @@ let gethome = async(req, res) => {
         countAllContacts: countAllContacts,
         countAllContactsSent: countAllContactsSent,
         countAllContactsReceived: countAllContactsReceived,
+        LimitCT: database.LimitCT,
+        LimitNT: database.LimitNT,
     });
 };
 module.exports = {

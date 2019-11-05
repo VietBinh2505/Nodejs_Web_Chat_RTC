@@ -1,6 +1,6 @@
 module.exports = {
     DB_Connection: "mongodb",
-    DB_Host: "localhost",
+    DB_Host: "127.0.0.1",
     DB_Post: 27017,
     DB_Name: "web_chat",
     DB_UserName: "",
@@ -16,4 +16,6 @@ module.exports = {
     fbUrl: "http://localhost:2505/auth/facebook/callback",
     key: "vietbinh",
     secret: "myvietbinh",
+    LimitCT: 2,
+    LimitNT: 10,
 };

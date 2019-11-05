@@ -1,4 +1,5 @@
 import { notify } from "./../services/index"
+
 let readMore = async(req, res) => { //xem nhiều hơn 
     try {
         let skipNumberNoti = +(req.query.skipNumber);
@@ -21,5 +22,5 @@ let markAllRead = async(req, res) => { //xem nhiều hơn
 };
 module.exports = {
     readMore: readMore,
-    markAllRead: markAllRead,
+    markAllRead: markAllRead
 };
