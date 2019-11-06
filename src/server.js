@@ -28,4 +28,4 @@ configSocketio(io, cookieParser, session.sessionStore); // khởi tạo cấu h�
 initRoutes(app); // Khởi tạo route
 initSockets(io); // Khởi tạo tất cả socket
 
-server.listen(database.port, database.hostname, () => {});
+server.listen(database.port, database.hostname);

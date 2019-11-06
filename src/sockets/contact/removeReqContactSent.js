@@ -1,15 +1,15 @@
-import { PushSocketIdSocketArray, EmitNotifiToArray, RemoveSocketIdFromToArray } from "./../../helpers/socketHelper";
+import { PushSocketIdSocketArray, EmitNotifiToArray, RemoveSocketIdFromToArray } from "../../helpers/socketHelper";
 
-let removeReqContact = (io) => {
+let removeReqContactSent = (io) => {
     let clients = {};
     io.on("connection", (socket) => { // bắt sự kiện khi người dùng truy cập
         clients = PushSocketIdSocketArray(clients, socket.request.user._id, socket.id); // kiểm tra điều kiện bên sockethelpers
-        socket.on("remove-req-contact", (data) => { // lắng nghe sự kiện từ add-new-contact(truyền tới full info usercrr)
+        socket.on("remove-req-contact-sent", (data) => { // lắng nghe sự kiện từ add-new-contact(truyền tới full info usercrr)
             let userCrr = { // khởi thông tin user hiện tại
                 id: socket.request.user._id, // id
             };
             if (clients[data.contactid]) {
-                EmitNotifiToArray(clients, data.contactid, io, "response-remove-req-contact", userCrr);
+                EmitNotifiToArray(clients, data.contactid, io, "response-remove-req-contact-sent", userCrr);
             }
         });
         socket.on("disconnect", () => { // khi user thoát khỏi trình duyệt
@@ -17,4 +17,4 @@ let removeReqContact = (io) => {
         });
     });
 };
-module.exports = removeReqContact;
+module.exports = removeReqContactSent;

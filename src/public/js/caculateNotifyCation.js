@@ -6,7 +6,7 @@ function inCreaseNumberNotification(className, number) {
     } else {
         $(`.${className}`).css("display", "block").html(CrrValue);
     }
-};
+}; 
 
 function deCreaseNumberNotification(className, number) {
     let CrrValue = +$(`.${className}`).text();

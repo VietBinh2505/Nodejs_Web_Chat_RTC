@@ -2,12 +2,13 @@ import { contact } from "./../services/index";
 import { validationResult } from "express-validator/check";
 
 let readMoreContactsReceided = async(req, res) => {
-    try {
+    try { 
         let skipNumberNoti = +(req.query.skipNumber);
         // lấy thêm id
         let newcontactUsers = await contact.readMoreContactsReceided(req.user._id, skipNumberNoti); //truyền id hiện tại,
         return res.status(200).send(newcontactUsers);
     } catch (error) {
+        console.log('loi tai ctl/readMoreContactsReceided');
         console.log(error);
         res.status(500).send(error);
     }
@@ -19,6 +20,7 @@ let readMoreContactsSent = async(req, res) => {
         let newcontactUsers = await contact.readMoreContactsSent(req.user._id, skipNumberNoti); //truyền id hiện tại,
         return res.status(200).send(newcontactUsers);
     } catch (error) {
+        console.log('loi tai ctl/readMoreContactsSent');
         console.log(error);
         res.status(500).send(error);
     }
@@ -31,6 +33,7 @@ let readMoreContacts = async(req, res) => {
         let newcontactUsers = await contact.readMoreContacts(req.user._id, skipNumberNoti); //truyền id hiện tại,
         return res.status(200).send(newcontactUsers);
     } catch (error) {
+        console.log('loi tai ctl/readMoreContacts');
         console.log(error);
         res.status(500).send(error);
     }
@@ -52,6 +55,7 @@ let FindUsersContact = async(req, res) => {
         let users = await contact.FindUsersContact(IdCRR, KeyWord);
         res.render("main/contact/sections/findUserContact", { users });
     } catch (error) {
+        console.log('loi tai ctl/FindUsersContact');
         console.log(error);
         return res.status(500).send(error);
     }
@@ -63,18 +67,19 @@ let addNew = async(req, res) => {
         let newcontact = await contact.addNew(IdCRR, contactid);
         return res.status(200).send({ success: !!newcontact });
     } catch (error) {
+        console.log('loi tai ctl/addNew');
         console.log(error);
         return res.status(500).send(error);
     }
 };
-let removeReqContact = async(req, res) => {
-
+let removeReqContactSent = async(req, res) => {
     try {
         let IdCRR = req.user._id; // lấy ra id, id này đã lưu vào session;
         let contactid = req.body.uid;
-        let removeReq = await contact.removeReqContact(IdCRR, contactid);
+        let removeReq = await contact.removeReqContactSent(IdCRR, contactid);
         return res.status(200).send({ success: !!removeReq });
     } catch (error) {
+        console.log('loi tai ctl/removeReqContactSent');
         console.log(error);
         return res.status(500).send(error);
     }
@@ -83,7 +88,7 @@ let removeReqContact = async(req, res) => {
 module.exports = {
     FindUsersContact: FindUsersContact,
     addNew: addNew,
-    removeReqContact: removeReqContact,
+    removeReqContactSent: removeReqContactSent,
     readMoreContacts: readMoreContacts,
     readMoreContactsSent: readMoreContactsSent,
     readMoreContactsReceided: readMoreContactsReceided,

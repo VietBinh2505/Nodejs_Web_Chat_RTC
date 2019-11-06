@@ -38,7 +38,7 @@ ContactSchema.statics = {
             ],
         }).exec();
     },
-    removeReqContact(userid, contactid) { // khi huỷ yêu cầu kết bạn sẽ xóa bản ghi
+    removeReqContactSent(userid, contactid) { // khi huỷ yêu cầu kết bạn sẽ xóa bản ghi
         return this.remove({
             $and: [
                 { "userid": userid }, //kiểm tra userid trong csdl có trùng với uerid mình truyền vào hay không

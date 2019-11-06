@@ -1,16 +1,17 @@
 function addContact() { // thêm bạn bè
-    $(".user-add-new-contact").click(() => {
+    $(".user-add-new-contact").bind("click",() => {
         let targetId = $(".user-add-new-contact").data("uid");
         $.post("/contact/add-new", { uid: targetId }, (data) => {
             if (data.success) {
                 // tìm trong div có thẻ li có id trùng với targetid để ẩn đi
                 $("#find-user").find(`div.user-add-new-contact[data-uid = ${targetId}]`).hide();
-                $("#find-user").find(`div.user-remove-request-contact[data-uid = ${targetId}]`).css("display", "inline-block");
+                $("#find-user").find(`div.user-remove-request-contact-sent[data-uid = ${targetId}]`).css("display", "inline-block");
                 inCreaseNumberNotification("noti_contact_counter", 1); //số đếm ở quản lý liên lạc
                 inCreaseNumberNotifyfContact("count-request-contact-sent");
                 // thêm ở modal tab đang chờ xác nhận
                 let userinfoHTML = $("#find-user").find(`ul li[data-uid = ${targetId}]`).get(0).outerHTML; // lấy toàn bộ info user số 0(đầu tiên) (html) 
                 $("#request-contact-sent").find("ul").prepend(userinfoHTML);
+                removeReqContactSent();
                 socket.emit("add-new-contact", { contactid: targetId });
             }
         });

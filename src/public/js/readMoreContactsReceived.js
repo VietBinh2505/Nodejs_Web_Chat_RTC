@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("#link-read-more-contacts-received").click(() => {
+    $("#link-read-more-contacts-received").bind("click",() => {
         let skipNumber = $("#request-contact-received").find("li").length; // thấy ra số lượng các thẻ div (thẻ div chứ thông báo)khi ấn xem thêm
         $("#link-read-more-contacts-received").css("display", "none"); // ẩn xem thêm 10 thông áo
         $(".read-more-contacts-received-loader").css("display", "inline-block"); // hiện icon loader

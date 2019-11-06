@@ -1,8 +1,8 @@
 import addNewContact from "./contact/addNewContact";
-import removeReqContact from "./contact/removeReqContact";
+import removeReqContactSent from "./contact/removeReqContactSent";
 let initsSockets = (io) => { // io nhận từ server
     addNewContact(io);
-    removeReqContact(io);
+    removeReqContactSent(io);
 };
 
 module.exports = initsSockets;

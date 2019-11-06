@@ -14,7 +14,7 @@ function callFindUser(i) {
         $.get(`/contact/find-users/${keyword}`, function(data) {
             $("#find-user ul").html(data); // tìm tới id="find-user" và thẻ ul, thêm data vào đó
             addContact();
-            removeReqContact();
+            removeReqContactSent();
         });
 
     }
