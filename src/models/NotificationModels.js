@@ -13,7 +13,7 @@ NotificationSchema.statics = {
     createNew(item) {
         return this.create(item); // this = ContactSchema = mongoose.Schema
     },
-    removeReqContactNotification(senderid, receiverid, type) {
+    removeReqContactSentNotification(senderid, receiverid, type) {
         return this.remove({ // xóa khi trùng với 3 điều kiện sau
             $and: [
                 { "senderid": senderid },

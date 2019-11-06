@@ -1,7 +1,7 @@
 import { contact, notify } from "./../services/index";
 import database from "./../config/database";
 let gethome = async(req, res) => {
-    // hiển thị ra thông báo
+    // hiển thị ra thông báo 
     let notifications = await notify.getNotifiCations(req.user._id); // 10 mục một lần
     let countNotifiUnread = await notify.countNotifiUnread(req.user._id); // nhận được số lượng thông báo chưa đọc
     let contacts = await contact.getContacts(req.user._id); // contact mình gửi đi

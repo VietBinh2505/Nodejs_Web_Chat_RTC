@@ -3,8 +3,8 @@ function markNotifiCationsAsRead(targetUser) {
         url: "/notification/mark-all-as-read",
         type: "put",
         data: { targetUser: targetUser },
+        
         success: function(result) {
-            console.log(result);
             if (result) {
                 targetUser.forEach((uid) => {
                     $(".noti_content").find(`div[data-uid=${uid}]`).removeClass("notif-readed-false"); //tìm đến các thẻ div có uid trùng với uid trong mảng và xóa đi ở trang chủ thong báo
@@ -16,7 +16,7 @@ function markNotifiCationsAsRead(targetUser) {
     });
 };
 $(document).ready(() => {
-    $("#popup-up-mark-as-read").click(() => { // khi user ấn vào đánh dấu tất cả đã đọc tại thông báo
+    $("#popup-up-mark-as-read").bind("click",() => { // khi user ấn vào đánh dấu tất cả đã đọc tại thông báo
         let targetUser = [];
         $(".noti_content").find("div.notif-readed-false").each((i, notifyCation) => { // trả về mảng, cần lặp để lấy ra uid
             targetUser.push($(notifyCation).data("uid")); // lặp để lấy datauid thêm vào mảng
@@ -27,7 +27,7 @@ $(document).ready(() => {
         }
         markNotifiCationsAsRead(targetUser);
     });
-    $("#modal-up-mark-as-read").click(() => { // khi user ấn vào đánh dấu tất cả đã đọc tại modal
+    $("#modal-up-mark-as-read").bind("click",() => { // khi user ấn vào đánh dấu tất cả đã đọc tại modal
         let targetUser = [];
         $("ul.list-notifyCations").find("li>div.notif-readed-false").each((i, notifyCation) => { // trả về mảng, cần lặp để lấy ra uid
             targetUser.push($(notifyCation).data("uid")); // lặp để lấy datauid thêm vào mảng

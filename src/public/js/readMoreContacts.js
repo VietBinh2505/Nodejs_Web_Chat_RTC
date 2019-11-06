@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("#link-read-more-contacts").click(() => {
+    $("#link-read-more-contacts").bind("click",() => {
         let skipNumber = $("#contacts").find("li").length; // thấy ra số lượng các thẻ div (thẻ div chứ thông báo)
         // khi ấn xem thêm
         $("#link-read-more-contacts").css("display", "none"); // ẩn xem thêm 10 thông áo

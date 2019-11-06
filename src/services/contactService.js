@@ -12,6 +12,7 @@ let readMoreContactsReceided = (IdCRR, skipNumberNoti) => { //hiển thị thêm
             });
             resolve(await Promise.all(users)); // lấy toàn bộ thông tin của user
         } catch (error) {
+            console.log("loi tai service/readMoreContactsReceided");
             console.log(error);
             reject(error);
         }
@@ -26,6 +27,7 @@ let readMoreContactsSent = (idCRR, skipNumber) => {//hiển thị thêm user mì
             });
             resolve(await Promise.all(users));
         } catch (error) {
+            console.log('loi tai service/readMoreContactsSent');
             console.log(error);
             reject(error);
         }
@@ -44,6 +46,7 @@ let readMoreContacts = (idCRR, skipNumber) => { //hiển thị thêm user ở da
             });
             resolve(await Promise.all(users));
         } catch (error) {
+            console.log('loi tai service/readMoreContacts');
             console.log(error);
             reject(error);
         }
@@ -55,6 +58,7 @@ let countAllContacts = (idCRR) => { // đếm tất cả user ở danh bạ
             let count = await contactModel.countAllContacts(idCRR);
             resolve(count); // trả về số đếm
         } catch (error) {
+            console.log('loi tai service/countAllContacts');
             console.log(error);
             reject(error);
         }
@@ -66,6 +70,7 @@ let countAllContactsSent = (idCRR) => { //đếm tất cả user mình gửi l�
             let count = await contactModel.countAllContactsSent(idCRR);
             resolve(count); // trả về số đếm
         } catch (error) {
+            console.log('loi tai service/countAllContactsSent');
             console.log(error);
             reject(error);
         }
@@ -77,6 +82,7 @@ let countAllContactsReceived = (idCRR) => {//đếm tất cả user  gửi lời
             let count = await contactModel.countAllContactsReceived(idCRR);
             resolve(count); // trả về số đếm
         } catch (error) {
+            console.log('loi tai service/countAllContactsReceived');
             console.log(error);
             reject(error);
         }
@@ -99,8 +105,9 @@ let addNew = (IdCRR, contactid) => { // thêm người dùng
     return new Promise(async(resolve, reject) => {
         let contactExists = await contactModel.checkExitsts(IdCRR, contactid);
         if (contactExists) { // nếu tồn tại bản ghi
+            console.log('loi tai service/contactservice');
             return reject(false);
-        }
+        };
         let newContactItem = { // tạo bản ghi trong csdl có:
             userid: IdCRR, // id truyền vào
             contactid: contactid, // id truyền vào
@@ -116,15 +123,15 @@ let addNew = (IdCRR, contactid) => { // thêm người dùng
         resolve(newContact);
     });
 };
-let removeReqContact = (IdCRR, contactid) => {
+let removeReqContactSent = (IdCRR, contactid) => {
     return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
-        let removeReq = await contactModel.removeReqContact(IdCRR, contactid);
+        let removeReq = await contactModel.removeReqContactSent(IdCRR, contactid);
         if (removeReq.result.n === 0) {
+            console.log('loi tai service/removeReqContactSent');
             return reject(false);
         }
-        await notificationMD.model.removeReqContactNotification(IdCRR, contactid, notificationMD.types.add_Contact); // xóa database lưu trữ notifi
+        await notificationMD.model.removeReqContactSentNotification(IdCRR, contactid, notificationMD.types.add_Contact); // xóa database lưu trữ notifi
         // xóa thông báo yêu cầu kp
-
         resolve(true);
     });
 };
@@ -141,6 +148,7 @@ let getContacts = (IdCRR) => { // chức năng lấy ra danh bạ
             });
             resolve(await Promise.all(users)); // lấy toàn bộ thông tin của user
         } catch (error) {
+            console.log('loi tai service/getContacts');
             console.log(error);
             reject(error);
         }
@@ -155,6 +163,7 @@ let GetContactsSent = (IdCRR) => { // lời mời kết bạn mình gửi đi
             });
             resolve(await Promise.all(users)); // lấy toàn bộ thông tin của user
         } catch (error) {
+            console.log('loi tai service/GetContactsSent');
             console.log(error);
             reject(error);
         }
@@ -169,6 +178,7 @@ let GetContactsReceived = (IdCRR) => { //hiển thị danh sách nguời khác g
             });
             resolve(await Promise.all(users)); // lấy toàn bộ thông tin của user
         } catch (error) {
+            console.log('loi tai service/GetContactsReceived');
             console.log(error);
             reject(error);
         }
@@ -177,7 +187,7 @@ let GetContactsReceived = (IdCRR) => { //hiển thị danh sách nguời khác g
 module.exports = {
     FindUsersContact: FindUsersContact,
     addNew: addNew,
-    removeReqContact: removeReqContact,
+    removeReqContactSent: removeReqContactSent,
     getContacts: getContacts,
     GetContactsSent: GetContactsSent,
     GetContactsReceived: GetContactsReceived,

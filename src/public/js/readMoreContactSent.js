@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("#link-read-more-contacts-sent").click(() => {
+    $("#link-read-more-contacts-sent").bind("click",() => {
         let skipNumber = $("#request-contact-sent").find("li").length; // thấy ra số lượng các thẻ div (thẻ div chứ thông báo)
         // khi ấn xem thêm
         $("#link-read-more-contacts-sent").css("display", "none"); // ẩn xem thêm 10 thông áo
@@ -26,12 +26,13 @@ $(document).ready(function() {
                     <div class="user-address"> 
                         <span>${(User.address !== null)? User.address : ""}</span>
                     </div>
-                    <div class="user-remove-request-sent action-danger" data-uid="${User._id}">
+                    <div class="user-remove-request-contact-sent action-danger display-important" data-uid="${User._id}">
                         Hủy yêu cầu
                     </div>
                 </div>
             </li>`);
             });
+            removeReqContactSent();
             $("#link-read-more-contacts-sent").css("display", "inline-block"); // ẩn xem thêm 10 thông áo
             $(".read-more-contacts-sent-loader").css("display", "none"); // hiện icon loader
         });
