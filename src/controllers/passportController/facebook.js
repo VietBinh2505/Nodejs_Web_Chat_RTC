@@ -1,57 +1,63 @@
-import passport from "passport";
-import passportfb from "passport-facebook";
-import usermodel from "../../models/UserModels";
-import { tranERR, tranSuccess } from "../../../lang/vi";
+import passport from 'passport';
+import passportFacebook from 'passport-facebook';
+import UserModel from './../../models/userModel';
+import {transErrors, transSuccess} from './../../../lang/vi';
 import database from "./../../config/database";
-let fbStrategy = passportfb.Strategy;
-let fbid = database.fbid;
-let fbsecret = database.fbsecret;
-let fbUrl = database.fbUrl;
-let initpassportfb = () => { // khởi tạo passport xác thực với tài khoản fb
-    passport.use(new fbStrategy({
-        clientID: fbid,
-        clientSecret: fbsecret,
-        callbackURL: fbUrl,
-        profileFields: ["email", "gender", "displayName"],
-        passReqToCallback: true, //sau khi passport xác thực xong thì gửi req tới func dòng 12
-    }, async(req, accesstoken, refreshtoken, profile, done) => {
-        try {
-            // người dùng đã đăng nhập bằng fb trước đó
-            let user = await usermodel.findbyFbUId(profile.id); //xem trong csdl có id chưa
-            if (user) {
-                return done(null, user, req.flash("success", tranSuccess.login_succsess(user.username))); //nếu tồn tại id thì báo cho người dùng đăng nhập thành công
-            }
-            //người dùng chưa đăng nhập lần nào
-            let newUserItem = {
-                username: profile.displayName,
-                gender: profile.gender,
-                local: {
-                    isactive: true,
-                },
-                facebook: {
-                    uid: profile.id,
-                    token: accesstoken,
-                    email: profile.emails[0].value,
-                },
-            };
-            let newuser = await usermodel.createNew(newUserItem);
-            return done(null, newuser, req.flash("success", tranSuccess.login_succsess(newuser.username))); //nếu tồn tại id thì báo cho người dùng đăng nhập thành công
-        } catch (error) { //nếu có lỗi thì là lỗi code
-            return done(null, false, req.flash("errors", tranERR.err_server));
+let  FacebookStrategy = passportFacebook.Strategy;
+let fbAppId = database.fbid
+let fbAppSecret = database.fbsecret
+let fbCallbackUrl = database.fbUrl
+
+let initPassportFacebook = () => {
+  passport.use(new FacebookStrategy({
+    clientID: fbAppId,
+    clientSecret: fbAppSecret,
+    callbackURL: fbCallbackUrl,
+    passReqToCallback: true,
+    profileFields: ['email', 'gender', 'displayName'] // The field Which I want to take on fb
+  },async (req, accessToken, refreshToken, profile, done) => {
+    try {
+      let user = await UserModel.findUserByFacebookUid(profile.id);
+      if(user) {
+        return done(null, user, req.flash('success',transSuccess.loginSuccess(user.username)));
+      }
+
+      let newUserItem = {
+        username: profile.displayName,
+        gender: profile.gender,
+        local: {isActive: true},
+        facebook: {
+          uid: profile.id,
+          token: accessToken,
+          email: `${profile.provider}@gmail.com`
         }
-    }));
-    passport.serializeUser((user, done) => { // ghi thông của user(dòng 28) vào session
-        done(null, user._id); // lưu mỗi id của user
-    });
-    passport.deserializeUser((id, done) => { //passport.session sẽ lấy thông tin đã lưu của user
-        //deserializeUser sẽ lưu toàn bộ thông tin vào biến
-        usermodel.findUserbyId(id)
-            .then(user => { // sau khi tìm thấy
-                return done(null, user);
-            })
-            .catch(error => {
-                return done(error, null);
-            })
-    });
-};
-module.exports = initpassportfb;
+      };
+
+      let newUser = await UserModel.createNew(newUserItem);
+      return done(null, newUser, req.flash('success',transSuccess.loginSuccess(newUser.username)));
+    } catch (error) {
+      console.log(error);
+      return done(null, false, req.flash('errors', transErrors.server_error));
+    }
+  }));
+
+  // save userId to session 
+  passport.serializeUser((user, done) => {
+    done(null, user._id);
+  });
+
+  // this is called by passport.session();
+  // return userInfo and assign  req.user
+  // recieved id form serializeUser
+  passport.deserializeUser((id, done) => {
+    UserModel.findUserById(id)
+      .then(user => {
+        return done(null, user);
+      })
+      .catch(error => {
+        return done(error, null);
+      });
+  });
+}
+
+module.exports = initPassportFacebook;

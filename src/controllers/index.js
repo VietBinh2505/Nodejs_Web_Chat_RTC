@@ -1,10 +1,11 @@
-import authcontroller from "./authController";
-import homecontroller from "./homeController";
-import usercontroller from "./usercontroller";
-import FindUsersContact from "./contactController";
-import notifiController from "./notificationController";
-export const auth = authcontroller;
-export const home = homecontroller;
-export const user = usercontroller;
-export const contact = FindUsersContact;
-export const notifi = notifiController;
+import authController from "./authController";
+import homeController from "./homeController";
+import userController from "./userController";
+import contactController from "./contactController";
+import notificationController from "./notificationController";
+
+export const home = homeController;
+export const auth = authController;
+export const user = userController;
+export const contact = contactController;
+export const notification = notificationController;

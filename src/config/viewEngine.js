@@ -1,9 +1,11 @@
-import express from "express";
-import expressEjsExtend from "express-ejs-extend";
+import express from 'express';
+import expressEjsExtend from 'express-ejs-extend';
+
 let configViewEngine = (app) => {
-    app.use(express.static("./src/public")); // Khai báo để file thư viện vào trong public
-    app.engine("ejs", expressEjsExtend);
-    app.set("view engine", "ejs");
-    app.set("views", "./src/views");
-}
+  app.use(express.static('./src/public'));
+  app.engine('ejs', expressEjsExtend);
+  app.set('view engine', 'ejs');
+  app.set('views', './src/views');
+};
+
 module.exports = configViewEngine;

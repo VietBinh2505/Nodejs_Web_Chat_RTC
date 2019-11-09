@@ -1,22 +1,39 @@
-import { PushSocketIdSocketArray, EmitNotifiToArray, RemoveSocketIdFromToArray } from "./../../helpers/socketHelper";
+import {pushSocketIdToArray, emitNotifyToArray, reoveSocketIdFromArray} from "./../../helper/socketHelper";
+/**
+ * 
+ * @param {*} io from socket.io lb 
+ */
+
 let addNewContact = (io) => {
-    let clients = {};
-    io.on("connection", (socket) => {
-        clients = PushSocketIdSocketArray(clients, socket.request.user._id, socket.id); // kiểm tra điều kiện bên sockethelpers
-        socket.on("add-new-contact", (data) => { // lắng nghe sự kiện từ add-new-contact(truyền tới full info usercrr)
-            let userCrr = { // khởi thông tin user hiện tại
-                id: socket.request.user.id, // id
-                username: socket.request.user.username, // tên
-                avatar: socket.request.user.avatar, // avatar
-                address: (socket.request.user.address !== null) ? socket.request.user.address : "",
-            };
-            if (clients[data.contactid]) {
-                EmitNotifiToArray(clients, data.contactid, io, "response-add-new-contact", userCrr);
-            }
-        });
-        socket.on("disconnect", () => {
-            clients = RemoveSocketIdFromToArray(clients, socket.request.user._id, socket);
-        });
+  let clients = {};
+
+  io.on("connection", (socket) => {
+    let currentUserId = socket.request.user._id;
+    
+    clients =  pushSocketIdToArray(clients, currentUserId, socket.id);
+
+    socket.on("add-new-contact", (data) => {
+      let currentUser = {
+        id: socket.request.user._id,
+        username: socket.request.user.username,
+        avatar: socket.request.user.avatar,
+        address: (socket.request.user.address) ? (socket.request.user.address) : ""
+      };
+
+      // emit notification
+      if (clients[data.contactId]) {
+          emitNotifyToArray(clients, data.contactId, io, "response-add-new-contact", currentUser);
+      };
+
     });
+    socket.on("disconnect", () => {
+      // remove socket when user user disconnect
+      clients = reoveSocketIdFromArray(clients, currentUserId, socket.id);
+    });
+
+
+  });
 };
+
+
 module.exports = addNewContact;
