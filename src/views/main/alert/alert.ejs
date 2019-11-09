@@ -1,5 +1,5 @@
-<% if(success != ""){ %>
-    <% success.forEach((i)=>{ %>
-        <div class="master-success-message alert alert-success">Đăng Nhập Thành Công!</div>
-    <%});%>
-<% }%>
+<% if(success) { %>
+	<% success.forEach(mgs => { %>
+		<div class="master-success-message alert alert-success"><%- mgs %></div>
+	<% }) %>
+<% } %>

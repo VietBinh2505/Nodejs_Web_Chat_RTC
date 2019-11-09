@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
-    <link rel="shortcut icon" href="images/logo_favicon/login.png" />
+    <title>Web Chat</title>
+    <link rel="shortcut icon" href="images/logo_favicons/abc.png" />
 
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
@@ -25,7 +25,7 @@
         <div class="col-sm-8 my-content">
             <div class="row">
                 <div class="col-sm-12">
-                    <h1 class="login-title text-center">Welcome To My Awesome Chat</h1>
+                    <h1 class="login-title text-center">Chào Mừng Bạn Đến Với Ứng Dụng Chat! </h1>
                     <hr>
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6 table-responsive">
@@ -38,8 +38,8 @@
                                 <tr>
                                     <td>FB:</td>
                                     <td>
-                                        <a href="https://www.facebook.com/VietBinh2505" target="_blank">
-                                        https://www.facebook.com/VietBinh2505
+                                        <a href="fb.com/VietBinh2505" target="_blank">
+                                            https://www.facebook.com/VietBinh2505
                                         </a>
                                     </td>
                                 </tr>
@@ -47,7 +47,7 @@
                                     <td>GitHub:</td>
                                     <td>
                                         <a href="https://github.com/VietBinh2505" target="_blank">
-                                        https://github.com/VietBinh2505
+                                            https://github.com/VietBinh2505
                                         </a>
                                     </td>
                                 </tr>
@@ -67,13 +67,6 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 text-center bottom-description">
-                    <span>
-                        "Tôi đến đây đây để mang nụ cười"
-                    </span>
-                    <br>
-                    <span>
-                        " Tới những nơi bạn đẻ lại nước mắt ! "
-                    </span>
                 </div>
             </div>
         </div>
@@ -86,9 +79,11 @@
                         <h4 class="modal-title">Đăng nhập</h4>
                     </div>
                     <div class="modal-body">
-                        <%- include("alert/alert");%>
-                        <%- include("login/login");%>
-                        <%- include("register/register");%>               
+                        <%- include('./alert/alert'); %>
+
+                        <%- include('./login/login'); %>
+                        
+                        <%- include('./register/register'); %>                    
                     </div>
                     <div class="modal-footer">
                         <div class="forgot login-footer">

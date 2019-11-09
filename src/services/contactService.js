@@ -1,200 +1,249 @@
-import contactModel from "./../models/ContactModels";
-import userModel from "./../models/UserModels";
-import notificationMD from "./../models/NotificationModels";
-import database from "./../config/database"
-import _ from "lodash"; 
-let readMoreContactsReceided = (IdCRR, skipNumberNoti) => { //hiển thị thêm user gửi lời mời tới mình
-    return new Promise(async(resolve, reject) => {
-        try {
-            let contacts = await contactModel.readMoreContactsReceided(IdCRR, skipNumberNoti,database.LimitCT);
-            let users = contacts.map(async(contact) => { // gần giống foreach, map sẽ trả về 1 mảng mới gồm các userid
-                return await userModel.getNomalUserDataById(contact.userid); // lấy được thông tin của người dùng (đoán vậy)
-            });
-            resolve(await Promise.all(users)); // lấy toàn bộ thông tin của user
-        } catch (error) {
-            console.log("loi tai service/readMoreContactsReceided");
-            console.log(error);
-            reject(error);
+import ContacModel from './../models/contactModel';
+import UserModel from './../models/userModel';
+import NotificationModel from './../models/notificationModel';
+import _ from 'lodash';
+
+const LIMIT_NUMBER_TAKEN = 1;
+
+let findUsersContact = (currentUserId, keyword) => {
+  return new Promise( async (resolve, reject) => {
+    let deprecateUserIds =  [currentUserId];
+    let contactByUser = await ContacModel.findAllByUser(currentUserId);
+    contactByUser.forEach(contact => {
+      deprecateUserIds.push(contact.userId);
+      deprecateUserIds.push(contact.contactId);
+    });
+
+    deprecateUserIds = _.uniqBy(deprecateUserIds);
+    let users = await UserModel.findAllForAddContact(deprecateUserIds, keyword);
+    resolve(users);
+  });
+};
+
+let addNew = (currentUserId, contactId) => {
+  return new Promise(async (resolve, reject) => {
+    let contactExitsts = await ContacModel.checkExists(currentUserId, contactId);
+    if (contactExitsts) {
+      return reject(false);
+    };
+
+    // create contact
+    let newContactItem = {
+      userId: currentUserId,
+      contactId: contactId
+    };
+
+    let newContact = await ContacModel.createNew(newContactItem);
+
+    // create notification
+    let notificationItem = {
+      senderId: currentUserId,
+      receiverId: contactId,
+      type: NotificationModel.type.ADD_CONTACT
+    };
+
+    await NotificationModel.model.createNew(notificationItem);
+
+
+    resolve(newContact);
+  });
+};
+
+let removeRequestContactSent = (currentUserId, contactId) => {
+  return new Promise(async (resolve, reject) => {
+    let removeReq = await ContacModel.removeRequestContactSent(currentUserId, contactId);
+    if (removeReq.result.n === 0) {
+      return reject(false);
+    };
+
+    // remove notification
+    let notifTypeAddContact = NotificationModel.type.ADD_CONTACT
+    await NotificationModel.model.removeRequsetContactNotification(currentUserId, contactId, notifTypeAddContact);
+    resolve(true);
+  });
+};
+
+let removeRequestContactReceived = (currentUserId, contactId) => {
+  return new Promise( async(resolve, reject) => {
+    let removeReq = await ContacModel.removeRequestContactReceived(currentUserId, contactId);
+    if(removeReq.result.n === 0) {
+      return reject(false);
+    };
+
+    // // remove notification
+    // let notifTypeAddContact = NotificationModel.type.ADD_CONTACT
+    // await NotificationModel.model.removeRequsetContactNotification(currentUserId, contactId, notifTypeAddContact);
+    // resolve(true);
+
+    resolve(true);
+  });
+};
+
+let approveRequestContactReceived = (currentUserId, contactId) => {
+  return new Promise( async(resolve, reject) => {
+    let approveReq = await ContacModel.approveRequestContactReceived(currentUserId, contactId);
+    if (approveReq.nModified === 0) {
+      return reject(false);
+    };
+
+    // create notification
+    let notificationItem = {
+      senderId: currentUserId,
+      receiverId: contactId,
+      type: NotificationModel.type.APPROVE_CONTACT
+    };
+    await NotificationModel.model.createNew(notificationItem);
+
+    resolve(true);
+  });
+};
+
+let getContacts = (currentUserId) => {
+  return new Promise( async (resolve, reject) => {
+    try {
+      let contacts = await ContacModel.getContacts(currentUserId, LIMIT_NUMBER_TAKEN);
+
+      let users = contacts.map(async contact => {
+        if (contact.contactId == currentUserId) {
+          // Something user send add friend to me
+          return await UserModel.getNormalUserById(contact.userId);
         }
-    });
+        // I send add friend to something user
+        return await UserModel.getNormalUserById(contact.contactId);
+      });
+
+      resolve(await Promise.all(users));
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
-let readMoreContactsSent = (idCRR, skipNumber) => {//hiển thị thêm user mình gửi lời mời đi
-    return new Promise(async(resolve, reject) => {
-        try {
-            let newContacts = await contactModel.readMoreContactsSent(idCRR, skipNumber,database.LimitCT);
-            let users = newContacts.map(async(contact) => { // gần giống foreach, map sẽ trả về 1 mảng mới
-                return await userModel.getNomalUserDataById(contact.contactid); // lấy được thông tin của người dùng (đoán vậy)
-            });
-            resolve(await Promise.all(users));
-        } catch (error) {
-            console.log('loi tai service/readMoreContactsSent');
-            console.log(error);
-            reject(error);
-        }
-    });
+
+let getContactsSend = (currentUserId) => {
+  return new Promise( async (resolve, reject) => {
+    try {
+      let contacts = await ContacModel.getContactsSend(currentUserId, LIMIT_NUMBER_TAKEN);
+
+      let users = contacts.map(async contact => {
+        return await UserModel.getNormalUserById(contact.contactId);
+      });
+
+      resolve(await Promise.all(users));
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
-let readMoreContacts = (idCRR, skipNumber) => { //hiển thị thêm user ở danh bạ
-    return new Promise(async(resolve, reject) => {
-        try {
-            let newContacts = await contactModel.readMoreContacts(idCRR, skipNumber,database.LimitCT);
-            let users = newContacts.map(async(contact) => { // gần giống foreach, map sẽ trả về 1 mảng mới
-                if (contact.contactid == idCRR) {
-                    return await userModel.getNomalUserDataById(contact.userid); // lấy được thông tin của người dùng (đoán vậy)
-                } else {
-                    return await userModel.getNomalUserDataById(contact.contactid); // lấy được thông tin của người dùng (đoán vậy)
-                }
-            });
-            resolve(await Promise.all(users));
-        } catch (error) {
-            console.log('loi tai service/readMoreContacts');
-            console.log(error);
-            reject(error);
-        }
-    });
+
+let getContactsReceived = (currentUserId) => {
+  return new Promise( async (resolve, reject) => {
+    try {
+      let contacts = await ContacModel.getContactsReceived(currentUserId, LIMIT_NUMBER_TAKEN);
+
+      let users = contacts.map(async contact => {
+        return await UserModel.getNormalUserById(contact.userId);
+      });
+
+      resolve(await Promise.all(users));
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
-let countAllContacts = (idCRR) => { // đếm tất cả user ở danh bạ
-    return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
-        try {
-            let count = await contactModel.countAllContacts(idCRR);
-            resolve(count); // trả về số đếm
-        } catch (error) {
-            console.log('loi tai service/countAllContacts');
-            console.log(error);
-            reject(error);
-        }
-    });
+
+let countAllContacts = (currentUserId) => {
+  return new Promise( async (resolve, reject) => {
+    try {
+      let count = ContacModel.countAllContacts(currentUserId);
+      resolve(count);
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
-let countAllContactsSent = (idCRR) => { //đếm tất cả user mình gửi lời mời kp
-    return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
-        try {
-            let count = await contactModel.countAllContactsSent(idCRR);
-            resolve(count); // trả về số đếm
-        } catch (error) {
-            console.log('loi tai service/countAllContactsSent');
-            console.log(error);
-            reject(error);
-        }
-    });
+
+let countAllContactsSend = (currentUserId) => {
+  return new Promise( async (resolve, reject) => {
+    try {
+      let count = ContacModel.countAllContactsSend(currentUserId);
+      resolve(count);
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
-let countAllContactsReceived = (idCRR) => {//đếm tất cả user  gửi lời mời tới mình
-    return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
-        try {
-            let count = await contactModel.countAllContactsReceived(idCRR);
-            resolve(count); // trả về số đếm
-        } catch (error) {
-            console.log('loi tai service/countAllContactsReceived');
-            console.log(error);
-            reject(error);
-        }
-    });
+
+let countAllContactsReceived = (currentUserId) => {
+  return new Promise( async (resolve, reject) => {
+    try {
+      let count = ContacModel.countAllContactsReceived(currentUserId);
+      resolve(count);
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
-let FindUsersContact = (IdCRR, KeyWord) => { // tìm kiếm người dùng
-    return new Promise(async(resolve, reject) => {
-        let deprecatedUserIds = [IdCRR]; // mảng id các user ko cần dùng đến
-        let contactsByUser = await contactModel.findAllByUser(IdCRR); // lấy mảng từ contact model
-        contactsByUser.forEach((contact) => { // duyệt mảng các id tìm thấy
-            deprecatedUserIds.push(contact.userid); // thêm user id vào mảng
-            deprecatedUserIds.push(contact.contactid); // thêm contact id vào mảng
-        });
-        deprecatedUserIds = _.uniqBy(deprecatedUserIds); // loại bỏ các id trùng nhau trong mảng
-        let users = await userModel.findAllForAddContact(deprecatedUserIds, KeyWord);
-        resolve(users);
-    });
-};
-let addNew = (IdCRR, contactid) => { // thêm người dùng
-    return new Promise(async(resolve, reject) => {
-        let contactExists = await contactModel.checkExitsts(IdCRR, contactid);
-        if (contactExists) { // nếu tồn tại bản ghi
-            console.log('loi tai service/contactservice');
-            return reject(false);
+
+let readMoreContacts = (currentUserId, skipNumberContacts) => {
+  return new Promise( async(resolve, reject) => {
+    try {
+      let newContacts = await ContacModel.readMoreContacts(currentUserId, skipNumberContacts, LIMIT_NUMBER_TAKEN);
+
+      let users = newContacts.map(async contact => {
+        if (contact.contactId == currentUserId) {
+          return await UserModel.getNormalUserById(contact.userId);
         };
-        let newContactItem = { // tạo bản ghi trong csdl có:
-            userid: IdCRR, // id truyền vào
-            contactid: contactid, // id truyền vào
-            // ... các trường khác đã có defaul
-        };
-        let newContact = await contactModel.createNew(newContactItem); //tạo ra 1 bảng thông báo cho csdl contact
-        let notificationItem = { // tạo dữ liệu cho thông báo
-            senderid: IdCRR, //người gửi lời mời kp (idCRR chính là mình)
-            receiverid: contactid, // người nhận là contact id
-            type: notificationMD.types.add_Contact, // lấy từ notifi models
-        };
-        await notificationMD.model.createNew(notificationItem); //tạo ra 1 bảng thông báo cho csdl notifi
-        resolve(newContact);
-    });
+        return await UserModel.getNormalUserById(contact.contactId);
+      });
+      resolve(await Promise.all(users));
+    } catch (error) {
+      reject(error);
+    };
+  });
 };
-let removeReqContactSent = (IdCRR, contactid) => {
-    return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
-        let removeReq = await contactModel.removeReqContactSent(IdCRR, contactid);
-        if (removeReq.result.n === 0) {
-            console.log('loi tai service/removeReqContactSent');
-            return reject(false);
-        }
-        await notificationMD.model.removeReqContactSentNotification(IdCRR, contactid, notificationMD.types.add_Contact); // xóa database lưu trữ notifi
-        // xóa thông báo yêu cầu kp
-        resolve(true);
-    });
+
+let readMoreContactsSend = (currentUserId, skipNumberContactsSend) => {
+  return new Promise( async (resolve, reject) => {
+    try {
+      let newContactsSend = await ContacModel.readMoreContactsSend(currentUserId, skipNumberContactsSend, LIMIT_NUMBER_TAKEN);
+      let users = newContactsSend.map( async contact => {
+        return await UserModel.getNormalUserById(contact.contactId);
+      });
+      resolve(await Promise.all(users));
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
-let getContacts = (IdCRR) => { // chức năng lấy ra danh bạ
-    return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
-        try {
-            let contacts = await contactModel.getContacts(IdCRR, database.LimitCT);
-            let users = contacts.map(async(contact) => { // gần giống foreach, map sẽ trả về 1 mảng mới gồm các userid
-                if (contact.contactid == IdCRR) {
-                    return await userModel.getNomalUserDataById(contact.userid); // lấy được thông tin của người dùng (đoán vậy)
-                } else {
-                    return await userModel.getNomalUserDataById(contact.contactid); // lấy được thông tin của người dùng (đoán vậy)
-                }
-            });
-            resolve(await Promise.all(users)); // lấy toàn bộ thông tin của user
-        } catch (error) {
-            console.log('loi tai service/getContacts');
-            console.log(error);
-            reject(error);
-        }
-    });
+
+let readMoreContactsReceived = (currentUserId, skipNumberContactsReceived) => {
+  return new Promise( async(resolve, reject) => {
+    try {
+      let newContactsReceived = await ContacModel.readMoreContactsReceived(currentUserId, skipNumberContactsReceived, LIMIT_NUMBER_TAKEN);
+      let users = newContactsReceived.map(async contact => {
+        return await UserModel.getNormalUserById(contact.userId);
+      });
+
+      resolve(await Promise.all(users));
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
-let GetContactsSent = (IdCRR) => { // lời mời kết bạn mình gửi đi
-    return new Promise(async(resolve, reject) => {
-        try {
-            let contacts = await contactModel.GetContactsSent(IdCRR, database.LimitCT);
-            let users = contacts.map(async(contact) => { // gần giống foreach, map sẽ trả về 1 mảng mới gồm các userid
-                return await userModel.getNomalUserDataById(contact.contactid); // lấy được thông tin của người dùng (đoán vậy)
-            });
-            resolve(await Promise.all(users)); // lấy toàn bộ thông tin của user
-        } catch (error) {
-            console.log('loi tai service/GetContactsSent');
-            console.log(error);
-            reject(error);
-        }
-    });
-};
-let GetContactsReceived = (IdCRR) => { //hiển thị danh sách nguời khác gửi lời mời tới mình
-    return new Promise(async(resolve, reject) => { // xóa yêu cầu kp
-        try {
-            let contacts = await contactModel.GetContactsReceived(IdCRR, database.LimitCT);
-            let users = contacts.map(async(contact) => { // gần giống foreach, map sẽ trả về 1 mảng mới gồm các userid
-                return await userModel.getNomalUserDataById(contact.userid); // lấy được thông tin của người dùng (đoán vậy)
-            });
-            resolve(await Promise.all(users)); // lấy toàn bộ thông tin của user
-        } catch (error) {
-            console.log('loi tai service/GetContactsReceived');
-            console.log(error);
-            reject(error);
-        }
-    });
-};
+
 module.exports = {
-    FindUsersContact: FindUsersContact,
-    addNew: addNew,
-    removeReqContactSent: removeReqContactSent,
-    getContacts: getContacts,
-    GetContactsSent: GetContactsSent,
-    GetContactsReceived: GetContactsReceived,
-    countAllContacts: countAllContacts,
-    countAllContactsSent: countAllContactsSent,
-    countAllContactsReceived: countAllContactsReceived,
-    readMoreContacts: readMoreContacts,
-    readMoreContactsSent: readMoreContactsSent,
-    readMoreContactsReceided: readMoreContactsReceided,
+  findUsersContact,
+  addNew,
+  removeRequestContactSent,
+  removeRequestContactReceived,
+  approveRequestContactReceived,
+  getContacts,
+  getContactsSend,
+  getContactsReceived,
+  countAllContacts,
+  countAllContactsSend,
+  countAllContactsReceived,
+  readMoreContacts,
+  readMoreContactsSend,
+  readMoreContactsReceived
 };

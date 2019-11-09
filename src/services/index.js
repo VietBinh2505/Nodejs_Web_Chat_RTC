@@ -1,8 +1,10 @@
-import authservices from './authservices';
-import userservices from "./userservice";
-import FindUsersContact from "./contactService";
-import getNotifiCations from "./notifiCationService";
-export const auth = authservices;
-export const user = userservices;
-export const contact = FindUsersContact;
-export const notify = getNotifiCations;
+import authService from './authService';
+import userService from './userService';
+import contactService from './contactService';
+import notificationService from './notificationService';
+
+
+export const auth = authService;
+export const user = userService;
+export const contact = contactService;
+export const notification = notificationService;

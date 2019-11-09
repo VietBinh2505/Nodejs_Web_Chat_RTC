@@ -6,14 +6,15 @@
                 <option value="personal-chat">Trò chuyện cá nhân</option>
                 <option value="group-chat">Trò chuyện nhóm</option>
             </select>
-            <a href="#groupChatModal" class="create-group-chat" data-toggle="modal" title="Tạo một nhóm trò chuyện mới"></a>
+            <a href="#groupChatModal" class="create-group-chat" data-toggle="modal" 
+                title="Tạo một nhóm trò chuyện mới"></a>
         </div>
         <ul class="people no-padding-start">
             <a href="#uidcontact._id" class="room-chat">
                 <li class="person" data-chat="contact._id">
                     <div class="left-avatar">
                         <div class="dot"></div>
-                        <img src="images/users/<%= user.avatar %>" alt="">
+                        <img src="images/users/default-avatar-trungquandev-01.jpg" alt="">
                     </div>
                     <span class="name">
                         Việt Bình
@@ -26,7 +27,7 @@
                 <li class="person group-chat" data-chat="groupChatItem._id">
                     <div class="left-avatar">
                         <!-- <div class="dot"></div> -->
-                        <img src="images/users/<%= user.avatar %>" alt="">
+                        <img src="images/users/group-avatar-trungquandev.png" alt="">
                     </div>
                     <span class="name">
                         <span class="group-chat-name">Group:</span> Group Chat
@@ -39,7 +40,7 @@
                 <li class="person active" data-chat="person-default">
                     <div class="left-avatar">
                         <div class="dot online"></div>
-                        <img class="avatar-online" src="images/users/<%= user.avatar %>" alt="">
+                        <img class="avatar-online" src="images/users/default-avatar-trungquandev-02.jpg" alt="">
                     </div>
                     <span class="name">Việt Bình (admin)</span>
                     <span class="time">Bây giờ</span>

@@ -3,8 +3,7 @@
         <div class="top">
             <span>To: <span class="name">Việt Bình (admin)</span></span>
             <span class="chat-menu-right">
-                <a href="#attachsModal" id="show-attachs"
-                    data-toggle="modal">
+                <a href="#attachsModal" id="show-attachs" data-toggle="modal">
                     Tệp đính kèm
                     <i class="fa fa-paperclip"></i>
                 </a>
@@ -13,8 +12,7 @@
                 <a href="javascript:void(0)">&nbsp;</a>
             </span>
             <span class="chat-menu-right">
-                <a href="#imagesModal" id="show-images"
-                    data-toggle="modal">
+                <a href="#imagesModal" id="show-images" data-toggle="modal">
                     Hình ảnh
                     <i class="fa fa-photo"></i>
                 </a>
@@ -22,26 +20,26 @@
         </div>
         <div class="content-chat">
             <div class="chat" data-chat="">
-                <div class="bubble me" data-mess-id="${item._id}">Hello, I'm Viet Binh, author of https://www.facebook.com/VIETBINH2505</div>
-                <div class="bubble you" data-mess-id="${item._id}">Really? I'm Viet Binh too, author of https://www.facebook.com/VIETBINH2505, are you fake?
-                </div>
+                <div class="bubble me" data-mess-id="${item._id}">Hello, I'm Trung Quan, author of fb.com/VietBinh2505</div>
+                <div class="bubble you" data-mess-id="${item._id}">Really? I'm Trung Quan too, author of fb.com/VietBinh2505, are you fake?</div>
                 <div class="bubble me" data-mess-id="${item._id}">This is me !!!</div>
                 <div class="bubble me bubble-image-file" data-mess-id="${item._id}">
-                    <img src="images/users/<%= user.avatar %>" class="show-image-chat">
+                    <img src="images/users/default-avatar-trungquandev-01.jpg" class="show-image-chat">
                 </div>
                 <div class="bubble me bubble-image-file" data-mess-id="${item._id}">
-                    <a href="fileExample/Tệp văn bản - vbinh.pdf" download="${ item.file.fileName }">
-                        Tệp văn bản - vbinh.pdf
-                    </a>
-                </div>
+                        <a href="fileExample/Tệp văn bản - tvb.docx" 
+                        download="${ item.file.fileName }">
+                            Tệp văn bản - tvb.pdf
+                        </a>
+                    </div>
                 <div class="bubble you" data-mess-id="${item._id}">And this is me @@ !!!</div>
                 <div class="bubble you bubble-image-file" data-mess-id="${item._id}">
-                    <img src="images/users/<%= user.avatar %>" class="show-image-chat">
+                    <img src="images/users/default-avatar-trungquandev-02.jpg" class="show-image-chat">
                 </div>
                 <div class="bubble you bubble-image-file" data-mess-id="${item._id}">
-                    <a href="fileExample/Tệp văn bản -
-                        vbinh.docx" download="${ item.file.fileName }">
-                        Tệp văn bản - vbinh.docx
+                    <a href="fileExample/Tệp văn bản - tvb.docx" 
+                    download="${ item.file.fileName }">
+                        Tệp văn bản - tvb.pdf
                     </a>
                 </div>
             </div>
@@ -49,18 +47,13 @@
         <div class="write" data-chat="">
             <input type="text" class="write-chat" data-chat="17071995">
             <div class="icons">
-                <a href="#" class="icon-chat" data-chat=""><i class="fa
-                        fa-smile-o"></i></a>
+                <a href="#" class="icon-chat" data-chat=""><i class="fa fa-smile-o"></i></a>
                 <label for="image-chat">
-                    <input type="file" id="image-chat"
-                        name="my-image-chat" class="image-chat"
-                        data-chat="">
+                    <input type="file" id="image-chat" name="my-image-chat" class="image-chat" data-chat="">
                     <i class="fa fa-photo"></i>
                 </label>
                 <label for="attach-chat">
-                    <input type="file" id="attach-chat"
-                        name="my-attach-chat" class="attach-chat"
-                        data-chat="">
+                    <input type="file" id="attach-chat" name="my-attach-chat" class="attach-chat" data-chat="">
                     <i class="fa fa-paperclip"></i>
                 </label>
                 <a href="#streamModal" id="video-chat" class="video-chat" data-chat="" data-toggle="modal">
@@ -73,49 +66,49 @@
 
     <!-- Trường hợp tài khoản chưa có bạn bè thì hiện màn hình dưới. -->
     <!-- <div class="right active-chat" data-chat="person-default">
-                    <div class="top">
-                        <span>To: <span class="name">Việt Bình (admin)</span></span>
-                        <span class="chat-menu-right">
-                            <a href="#">
-                                Tệp đính kèm
-                                <i class="fa fa-paperclip"></i>
-                            </a>
-                        </span>
-                        <span class="chat-menu-right">
-                            <a href="javascript:void(0)">&nbsp;</a>
-                        </span>
-                        <span class="chat-menu-right">
-                            <a href="#">
-                                Hình ảnh
-                                <i class="fa fa-photo"></i>
-                            </a>
-                        </span>
-                    </div>
-                    <div class="content-chat">
-                        <div class="chat active-chat" data-chat="person-default">
-                            <div class="conversation-start">
-                                <span>Một tháng trước</span>
-                            </div>
-                            <div class="bubble you">
-                                Xin chào <strong>Việt Bình</strong>, tài khoản của bạn đã sẵn sàng.
-                            </div>
-                            <div class="bubble you">
-                                Bây giờ, hãy tìm kiếm bạn bè để trò chuyện.
-                            </div>
-                            <div class="bubble you">
-                                Lưu ý: Đây là tin nhắn tự động, vui lòng không trả lời lại. Cảm ơn <strong>Việt Bình</strong> !!!
-                            </div>
-                        </div>
-                    </div>
-        
-                    <div class="write">
-                        <input type="text" class="write-chat" data-chat="" value="Hiện tại không thể Chat - Hãy tìm bạn bè trước khi chat. Xin cảm ơn !!!">
-                        <div class="icons">
-                            <a href="#"><i class="fa fa-smile-o"></i></a>
-                            <a href="#"><i class="fa fa-photo"></i></a>
-                            <a href="#"><i class="fa fa-paperclip"></i></a>
-                            <a href="#"><i class="fa fa-video-camera"></i></a>
-                        </div>
-                    </div>
-                </div> -->
+        <div class="top">
+            <span>To: <span class="name">Việt Bình (admin)</span></span>
+            <span class="chat-menu-right">
+                <a href="#">
+                    Tệp đính kèm
+                    <i class="fa fa-paperclip"></i>
+                </a>
+            </span>
+            <span class="chat-menu-right">
+                <a href="javascript:void(0)">&nbsp;</a>
+            </span>
+            <span class="chat-menu-right">
+                <a href="#">
+                    Hình ảnh
+                    <i class="fa fa-photo"></i>
+                </a>
+            </span>
+        </div>
+        <div class="content-chat">
+            <div class="chat active-chat" data-chat="person-default">
+                <div class="conversation-start">
+                    <span>Một tháng trước</span>
+                </div>
+                <div class="bubble you">
+                    Xin chào <strong>Việt Bình</strong>, tài khoản của bạn đã sẵn sàng.
+                </div>
+                <div class="bubble you">
+                    Bây giờ, hãy tìm kiếm bạn bè để trò chuyện.
+                </div>
+                <div class="bubble you">
+                    Lưu ý: Đây là tin nhắn tự động, vui lòng không trả lời lại. Cảm ơn <strong>Việt Bình</strong> !!!
+                </div>
+            </div>
+        </div>
+
+        <div class="write">
+            <input type="text" class="write-chat" data-chat="" value="Hiện tại không thể Chat - Hãy tìm bạn bè trước khi chat. Xin cảm ơn !!!">
+            <div class="icons">
+                <a href="#"><i class="fa fa-smile-o"></i></a>
+                <a href="#"><i class="fa fa-photo"></i></a>
+                <a href="#"><i class="fa fa-paperclip"></i></a>
+                <a href="#"><i class="fa fa-video-camera"></i></a>
+            </div>
+        </div>
+    </div> -->
 </div>

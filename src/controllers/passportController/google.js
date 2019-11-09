@@ -1,55 +1,62 @@
-import passport from "passport";
-import passportgg from "passport-google-oauth";
-import usermodel from "../../models/UserModels";
-import { tranERR, tranSuccess } from "../../../lang/vi";
-let ggStrategy = passportgg.OAuth2Strategy;
-let ggid = "62483867871-5ojmehfbbhfe7a5lef20omg5paggnn4b.apps.googleusercontent.com";
-let ggsecret = "jmgitFgYsEMv56VAvAxGRNzv";
-let ggUrl = "http://localhost:2505/auth/google/callback";
-let initpassportgg = () => { // khởi tạo passport xác thực với tài khoản gg
-    passport.use(new ggStrategy({
-        clientID: ggid,
-        clientSecret: ggsecret,
-        callbackURL: ggUrl,
-        passReqToCallback: true, //sau khi passport xác thực xong thì gửi req tới func dòng 12
-    }, async(req, accesstoken, refreshtoken, profile, done) => {
-        try {
-            // người dùng đã đăng nhập bằng gg trước đó
-            let user = await usermodel.findbyggUId(profile.id); //xem trong csdl có id chưa
-            if (user) {
-                return done(null, user, req.flash("success", tranSuccess.login_succsess(user.username))); //nếu tồn tại id thì báo cho người dùng đăng nhập thành công
-            }
-            //người dùng chưa đăng nhập lần nào
-            let newUserItem = {
-                username: profile.displayName,
-                gender: profile.gender,
-                local: {
-                    isactive: true,
-                },
-                google: {
-                    uid: profile.id,
-                    token: accesstoken,
-                    email: profile.emails[0].value,
-                },
-            };
-            let newuser = await usermodel.createNew(newUserItem);
-            return done(null, newuser, req.flash("success", tranSuccess.login_succsess(newuser.username))); //nếu tồn tại id thì báo cho người dùng đăng nhập thành công
-        } catch (error) { //nếu có lỗi thì là lỗi code
-            return done(null, false, req.flash("errors", tranERR.err_server));
+import passport from 'passport';
+import googlePassport from 'passport-google-oauth';
+import UserModel from './../../models/userModel';
+import {transErrors, transSuccess} from './../../../lang/vi';
+import database from "./../../config/database";
+let GoogleStrategy = googlePassport.OAuth2Strategy;
+let ggAppId ="62483867871-5ojmehfbbhfe7a5lef20omg5paggnn4b.apps.googleusercontent.com";
+let ggAppSecret = "jmgitFgYsEMv56VAvAxGRNzv";
+let ggCallbackUrl = "http://localhost:2505/auth/google/callback";
+
+let initPassportGoogle = () => {
+  passport.use(new GoogleStrategy({
+    clientID: ggAppId,
+    clientSecret: ggAppSecret,
+    callbackURL: ggCallbackUrl,
+    passReqToCallback: true,
+    profileFields: ['email', 'gender', 'displayName']
+  } ,async (req, accessToken, refreshToken, profile, done) => {
+    try {
+
+      let user = await UserModel.findUserByGoogleUid(profile.id);
+      if (user) {
+        return done(null, user, req.flash('success', transSuccess.loginSuccess(user.username)));
+      };
+
+      let newUserItem = {
+        username: profile.emails[0].value.split('@')[0],
+        gender: profile.gender,
+        local: {isActive: true},
+        google: {
+          uid: profile.id,
+          token: accessToken,
+          email: profile.emails[0].value
         }
-    }));
-    passport.serializeUser((user, done) => { // ghi thông của user(dòng 28) vào session
-        done(null, user._id); // lưu mỗi id của user
-    });
-    passport.deserializeUser((id, done) => { //passport.session sẽ lấy thông tin đã lưu của user
-        //deserializeUser sẽ lưu toàn bộ thông tin vào biến
-        usermodel.findUserbyId(id)
-            .then(user => { // sau khi tìm thấy
-                return done(null, user);
-            })
-            .catch(error => {
-                return done(error, null);
-            })
-    });
+      };
+
+      let newUser = await UserModel.createNew(newUserItem);
+      return done(null, newUser, req.flash('success', transSuccess.loginSuccess(newUser.username)));
+
+    } catch (error) {
+      
+      console.log(error);
+      return done(null, false, req.flash('errors', transErrors.server_error));
+    };
+  }));
+
+  passport.serializeUser((user, done) => {
+    done(null, user._id);
+  });
+
+  passport.deserializeUser((id, done) => {
+    UserModel.finUserById(id)
+      .then(user => {
+        return done(user, null);
+      })
+      .catch(error => {
+        return done(null, error);
+      })
+  });
 };
-module.exports = initpassportgg;
+
+module.exports = initPassportGoogle;

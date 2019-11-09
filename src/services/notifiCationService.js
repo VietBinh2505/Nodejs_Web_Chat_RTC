@@ -1,63 +1,88 @@
-import notificationMD from "./../models/NotificationModels";
-import UserMD from "./../models/UserModels"
-import database from "./../config/database"
-let getNotifiCations = (UserIdCRR) => { // kiểm tra max 10 bản ghi
-    return new Promise(async(resolve, reject) => {
-        try {
-            let notifications = await notificationMD.model.getByUserIdAndLimit(UserIdCRR, database.LimitNT); // lấy ra toàn bộ collection trong database notify
-            let getNotifiContent = notifications.map(async(notifiCation) => { // gần giống foreach, map sẽ trả về 1 mảng mới
-                let sender = await UserMD.getNomalUserDataById(notifiCation.senderid); // lấy thông tin của người dùng theo senderid
-                return notificationMD.content.getContent(notifiCation.type, notifiCation.isRead, sender._id, sender.username, sender.avatar);
-                // dòng 9: truyền tham số để lấy được thông báo khi người dùng gửi yêu cầu kết bạn
-            });
-            resolve(await Promise.all(getNotifiContent));
-        } catch (error) {
-            console.log(error);
-            reject(error);
-        }
-    });
+import NotificationModel from './../models/notificationModel';
+import UserModel from './../models/userModel';
+
+const LIMIT_NUMBER_TAKEN = 10;
+
+/**
+ *  get Notification when user refresh page
+ * @param {*} currentUserId 
+ * @param {*} limit 
+ */
+let getNotifications = (currentUserId) => {
+  return new Promise( async(resolve, reject) => {
+    try {
+      let notificattions = await NotificationModel.model.getByUserIdAndLimit(currentUserId, LIMIT_NUMBER_TAKEN);
+
+      let getNotifContent = notificattions.map(async notification => {
+        let sender = await UserModel.getNormalUserById(notification.senderId);
+        return NotificationModel.contents.getContent(notification.type, notification.isRead, sender._id, sender.username, sender.avatar);
+      });
+
+      resolve(await Promise.all(getNotifContent));
+    } catch (error) {
+      reject(error);
+    }
+  })
 };
-let countNotifiUnread = (UserIdCRR) => { // đếm tất cả thông báo
-    return new Promise(async(resolve, reject) => {
-        try {
-            let notificationsUnread = await notificationMD.model.countNotifiUnread(UserIdCRR)
-            resolve(notificationsUnread);
-        } catch (error) {
-            console.log(error);
-            reject(error);
-        }
-    });
+
+/**
+ * count all notification unread
+ * @param {*} currentUserId 
+ */
+
+let countNotifUnread = (currentUserId) => {
+  return new Promise( async(resolve, reject) => {
+    try {
+      let noticationUnread = await NotificationModel.model.noticationUnread(currentUserId);
+      resolve(noticationUnread);
+    } catch (error) {
+      reject(error);
+    }
+  })
 };
-let readMore = (id, skipNumberNoti) => {
-    return new Promise(async(resolve, reject) => {
-        try {
-            let newNotifications = await notificationMD.model.readMore(id, skipNumberNoti, database.LimitNT);
-            let getNotifiContent = newNotifications.map(async(notifiCation) => { // gần giống foreach, map sẽ trả về 1 mảng mới
-                let sender = await UserMD.getNomalUserDataById(notifiCation.senderid); // lấy thông tin của người dùng theo senderid
-                return notificationMD.content.getContent(notifiCation.type, notifiCation.isRead, sender._id, sender.username, sender.avatar);
-                // dòng 9: truyền tham số để lấy được thông báo khi người dùng gửi yêu cầu kết bạn
-            });
-            resolve(await Promise.all(getNotifiContent));
-        } catch (error) {
-            console.log(error);
-            reject(error);
-        }
-    });
+
+/**
+ * read more notificatin, max 10 item one times
+ * @param {String} currentUserId 
+ * @param {Numcer} skipNumberNotification 
+ */
+let readMore = (currentUserId, skipNumberNotification) => {
+  return new Promise( async(resolve, reject) => {
+    try {
+      let newNotifications = await NotificationModel.model.readMore(currentUserId, skipNumberNotification, LIMIT_NUMBER_TAKEN);
+      
+      let notifContent = newNotifications.map( async notification => {
+        let sender = await UserModel.getNormalUserById(notification.senderId);
+        return NotificationModel.contents.getContent(notification.type, notification.isRead, sender._id, sender.username, sender.avatar);
+      });
+      
+      resolve(await Promise.all(notifContent));
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
-let markAllRead = (id, targetUser) => {
-    return new Promise(async(resolve, reject) => {
-        try {
-            await notificationMD.model.markAllRead(id, targetUser)
-            resolve(true);
-        } catch (error) {
-            console.log(`Lỗi khi đánh dấu đã đọc ${error}`);
-            reject(false);
-        }
-    });
+
+/**
+ * mark all notification as read
+ * @param {String} currentUserId 
+ * @param {array} targetUsers 
+ */
+let markAllAsRead = (currentUserId, targetUsers) => {
+  return new Promise( async (resolve, reject) => {
+    try {
+      await NotificationModel.model.markAllAsRead(currentUserId, targetUsers);
+      resolve(true);
+    } catch (error) {
+      console.log(`Error when mark all notification as read: ${error}`)
+      reject(false);
+    }
+  });
 };
+
 module.exports = {
-    getNotifiCations: getNotifiCations,
-    countNotifiUnread: countNotifiUnread,
-    readMore: readMore,
-    markAllRead: markAllRead,
-}
+  getNotifications,
+  countNotifUnread,
+  readMore,
+  markAllAsRead
+};

@@ -1,24 +1,24 @@
+import passportSocketio from 'passport.socketio';
 import database from "./database";
-import passportIO from "passport.socketio";
-
-let configSocketIO = (io, cookieParser, sessionStore) => {
-    io.use(passportIO.authorize({
-        cookieParser: cookieParser,
-        key: database.key,
-        secret: database.secret,
-        store: sessionStore,
-        success: (data, accept) => {
-            if (!data.user.logged_in) { // khi user chưa đăng nhập
-                return accept("Không tồn tại user!", false); // tham số đầu là string lỗi, 
-            }
-            return accept(null, true); //không có lỗi
-        },
-        fail: (data, mess, error, accept) => {
-            if (error) {
-                console.log("Không thể kết nối tới socketIO:", mess);
-                return accept(new Error(mess), false);
-            }
-        },
-    }));
+let configSocketio = (io, cookieParser, sessionStore) => {
+  io.use(passportSocketio.authorize({
+    cookieParser: cookieParser,
+    key: database.key,
+    secret: database.secret,
+    store: sessionStore,
+    success: (data, accept) => {
+      if (!data.user.logged_in) {
+        return accept("invial user", false);
+      };
+      return accept(null, true);
+    },
+    fail: (data, message, error, accept) => {
+      if (error) {
+        console.log("failed connection to socket.io:", message);
+        return accept(new Error(message, false))
+      };
+    }
+  }));
 };
-module.exports = configSocketIO;
+
+module.exports = configSocketio;
