@@ -55,7 +55,7 @@ initSocket(io);
 configSocketio(io, cookieParser, session.sessionStore);
 
 server.listen(database.port, database.hostname, () => {
-  console.log(`running on ${database.hostname}: ${database.port}`);
+  console.log(`Run ${database.hostname}:${database.port}`);
 });
 
 // import pem from 'pem';

@@ -16,6 +16,6 @@ module.exports = {
     fbUrl: "http://localhost:2505/auth/facebook/callback",
     key: "vietbinh",
     secret: "myvietbinh",
-    LimitCT: 1,
+    LimitCT: 2,
     LimitNT: 10,
 };

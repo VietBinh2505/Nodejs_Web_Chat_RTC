@@ -1,6 +1,6 @@
 {
     "name": "awesome-chat",
-    "homepage": "https://trungquandev.com",
+    "homepage": "",
     "authors": [],
     "description": "Manage frontend libraries.",
     "main": "src/server.js",

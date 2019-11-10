@@ -9,9 +9,7 @@ let approveRequestContactReceived = (io) => {
 
   io.on("connection", (socket) => {
     let currentUserId = socket.request.user._id;
-    
     clients =  pushSocketIdToArray(clients, currentUserId, socket.id);
-
     socket.on("approve-request-contact-received", (data) => {
       let currentUser = {
         id: socket.request.user._id,

@@ -42,7 +42,6 @@ $(document).ready(function() {
 
         removeRequestContactReceived();
         approveRequestContactReceived();
-  
         $("#link-read-more-contact-received").css("display", "inline-block");
         $(".read-more-contact-received-loader").css("display", "none");
       })
