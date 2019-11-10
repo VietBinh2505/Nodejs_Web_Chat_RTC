@@ -7,29 +7,29 @@ function approveRequestContactReceived() {
       type: "put",
       data: {uid: targetId},
       success: function(data) {
-        if (data.success) {
-          let userInfo = $("#request-contact-received").find(`ul li[data-uid=${targetId}]`);
-          $(userInfo).find("div.user-approve-request-contact-received").remove();
-          $(userInfo).find("div.user-remove-request-contact-received").remove();
-          $(userInfo).find("div.contactPanel")
-            .append(`
-              <div class="user-talk" data-uid="${targetId}">
-                  Trò chuyện
-              </div>
-              <div class="user-remove-contact action-danger" data-uid="${targetId}">
-                  Xóa liên hệ
-              </div>
-            `);
-      
-          let userInfoHTML = userInfo.get(0).outerHTML;
-          $("#contacts").find("ul").prepend(userInfoHTML);
-          $(userInfo).remove();
-          decreaseNumberNotifContact("count-request-contact-received");
-          increaseNumberNotifContact("count-contacts");
-          decreaseNumberNotification("noti_contact_counter", 1);
+		if (data.success) {
+			let userInfo = $("#request-contact-received").find(`ul li[data-uid=${targetId}]`);
+			$(userInfo).find("div.user-approve-request-contact-received").remove();
+			$(userInfo).find("div.user-remove-request-contact-received").remove();
+			$(userInfo).find("div.contactPanel")
+			.append(`
+				<div class="user-talk" data-uid="${targetId}">
+					Trò chuyện
+				</div>
+				<div class="user-remove-contact action-danger" data-uid="${targetId}">
+					Xóa liên hệ
+				</div>
+			`);
 
-          socket.emit("approve-request-contact-received", {contactId: targetId});
-        };
+			let userInfoHTML = userInfo.get(0).outerHTML;
+			$("#contacts").find("ul").prepend(userInfoHTML);
+			$(userInfo).remove();
+			decreaseNumberNotifContact("count-request-contact-received");
+			increaseNumberNotifContact("count-contacts");
+			decreaseNumberNotification("noti_contact_counter", 1);
+
+			socket.emit("approve-request-contact-received", {contactId: targetId});
+		};
       }
     });
   });
@@ -83,3 +83,4 @@ socket.on("response-approve-request-contact-received", function(user) {
 $(document).ready(function() {
   approveRequestContactReceived();
 });
+

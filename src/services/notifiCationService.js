@@ -1,7 +1,6 @@
 import NotificationModel from './../models/notificationModel';
 import UserModel from './../models/userModel';
-
-const LIMIT_NUMBER_TAKEN = 10;
+import database from "./../config/database";
 
 /**
  *  get Notification when user refresh page
@@ -11,7 +10,7 @@ const LIMIT_NUMBER_TAKEN = 10;
 let getNotifications = (currentUserId) => {
   return new Promise( async(resolve, reject) => {
     try {
-      let notificattions = await NotificationModel.model.getByUserIdAndLimit(currentUserId, LIMIT_NUMBER_TAKEN);
+      let notificattions = await NotificationModel.model.getByUserIdAndLimit(currentUserId, database.LimitNT);
 
       let getNotifContent = notificattions.map(async notification => {
         let sender = await UserModel.getNormalUserById(notification.senderId);
@@ -49,7 +48,7 @@ let countNotifUnread = (currentUserId) => {
 let readMore = (currentUserId, skipNumberNotification) => {
   return new Promise( async(resolve, reject) => {
     try {
-      let newNotifications = await NotificationModel.model.readMore(currentUserId, skipNumberNotification, LIMIT_NUMBER_TAKEN);
+      let newNotifications = await NotificationModel.model.readMore(currentUserId, skipNumberNotification, database.LimitNT);
       
       let notifContent = newNotifications.map( async notification => {
         let sender = await UserModel.getNormalUserById(notification.senderId);
