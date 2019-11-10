@@ -4,6 +4,16 @@ import NotificationModel from './../models/notificationModel';
 import database from "./../config/database"
 import _ from 'lodash';
 
+let removeContact = (IdCRR, contactId) =>{
+	return new Promise(async (resolve, reject) => {
+		let removeContact = await ContacModel.removeContact(IdCRR, contactId);
+		if (removeContact.result.n === 0) {
+			return reject(false);
+		};
+		resolve(true);
+	});
+};
+
 
 let findUsersContact = (currentUserId, keyword) => {
 	return new Promise(async (resolve, reject) => {
@@ -229,6 +239,7 @@ let readMoreContactsReceived = (currentUserId, skipNumberContactsReceived) => {
 };
 
 module.exports = {
+	removeContact,
 	findUsersContact,
 	addNew,
 	removeRequestContactSent,
@@ -242,5 +253,5 @@ module.exports = {
 	countAllContactsReceived,
 	readMoreContacts,
 	readMoreContactsSend,
-	readMoreContactsReceived
+	readMoreContactsReceived,
 };
