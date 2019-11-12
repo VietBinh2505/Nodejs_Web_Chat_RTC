@@ -18,4 +18,5 @@ module.exports = {
     secret: "myvietbinh",
     LimitCT: 2,
     LimitNT: 10,
+    LimitTaken: 10,
 };
