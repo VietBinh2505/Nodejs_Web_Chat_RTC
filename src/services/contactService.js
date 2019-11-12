@@ -109,7 +109,6 @@ let getContacts = (currentUserId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			let contacts = await ContacModel.getContacts(currentUserId, database.LimitCT);
-
 			let users = contacts.map(async contact => {
 				if (contact.contactId == currentUserId) {
 					// Something user send add friend to me
