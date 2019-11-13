@@ -8,7 +8,7 @@ let ContactSchema = new Schema({
 	contactId: String,
 	status: { type: Boolean, default: false },
 	createdAt: { type: Number, default: Date.now },
-	updatedAt: { type: Boolean, default: null },
+	updatedAt: { type: Number, default: Date.now },
 	deletedAt: { type: Number, default: null }
 });
 
@@ -63,7 +63,7 @@ ContactSchema.statics = {
 			{
 				$and: [{ userId: contactId }, { contactId: userId }, { status: false }]
 			},
-			{ status: true }
+			{ "status": true, updatedAt: Date.now() }
 		).exec();
 	},
 
@@ -81,7 +81,7 @@ ContactSchema.statics = {
 				{ status: true }
 			]
 		})
-			.sort({ createdAt: -1 })
+			.sort({ updatedAt: -1 })
 			.limit(limit)
 			.exec();
 	},
@@ -147,7 +147,7 @@ ContactSchema.statics = {
 				{ status: true }
 			]
 		})
-			.sort({ createdAt: -1 })
+			.sort({ updatedAt: -1 })
 			.limit(limit)
 			.skip(skip)
 			.exec();
@@ -179,7 +179,7 @@ ContactSchema.statics = {
 				{ $and: [{ userId: contactId }, { contactId: userId }, {status: true}] },
 			],
 		}).exec();
-	 }
+	},
 };
 
 module.exports = mongoose.model("contact", ContactSchema);
