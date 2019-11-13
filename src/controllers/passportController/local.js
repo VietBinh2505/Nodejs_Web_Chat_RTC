@@ -15,15 +15,15 @@ let initPassportLocal = () => { // khởi tạo passport xác thực với tài 
             // xác thực tính hợp lệ của email user
             let user = await usermodel.findByEmail(email); // lấy ra người dùng có email = email truyền vào
             if (!user) { // nếu chưa có người dùng có email này thi: ...
-                return done(null, false, req.flash("errors", transErrors.err_loginfail)); // nếu chưa có người dùng thì thông báo cho người dùng
+                return done(null, false, req.flash("errors", transErrors.account_undefined)); // nếu chưa có người dùng thì thông báo cho người dùng
             }
             if (!user.local.isActive) { // nếu có email rồi nhưng chưa active thì: ...
-                return done(null, false, req.flash("errors", transErrors.err_acc_notactive)); // nếu chưa có người dùng thì thông báo cho người dùng
+                return done(null, false, req.flash("errors", transErrors.account_undefined)); // nếu chưa có người dùng thì thông báo cho người dùng
             }
             // tới đây đã có email, xác thực tính hợp lệ của password
             let checkPassword = await user.comparePassword(password); // lấy được true or false
             if (!checkPassword) { // false
-                return done(null, false, req.flash("errors", transErrors.err_loginfail)); // nếu chưa có người dùng thì thông báo cho người dùng
+                return done(null, false, req.flash("errors", transErrors.account_undefined)); // nếu chưa có người dùng thì thông báo cho người dùng
             }
             // tới đây đã xác thực được email và mk đúng
             return done(null, user, req.flash("success", transSuccess.loginSuccess(user.username))); //nếu email và mk đúng thì báo cho người dùng đăng nhập thành công

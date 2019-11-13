@@ -22,7 +22,7 @@ body {
   background-image: url("../images/background/image.jpg");
   background-size: cover;
   background-repeat: none;
-  color: #CC9900;
+  color: rgb(220, 228, 107);
 }
 
 .container {
@@ -52,7 +52,7 @@ hr {
 }
 
 .table a {
-  color: #CC9900;
+  color: rgb(18, 148, 51);
 }
 
 .my-table>tbody>tr>td {

@@ -1,5 +1,5 @@
 import { notification, contact, message } from './../services/index'
-
+import database from "./../config/database";
 let getHome = async (req, res) => {
 	//only (10 item one time)
 	let notifications = await notification.getNotifications(req.user._id); //lấy được các thông báo mk chưa đọc
@@ -30,6 +30,8 @@ let getHome = async (req, res) => {
 		userConversation, //danh sách chát đơn để cho leftside dùng (file ejs)
 		grConversation, //danh sách chát nhóm để cho leftside dùng (file ejs)
 		allConversation, //danh sách chát all để cho leftside dùng (file ejs)
+        LimitCT: database.LimitCT,
+        LimitNT: database.LimitNT,
 	});
 };
 

@@ -139,15 +139,15 @@ function flashMasterNotify() {
 }
 function changeTypeChat() {
 	$("#select-type-chat").bind("change", function(){
-		let optionSelected = $("option:selected", this);
-	  optionSelected.tab("show");
-	});
-	if($(this).value() === "user-chat"){
+	let optionSelected = $("option:selected", this);
+	optionSelected.tab("show");
+	if($(this).val() === "user-chat"){
 		$(".create-group-chat").hide();
 	}
 	else{
 		$(".create-group-chat").show();
 	}
+	});
 }
 
 $(document).ready(function () {
@@ -170,6 +170,7 @@ $(document).ready(function () {
 	// Action hủy việc tạo nhóm trò chuyện
 	cancelCreateGroup();
 	// Flash message o man hinh master
+	
 	flashMasterNotify();
 	changeTypeChat();
 });

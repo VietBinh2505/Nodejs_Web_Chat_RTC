@@ -10,12 +10,12 @@ let getAllConversationItems = (IdCrr) =>{
 			let usersContactPromise = contacts.map(async (contact) => {
 				if (contact.contactId == IdCrr) {
                     let getUserContact =  await UserModel.getNormalUserById(contact.userId); // lấy được toàn bộ info của user là bạn bè
-                    getUserContact.createdAt = contact.createdAt; // thêm đối tượng createdAt để xắp xếp khi hiện lên giữa user và group
+                    getUserContact.updatedAt = contact.updatedAt; // thêm đối tượng updatedAt để xắp xếp khi hiện lên giữa user và group
                     return getUserContact;
 				}
                 else{
                     let getUserContact =  await UserModel.getNormalUserById(contact.contactId);
-                    getUserContact.createdAt = contact.createdAt; // thêm đối tượng createdAt để xắp xếp khi hiện lên giữa user và group
+                    getUserContact.updatedAt = contact.updatedAt; // thêm đối tượng updatedAt để xắp xếp khi hiện lên giữa user và group
                     return getUserContact;
                 }
 			});
@@ -23,7 +23,7 @@ let getAllConversationItems = (IdCrr) =>{
             let grConversations = await chatGroupModel.getChatGrs(IdCrr, database.LimitTaken); //lấy user trò chuyện nhóm
             let allConversations = userConversations.concat(grConversations); // lấy tất cả cuộc trò chuyện = cách trộn 2 mảng user với nhau
             allConversations = _.sortBy(allConversations, (item)=>{
-                return -item.createdAt; // để dấu trừ là sắp xếp theo nhỏ tới lớn, ngược lại là dấu cộng
+                return -item.updatedAt; // để dấu trừ là sắp xếp theo nhỏ tới lớn, ngược lại là dấu cộng
             });
             resolve({
                 userConversations: userConversations, // truyền về views danh sách user trò chuyện cá nhân

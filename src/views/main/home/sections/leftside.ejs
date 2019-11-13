@@ -20,10 +20,16 @@
                                         <img src="images/users/group-avatar-nvb.png" alt="">
                                     </div>
                                     <span class="name">
-                                        <span class="group-chat-name">Group:</span> <%= Conversation.name %>
+                                        <span class="group-chat-name">
+                                            <% if(Conversation.name.length > 15){ %>
+                                                <%= Conversation.name.substr(0, 14)%> <span>...</span> 
+                                            <% } else{%>
+                                                <%= Conversation.name %>
+                                            <% } %>
+                                        </span>
                                     </span>
-                                    <span class="time">Hai giờ trước(Chưa xử lý)</span>
-                                    <span class="preview">Chào cả nhóm(Chưa xử lý)</span>
+                                    <span class="time">Hai giờ trước</span>
+                                    <span class="preview">Chào cả nhóm</span>
                                 </li>
                             </a>
                         <% }else{ %>
@@ -34,10 +40,14 @@
                                         <img src="images/users/<%=Conversation.avatar %>" alt="">
                                     </div>
                                     <span class="name">
-                                        <%= Conversation.username %>
+                                        <% if(Conversation.username.length > 15){ %>
+                                             <%= Conversation.username.substr(0, 14)%> <span>...</span> 
+                                        <% } else{%>
+                                            <%= Conversation.username %>
+                                        <% } %>
                                     </span>
-                                    <span class="time">Một phút trước(Chưa xử lý)</span>
-                                    <span class="preview">Xin chào(Chưa xử lý)</span>
+                                    <span class="time">Một phút trước</span>
+                                    <span class="preview">Xin chào</span>
                                 </li>
                             </a>
                         <% } %>
@@ -62,10 +72,14 @@
                                     <img src="images/users/<%=Conversation.avatar %>" alt="">
                                 </div>
                                 <span class="name">
-                                    <%= Conversation.username %>
+                                    <% if(Conversation.username.length > 15){ %>
+                                        <%= Conversation.username.substr(0, 14)%> <span>...</span> 
+                                    <% } else{%>
+                                        <%= Conversation.username %>
+                                    <% } %>
                                 </span>
-                                <span class="time">Một phút trước(Chưa xử lý)</span>
-                                <span class="preview">Xin chào(Chưa xử lý)</span>
+                                <span class="time">Một phút trước</span>
+                                <span class="preview">Xin chào</span>
                             </li>
                         </a>
                     <% }); %>
@@ -90,8 +104,8 @@
                                 <span class="name">
                                     <span class="group-chat-name">Group:</span> <%=Conversation.name %>
                                 </span>
-                                <span class="time">Hai giờ trước(Chưa xử lý)</span>
-                                <span class="preview">Chào cả nhóm(Chưa xử lý)</span>
+                                <span class="time">Hai giờ trước</span>
+                                <span class="preview">Chào cả nhóm</span>
                             </li>
                         </a>
                     <% }); %>

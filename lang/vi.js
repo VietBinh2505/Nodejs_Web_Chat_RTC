@@ -9,7 +9,7 @@ export const tranValidation = {
   update_phone: 'Số điện thoại bắt đầu bằng 0 và kết thúc, giới hạn từ 10 đén 11 số.!',
   find_users_contact: "Không cho phép kí tự đặc biệt, chỉ cho phép chứ số và khoảng trống"
 }
-
+ 
 export const transErrors = {
   account_in_use: 'email này đã được sử dụng',
   account_removed:'tài khoản này đã được gỡ khỏi hệ thống, nếu tin điều này là sai, xin vui lòng liên hệ với bộ phận hỗ trợ của chúng tôi',
