@@ -1,62 +1,62 @@
 import passport from 'passport';
 import googlePassport from 'passport-google-oauth';
 import UserModel from './../../models/userModel';
-import {transErrors, transSuccess} from './../../../lang/vi';
+import { transErrors, transSuccess } from './../../../lang/vi';
 import database from "./../../config/database";
 let GoogleStrategy = googlePassport.OAuth2Strategy;
-let ggAppId ="62483867871-5ojmehfbbhfe7a5lef20omg5paggnn4b.apps.googleusercontent.com";
+let ggAppId = "62483867871-5ojmehfbbhfe7a5lef20omg5paggnn4b.apps.googleusercontent.com";
 let ggAppSecret = "jmgitFgYsEMv56VAvAxGRNzv";
 let ggCallbackUrl = "http://localhost:2505/auth/google/callback";
 
 let initPassportGoogle = () => {
-  passport.use(new GoogleStrategy({
-    clientID: ggAppId,
-    clientSecret: ggAppSecret,
-    callbackURL: ggCallbackUrl,
-    passReqToCallback: true,
-    profileFields: ['email', 'gender', 'displayName']
-  } ,async (req, accessToken, refreshToken, profile, done) => {
-    try {
+	passport.use(new GoogleStrategy({
+		clientID: ggAppId,
+		clientSecret: ggAppSecret,
+		callbackURL: ggCallbackUrl,
+		passReqToCallback: true,
+		profileFields: ['email', 'gender', 'displayName']
+	}, async (req, accessToken, refreshToken, profile, done) => {
+		try {
 
-      let user = await UserModel.findUserByGoogleUid(profile.id);
-      if (user) {
-        return done(null, user, req.flash('success', transSuccess.loginSuccess(user.username)));
-      };
+			let user = await UserModel.findUserByGoogleUid(profile.id);
+			if (user) {
+				return done(null, user, req.flash('success', transSuccess.loginSuccess(user.username)));
+			};
 
-      let newUserItem = {
-        username: profile.emails[0].value.split('@')[0],
-        gender: profile.gender,
-        local: {isActive: true},
-        google: {
-          uid: profile.id,
-          token: accessToken,
-          email: profile.emails[0].value
-        }
-      };
+			let newUserItem = {
+				username: profile.emails[0].value.split('@')[0],
+				gender: profile.gender,
+				local: { isActive: true },
+				google: {
+					uid: profile.id,
+					token: accessToken,
+					email: profile.emails[0].value
+				}
+			};
 
-      let newUser = await UserModel.createNew(newUserItem);
-      return done(null, newUser, req.flash('success', transSuccess.loginSuccess(newUser.username)));
+			let newUser = await UserModel.createNew(newUserItem);
+			return done(null, newUser, req.flash('success', transSuccess.loginSuccess(newUser.username)));
 
-    } catch (error) {
-      
-      console.log(error);
-      return done(null, false, req.flash('errors', transErrors.server_error));
-    };
-  }));
+		} catch (error) {
 
-  passport.serializeUser((user, done) => {
-    done(null, user._id);
-  });
+			console.log(error);
+			return done(null, false, req.flash('errors', transErrors.server_error));
+		};
+	}));
 
-  passport.deserializeUser((id, done) => {
-    UserModel.finUserById(id)
-      .then(user => {
-        return done(user, null);
-      })
-      .catch(error => {
-        return done(null, error);
-      })
-  });
+	passport.serializeUser((user, done) => {
+		done(null, user._id);
+	});
+
+	passport.deserializeUser((id, done) => {
+		UserModel.findUserByIdForSessionToUse(id)
+			.then(user => {
+				return done(user, null);
+			})
+			.catch(error => {
+				return done(null, error);
+			})
+	});
 };
 
 module.exports = initPassportGoogle;

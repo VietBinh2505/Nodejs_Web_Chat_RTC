@@ -38,7 +38,7 @@ let initPassportLocal = () => { // khởi tạo passport xác thực với tài 
     });
     passport.deserializeUser((id, done) => { // passport.session sẽ lấy thông tin đã lưu của user, 
         //deserializeUser sẽ lưu toàn bộ thông tin vào biến tên là req. user 
-        usermodel.findUserById(id)
+        usermodel.findUserByIdForSessionToUse(id)
             .then(user => { // sau khi tìm thấy
                 return done(null, user);
             })
