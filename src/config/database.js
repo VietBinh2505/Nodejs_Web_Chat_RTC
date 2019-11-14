@@ -19,4 +19,5 @@ module.exports = {
     LimitCT: 2,
     LimitNT: 10,
     LimitTaken: 10,
+    LimitMess: 20,
 };
