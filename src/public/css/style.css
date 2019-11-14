@@ -1069,19 +1069,16 @@ label:focus,
 
 .right .bubble.me img {
   float: right;
-  background-color: red;
 }
-
+.right .bubble.you img {
+  float: left;
+}
 .right .bubble.me img.avatar-small {
   margin-left: 10px;
 }
 
 .right .bubble.you img.avatar-small {
   margin-right: 10px;
-}
-
-.right .bubble.you img {
-  float: left;
 }
 
 .right .bubble.me a {
