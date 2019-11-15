@@ -40,9 +40,6 @@ let getAllConversationItems = (IdCrr) =>{
                 return -item.updatedAt; // sắp xếp tin nhắn theo thứ tự từ sớm nhất đến muộn nhất
             });
             resolve({
-                userConversations: userConversations, //truyền về views danh sách user trò chuyện cá nhân
-                grConversations: grConversations, //user trò chuyện nhóm
-                allConversations: allConversations, //tất cả user đã kết bạn
                 allConversationWithMess: allConversationWithMess, //tin nhắn
             });
         } catch (error) {
