@@ -24,7 +24,7 @@ let MessageSchema = new Schema({
 	deletedAt: { type: Number, default: null }
 });
 MessageSchema.statics = {
-	getMessages(senderId, receiverId, limit){
+	getMessagesInPersonal(senderId, receiverId, limit){ //lấy các tin nhắn trong cuộc trò chuyện đơn
 		return this.find({
 			$or:[
 				{$and: [
@@ -37,7 +37,10 @@ MessageSchema.statics = {
 				]},
 			],
 		}).sort({"createdAt": 1}).limit(limit).exec();
-	}
+	},
+	getMessagesInGroup(receiverId, limit){ //lấy các tin nhắn trong cuộc trò chuyện đơn
+		return this.find({"receiverId": receiverId}).sort({"createdAt": 1}).limit(limit).exec();
+	},
 };
 const MESSAGE_CONVERSATION_TYPES = {
 	PERSONAL: "personal", //trò chuyện cá nhân

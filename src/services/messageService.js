@@ -29,9 +29,15 @@ let getAllConversationItems = (IdCrr) =>{
 
             /*lấy tin nhắn để truyền ra view, màn hình chát */
             let allConversationWithMessPromise = allConversations.map(async (Conversation)=>{ //toàn bộ thông tin trong messagemodel có cả tin nhắn dạng promise
-                let getMessages = await MessageModel.model.getMessages(IdCrr, Conversation._id, database.LimitMess); //lấy ra toàn bộ thông tin bảng messagemd, dạng mảng
                 Conversation = Conversation.toObject(); //đổi từ mảng qua đối tượng
-                Conversation.message = getMessages; //thêm đối tượng message có giá trị là thông tin bảng messagemd
+                if(Conversation.members){ //nếu có members lấy dữ liệu tin nhắn trong nhóm trò chuyện
+                    let getMessages = await MessageModel.model.getMessagesInGroup(Conversation._id, database.LimitMess); //lấy ra toàn bộ thông tin bảng messagemd, dạng mảng
+                    Conversation.message = getMessages; //thêm đối tượng message có giá trị là thông tin bảng messagemd
+                }   
+                else{ //lấy dữ liệu tin nhắn trong trò chuyện đơn
+                    let getMessages = await MessageModel.model.getMessagesInPersonal(IdCrr, Conversation._id, database.LimitMess); //lấy ra toàn bộ thông tin bảng messagemd, dạng mảng
+                    Conversation.message = getMessages; //thêm đối tượng message có giá trị là thông tin bảng messagemd
+                }
                 return Conversation; //trả về toàn bộ thông tin trong messagemodel có cả tin nhắn
             });
 
