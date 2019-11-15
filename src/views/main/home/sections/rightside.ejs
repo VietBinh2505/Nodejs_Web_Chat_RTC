@@ -22,27 +22,27 @@
 							<% Conversation.message.forEach(function(mess){ %>
 								<% if(mess.messageType === "text"){%>
 									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %>">
-										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small">
+										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
 										<%= mess.text %>
 									</div>
 								<% } %>
 								<% if(mess.messageType === "image"){%>
 									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %> bubble-image-file" data-mess-id="<%= mess._id %>">
-										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small">
+										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
 										<img src="data: <%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>" class="show-image-chat" />
 									</div>	
 								<% } %>
 								<% if(mess.messageType === "file"){%>
 									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %> bubble-image-file" data-mess-id="<%= mess._id %>">
-										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small">
+										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
 										<a href="data: <%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>" download="<%=mess.file.fileName%>"><%=mess.file.fileName%></a>
 								</div>
 								<% } %>
 							<% }); %>
 						</div>
 					</div>
-					<div class="write" data-chat="">
-						<input type="text" class="write-chat" data-chat="<%= Conversation._id%>" />
+					<div class="write" data-chat="<%= Conversation._id%>">
+						<input type="text" class="write-chat chat-in-group" id="write-chat-<%= Conversation._id%>" data-chat="<%= Conversation._id%>" />
 						<div class="icons">
 							<a href="#" class="icon-chat" data-chat="<%= Conversation._id%>"><i class="fa fa-smile-o"></i></a>
 							<label for="image-chat">
@@ -85,27 +85,27 @@
 							<% Conversation.message.forEach((mess)=>{ %>
 								<% if(mess.messageType === "text"){%>
 									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %>">
-										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small">
+										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>" title="">
 										<%= mess.text %>
 									</div>
 								<% } %>
 								<% if(mess.messageType === "image"){%>
 									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %> bubble-image-file" data-mess-id="<%= mess._id %>">
-										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small">
+										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
 										<img src="data: <%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>" class="show-image-chat" />
 									</div>	
 								<% } %>
 								<% if(mess.messageType === "file"){%>
 									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %> bubble-image-file" data-mess-id="<%= mess._id %>">
-										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small">
+										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
 										<a href="data: <%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>" download="<%=mess.file.fileName%>"><%=mess.file.fileName%></a>
 								</div>
 								<% } %>
 							<% }); %>
 						</div>
 					</div>
-					<div class="write" data-chat="">
-						<input type="text" class="write-chat" data-chat="<%= Conversation._id%>" />
+					<div class="write" data-chat="<%= Conversation._id%>">
+						<input type="text" class="write-chat" id="write-chat-<%= Conversation._id%>" data-chat="<%= Conversation._id%>" />
 						<div class="icons">
 							<a href="#" class="icon-chat" data-chat="<%= Conversation._id%>"><i class="fa fa-smile-o"></i></a>
 							<label for="image-chat">
