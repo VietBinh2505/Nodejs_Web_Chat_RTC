@@ -24,6 +24,9 @@ let MessageSchema = new Schema({
 	deletedAt: { type: Number, default: null }
 });
 MessageSchema.statics = {
+	createNew(item) {
+		return this.create(item); // return Promise so onece will use async/await
+	},
 	getMessagesInPersonal(senderId, receiverId, limit){ //lấy các tin nhắn trong cuộc trò chuyện đơn
 		return this.find({
 			$or:[
@@ -44,7 +47,7 @@ MessageSchema.statics = {
 };
 const MESSAGE_CONVERSATION_TYPES = {
 	PERSONAL: "personal", //trò chuyện cá nhân
-	PERSONAL: "group", // trò chuyện nhóm
+	GROUP: "group", // trò chuyện nhóm
 };
 const MESSAGE_TYPE = {
 	TEXT: "text",
