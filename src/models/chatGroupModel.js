@@ -5,7 +5,7 @@ let Schema = mongoose.Schema;
 let ChatGroupSchema = new Schema({
 	name: String,
 	usersAmout: { type: Number, min: 3, max: 1999 },
-	messagesAmount: { type: Number, default: 0 },
+	messagesAmount: { type: Number, default: 0 }, //tổng số tin nhắn
 	userId: String,
 	members: [
 		{ userId: String }
@@ -20,6 +20,15 @@ ChatGroupSchema.statics = {
 		return this.find({
 			"members" : {$elemMatch: {"userId": userid}}, // elem viết tắt của element, nếu trong csdl có tồn tại "userId" = userid thì lấy hết thong tin của bảng đó
 		}).sort({"updatedAt": -1}).limit(limit).exec(); // lấy bản ghi mới nhất trước tiên, và bỏ qua (limit) bản ghi
+	},
+	getChatGroupById(id){
+		return this.findById(id).exec();
+	},
+	updateHasNewMessage(id, newMessagesAmount){
+		return this.findByIdAndUpdate(id, {
+			"messagesAmount": newMessagesAmount,
+			updatedAt: Date.now(),
+		}).exec();
 	},
 };
 

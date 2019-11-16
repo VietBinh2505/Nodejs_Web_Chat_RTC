@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { user } from "../services";
 
 let Schema = mongoose.Schema;
 
@@ -179,6 +178,15 @@ ContactSchema.statics = {
 				{ $and: [{ userId: contactId }, { contactId: userId }, {status: true}] },
 			],
 		}).exec();
+	},
+	updateHasNewMessage(senderId, receiverId){ //id người gửi va người nhận
+		return this.update({
+			$or: [
+				{ $and: [{ userId: userId }, { contactId: contactId }] },
+				{ $and: [{ userId: contactId }, { contactId: userId }] },
+			]
+		}, {"updatedAt": Date.now(),}
+		).exec();
 	},
 };
 

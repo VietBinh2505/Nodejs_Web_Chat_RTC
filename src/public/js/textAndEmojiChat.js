@@ -14,8 +14,9 @@ function textAndEmojiChat(divId) {
 				dataTextEmojiForSend.isChatGroup = true;
 			}
 			$.post("/message/add-new-text-emoji",dataTextEmojiForSend, function(data){
-				
+				console.log(data.message);
 			}).fail(function(response){ //nếu có lỗi
+				alertify.notify(response.responseText, "error", 5);
 				console.log("loi tai textAndEmojiChat/js/public");
 				console.log(response);
 			});

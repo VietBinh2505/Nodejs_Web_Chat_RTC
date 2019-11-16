@@ -189,6 +189,6 @@ $(document).ready(function () {
 	flashMasterNotify();
 	changeTypeChat();
 	changeScreenChat();
-	$("ul.people").find("li")[0].click();
+	$("ul.people").find("a")[0].click();
 });
 
