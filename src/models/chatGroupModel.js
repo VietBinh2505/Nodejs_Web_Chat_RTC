@@ -30,6 +30,11 @@ ChatGroupSchema.statics = {
 			updatedAt: Date.now(),
 		}).exec();
 	},
+	getchatGrIdsByUser(userid){
+		return this.find({
+			"members" : {$elemMatch: {"userId": userid}}, // elem viết tắt của element, nếu trong csdl có tồn tại "userId" = userid thì lấy hết thong tin của bảng đó
+		}, {_id: 1}).exec();
+	}
 };
 
 module.exports = mongoose.model('chat-group', ChatGroupSchema);
