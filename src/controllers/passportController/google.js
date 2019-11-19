@@ -3,6 +3,7 @@ import googlePassport from 'passport-google-oauth';
 import UserModel from './../../models/userModel';
 import { transErrors, transSuccess } from './../../../lang/vi';
 import database from "./../../config/database";
+import chatGrModel from './../../models/chatGroupModel';
 let GoogleStrategy = googlePassport.OAuth2Strategy;
 let ggAppId = "62483867871-5ojmehfbbhfe7a5lef20omg5paggnn4b.apps.googleusercontent.com";
 let ggAppSecret = "jmgitFgYsEMv56VAvAxGRNzv";
@@ -48,14 +49,17 @@ let initPassportGoogle = () => {
 		done(null, user._id);
 	});
 
-	passport.deserializeUser((id, done) => {
-		UserModel.findUserByIdForSessionToUse(id)
-			.then(user => {
-				return done(user, null);
-			})
-			.catch(error => {
-				return done(null, error);
-			})
+	passport.deserializeUser(async(id, done) => {
+		try {
+			let user = await UserModel.findUserByIdForSessionToUse(id);
+			let getchatGrIds = await chatGrModel.getchatGrIdsByUser(user._id); //Lấy id gr chat cửa user nếu có
+			user = user.toObject();
+			user.chatGrIds = getchatGrIds;
+			return done(null, user);
+		} catch (error) {
+			console.log("có lỗi tại local/passportlocal");
+			return done(error, null);
+		}
 	});
 };
 
