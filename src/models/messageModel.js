@@ -39,10 +39,10 @@ MessageSchema.statics = {
 					{"receiverId": senderId},
 				]},
 			],
-		}).sort({"createdAt": 1}).limit(limit).exec();
+		}).sort({"createdAt": -1}).limit(limit).exec();
 	},
 	getMessagesInGroup(receiverId, limit){ //lấy các tin nhắn trong cuộc trò chuyện đơn
-		return this.find({"receiverId": receiverId}).sort({"createdAt": 1}).limit(limit).exec();
+		return this.find({"receiverId": receiverId}).sort({"createdAt": -1}).limit(limit).exec();
 	},
 };
 const MESSAGE_CONVERSATION_TYPES = {

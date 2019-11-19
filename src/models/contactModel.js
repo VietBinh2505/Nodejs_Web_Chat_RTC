@@ -179,7 +179,7 @@ ContactSchema.statics = {
 			],
 		}).exec();
 	},
-	updateHasNewMessage(senderId, receiverId){ //id người gửi va người nhận
+	updateHasNewMessage(userId, contactId){ //id người gửi va người nhận
 		return this.update({
 			$or: [
 				{ $and: [{ userId: userId }, { contactId: contactId }] },
