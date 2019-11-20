@@ -1,33 +1,31 @@
 import { pushSocketIdToArray, emitNotifyToArray, reoveSocketIdFromArray } from "./../../helper/socketHelper";
 
-let chatTextEmoji = (io) => {
+let typingOff = (io) => {
 	let clients = {};
 	io.on("connection", (socket) => {
-		let currentUserId = socket.request.user._id;
-		clients = pushSocketIdToArray(clients, currentUserId, socket.id);
+		let currentUserId = socket.request.user._id; //lấy được id người dùng hiện tại
+		clients = pushSocketIdToArray(clients, currentUserId, socket.id); //lấy được hết id người dùng hiện tại cho vào 1 mảng
 		socket.request.user.chatGrIds.forEach(group => {
-			clients = pushSocketIdToArray(clients, group._id, socket.id);
+			clients = pushSocketIdToArray(clients, group._id, socket.id); //lấy được hết id người dùng hiện tại đang truy cập vào nhóm cho vào 1 mảng
 		});
-		socket.on("chat-text-emoji", (data) => {
-			if (data.groupId) {
+		socket.on("user-is-not-typing", (data) => {
+			if (data.groupId) { // nếu là trò chuyện nhóm
 				let response = {
 					CrrGroupId: data.groupId,
 					CrrUserId: currentUserId,
-					message: data.message,
 				};
 				//emit notification
 				if (clients[data.groupId]) {
-					emitNotifyToArray(clients, data.groupId, io, "response-chat-text-emoji", response);
+					emitNotifyToArray(clients, data.groupId, io, "response-user-is-not-typing", response);
 				}
 			}
-			if (data.contactId) {
+			if (data.contactId) {//nếu là trò chuyện cá nhân
 				let response = {
 					CrrUserId: currentUserId,
-					message: data.message,
 				};
 				//emit notification
 				if (clients[data.contactId]) {
-					emitNotifyToArray(clients, data.contactId, io, "response-chat-text-emoji", response);
+					emitNotifyToArray(clients, data.contactId, io, "response-user-is-not-typing", response);
 				}
 			}
 		});
@@ -41,4 +39,4 @@ let chatTextEmoji = (io) => {
 	});
 };
 
-module.exports = chatTextEmoji;
+module.exports = typingOff;
