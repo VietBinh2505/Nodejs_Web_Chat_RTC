@@ -117,7 +117,7 @@ ContactSchema.statics = {
 	},
 
 	countAllContacts(userId) {
-		return this.count({
+		return this.countDocuments({
 			$and: [
 				{
 					$or: [{ userId: userId }, { contactId: userId }]
@@ -128,13 +128,13 @@ ContactSchema.statics = {
 	},
 
 	countAllContactsSend(userId) {
-		return this.count({
+		return this.countDocuments({
 			$and: [{ userId: userId }, { status: false }]
 		}).exec();
 	},
 
 	countAllContactsReceived(userId) {
-		return this.count({
+		return this.countDocuments({
 			$and: [{ contactId: userId }, { status: false }]
 		}).exec();
 	},

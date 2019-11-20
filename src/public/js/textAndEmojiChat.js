@@ -51,6 +51,13 @@ function textAndEmojiChat(divId) {
 				$(`.person[data-chat=${divId}]`).trigger("dat_ten_gi_cung_duoc.moveConversationToTheTop");
 				//Bước 5:chức năng real-time
 				socket.emit("chat-text-emoji", dataToEmit);
+				//Bước 6:chức năng xóa typing real-time
+				typingOff(divId);
+				//Bước 7:chức năng xóa typing nế nó đã tồn tại
+				let checkTyping = $(`.chat[data-chat=${divId}]`).find("div.bubble-typing-gif");
+				if(checkTyping.length){
+					checkTyping.remove();
+				}
 			}).fail(function (response) { //nếu có lỗi
 				alertify.notify(response.responseText, "error", 5);
 				console.log("loi tai textAndEmojiChat/js/public");

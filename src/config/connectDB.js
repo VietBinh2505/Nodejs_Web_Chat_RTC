@@ -6,7 +6,7 @@ let connectDB = () => {
   mongoose.Promise = bluebird;
   let URI = `${database.DB_Connection}://${database.DB_Host}:${database.DB_Post}/${database.DB_Name}`;
 
-  return mongoose.connect(URI, {useMongoClient: true});
+  return mongoose.connect(URI, {useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false});
 };
 
 module.exports = connectDB;
