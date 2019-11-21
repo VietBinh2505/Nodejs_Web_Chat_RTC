@@ -154,28 +154,34 @@ let addNewImage = (sender, receiverId, messageVal, isChatGroup) => {
 				}
 			}
 			else {//nếu là chat đơn
-				let receiver = {
-					id: getuserReceiver._id, //id người nhận
-					name: getuserReceiver.username, //tên người nhận
-					avatar: getuserReceiver.avatar, //avatar người nhận
-				};
-				let imageBuffer = await fs_extra.readFile(messageVal.path);
-				let imageContentType = messageVal.mimetype;
-				let imageName = messageVal.originalname;
-
-				let newMessageItem = { 
-					senderId: sender.id, //id người gửi
-					receiverId: receiver.id, //id người nhận
-					conversationType: MessageModel.conversationTypes.PERSONAL, //lưu kiểu trò chuyện( nhóm hay cá nhân)
-					messageType: MessageModel.messageTypes.IMGAGE,
-					sender: sender,
-					receiver: receiver,
-					file: { data: imageBuffer, contentType: imageContentType, fileName: imageName },
-					createdAt: Date.now(),
-				};
-				let newMessage = await MessageModel.model.createNew(newMessageItem); //gọi đến MessageModel tạo bản ghi message
-				await ContacModel.updateHasNewMessage(sender.id, receiver.id);//truyền qua id người gửi và người nhận
-				resolve(newMessage); //trả về cho user tin nhắn mới tạo
+				let getUserReceiver = await UserModel.getNormalUserById(receiverId);
+        		if (!getUserReceiver) {
+          		return reject(transErrors.conversation_not_found);
+        		}
+				else{
+					let receiver = {
+						id: getUserReceiver._id, //id người nhận
+						name: getUserReceiver.username, //tên người nhận
+						avatar: getUserReceiver.avatar, //avatar người nhận
+					};
+					let imageBuffer = await fs_extra.readFile(messageVal.path);
+					let imageContentType = messageVal.mimetype;
+					let imageName = messageVal.originalname;
+	
+					let newMessageItem = { 
+						senderId: sender.id, //id người gửi
+						receiverId: receiver.id, //id người nhận
+						conversationType: MessageModel.conversationTypes.PERSONAL, //lưu kiểu trò chuyện( nhóm hay cá nhân)
+						messageType: MessageModel.messageTypes.IMGAGE,
+						sender: sender,
+						receiver: receiver,
+						file: { data: imageBuffer, contentType: imageContentType, fileName: imageName },
+						createdAt: Date.now(),
+					};
+					let newMessage = await MessageModel.model.createNew(newMessageItem); //gọi đến MessageModel tạo bản ghi message
+					await ContacModel.updateHasNewMessage(sender.id, receiver.id);//truyền qua id người gửi và người nhận
+					resolve(newMessage); //trả về cho user tin nhắn mới tạo
+				}
 			}
 		} catch (error) {
 			console.log("loi tai addNewTextEmoji/service");
