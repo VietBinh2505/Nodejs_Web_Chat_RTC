@@ -21,7 +21,7 @@ let approveRequestContactReceived = (io) => {
       // emit notification
       if (clients[data.contactId]) {
           emitNotifyToArray(clients, data.contactId, io, "response-approve-request-contact-received", currentUser);
-      };
+      }
 
     });
     socket.on("disconnect", () => {

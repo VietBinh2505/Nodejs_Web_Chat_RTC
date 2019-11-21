@@ -12,7 +12,7 @@ $(document).ready(function() {
           $("#link-read-more-notif").css("display", "inline-block");
           $(".read-more-notif-loader").css("display", "none");
           return false;
-        };
+        }
   
         notificatins.forEach(notification => {
           $("ul.list-notificatins").append(`<li>${notification}</li>`);

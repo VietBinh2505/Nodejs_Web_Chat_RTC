@@ -11,7 +11,7 @@ function markNotificationAsRead(targetUsers) {
         });
 
         decreaseNumberNotification("noti_counter", targetUsers.length);
-      };
+      }
     }
   });
 };
@@ -26,7 +26,7 @@ $(document).ready(function() {
     if(!targetUsers.length) {
       alertify.notify("Bạn không còn thông báo nào chưa đọc", "error", 6);
       return false;
-    };
+    }
 
     markNotificationAsRead(targetUsers);
   }); 
@@ -40,7 +40,7 @@ $(document).ready(function() {
     if(!targetUsers.length) {
       alertify.notify("Bạn không còn thông báo nào chưa đọc", "error", 6);
       return false;
-    };
+    }
 
     markNotificationAsRead(targetUsers);
   });

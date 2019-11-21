@@ -59,7 +59,7 @@ let getAllConversationItems = (IdCrr) => {
 	});
 };
 
-let addNewTextEmji = (sender, receiverId, messageVal, isChatGroup) => {
+let addNewTextEmoji = (sender, receiverId, messageVal, isChatGroup) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			if (isChatGroup) { //nếu là chat group
@@ -75,7 +75,7 @@ let addNewTextEmji = (sender, receiverId, messageVal, isChatGroup) => {
 					let newMessageItem = {
 						senderId: sender.id, //id người gửi
 						receiverId: receiver.id, //id người nhận
-						convetsationType: MessageModel.conversationTypes.GROUP, //lưu kiểu trò chuyện( nhóm hay cá nhân)
+						conversationType: MessageModel.conversationTypes.GROUP, //lưu kiểu trò chuyện( nhóm hay cá nhân)
 						messageType: MessageModel.messageTypes.TEXT,
 						sender: sender,
 						receiver: receiver,
@@ -101,7 +101,7 @@ let addNewTextEmji = (sender, receiverId, messageVal, isChatGroup) => {
 					let newMessageItem = {
 						senderId: sender.id, //id người gửi
 						receiverId: receiver.id, //id người nhận
-						convetsationType: MessageModel.conversationTypes.PERSONAL, //lưu kiểu trò chuyện( nhóm hay cá nhân)
+						conversationType: MessageModel.conversationTypes.PERSONAL, //lưu kiểu trò chuyện( nhóm hay cá nhân)
 						messageType: MessageModel.messageTypes.TEXT,
 						sender: sender,
 						receiver: receiver,
@@ -114,7 +114,7 @@ let addNewTextEmji = (sender, receiverId, messageVal, isChatGroup) => {
 				}
 			}
 		} catch (error) {
-			console.log("loi tai addNewTextEmji/service");
+			console.log("loi tai addNewTextEmoji/service");
 			console.log(error);
 			reject(error);
 		}
@@ -128,7 +128,8 @@ let addNewImage = (sender, receiverId, messageVal, isChatGroup) => {
 				let getChatGroupReceiver = await chatGroupModel.getChatGroupById(receiverId);
 				if (!getChatGroupReceiver) {
 					return reject(transErrors.conversation_not_found);
-				} else {
+				}
+				else{
 					let receiver = {
 						id: getChatGroupReceiver._id, //id người nhận
 						name: getChatGroupReceiver.name, //tên người nhận
@@ -137,10 +138,10 @@ let addNewImage = (sender, receiverId, messageVal, isChatGroup) => {
 					let imageBuffer = await fs_extra.readFile(messageVal.path);
 					let imageContentType = messageVal.mimetype;
 					let imageName = messageVal.originalname;
-					let newMessageItem = {
+					let newMessageItem = { 
 						senderId: sender.id, //id người gửi
 						receiverId: receiver.id, //id người nhận
-						convetsationType: MessageModel.conversationTypes.GROUP, //lưu kiểu trò chuyện( nhóm hay cá nhân)
+						conversationType: MessageModel.conversationTypes.GROUP, //lưu kiểu trò chuyện( nhóm hay cá nhân)
 						messageType: MessageModel.messageTypes.IMGAGE,
 						sender: sender,
 						receiver: receiver,
@@ -153,36 +154,31 @@ let addNewImage = (sender, receiverId, messageVal, isChatGroup) => {
 				}
 			}
 			else {//nếu là chat đơn
-				let getuserReceiver = await UserModel.getNormalUserById(receiverId);
-				if (!getuserReceiver) {
-					return reject(transErrors.conversation_not_found);
-				}
-				else {
-					let receiver = {
-						id: getuserReceiver._id, //id người nhận
-						name: getuserReceiver.username, //tên người nhận
-						avatar: getuserReceiver.avatar, //avatar người nhận
-					};
-					let imageBuffer = await fs_extra.readFile(messageVal.path);
-					let imageContentType = messageVal.mimetype;
-					let imageName = messageVal.originalname;
-					let newMessageItem = {
-						senderId: sender.id, //id người gửi
-						receiverId: receiver.id, //id người nhận
-						convetsationType: MessageModel.conversationTypes.PERSONAL, //lưu kiểu trò chuyện( nhóm hay cá nhân)
-						messageType: MessageModel.messageTypes.IMGAGE,
-						sender: sender,
-						receiver: receiver,
-						file: { data: imageBuffer, contentType: imageContentType, fileName: imageName },
-						createdAt: Date.now(),
-					};
-					let newMessage = await MessageModel.model.createNew(newMessageItem); //gọi đến MessageModel tạo bản ghi message
-					await ContacModel.updateHasNewMessage(sender.id, receiver.id);//truyền qua id người gửi và người nhận
-					resolve(newMessage); //trả về cho user tin nhắn mới tạo
-				}
+				let receiver = {
+					id: getuserReceiver._id, //id người nhận
+					name: getuserReceiver.username, //tên người nhận
+					avatar: getuserReceiver.avatar, //avatar người nhận
+				};
+				let imageBuffer = await fs_extra.readFile(messageVal.path);
+				let imageContentType = messageVal.mimetype;
+				let imageName = messageVal.originalname;
+
+				let newMessageItem = { 
+					senderId: sender.id, //id người gửi
+					receiverId: receiver.id, //id người nhận
+					conversationType: MessageModel.conversationTypes.PERSONAL, //lưu kiểu trò chuyện( nhóm hay cá nhân)
+					messageType: MessageModel.messageTypes.IMGAGE,
+					sender: sender,
+					receiver: receiver,
+					file: { data: imageBuffer, contentType: imageContentType, fileName: imageName },
+					createdAt: Date.now(),
+				};
+				let newMessage = await MessageModel.model.createNew(newMessageItem); //gọi đến MessageModel tạo bản ghi message
+				await ContacModel.updateHasNewMessage(sender.id, receiver.id);//truyền qua id người gửi và người nhận
+				resolve(newMessage); //trả về cho user tin nhắn mới tạo
 			}
 		} catch (error) {
-			console.log("loi tai addNewTextEmji/service");
+			console.log("loi tai addNewTextEmoji/service");
 			console.log(error);
 			reject(error);
 		}
@@ -190,6 +186,6 @@ let addNewImage = (sender, receiverId, messageVal, isChatGroup) => {
 };
 module.exports = {
 	getAllConversationItems,
-	addNewTextEmji,
+	addNewTextEmoji,
 	addNewImage,
 };

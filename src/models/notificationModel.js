@@ -82,12 +82,12 @@ const NOTIFICATION_CONTENT = {
                   <img class="avatar-small" src="images/users/${ userAvatar }" alt=""> 
                   <strong>${ userName }</strong> đã chấp nhận lời mời kết bạn!
                 </div>`;
-      };
+      }
       return `<div data-uid="${ userId }">
                 <img class="avatar-small" src="images/users/${ userAvatar }" alt=""> 
                 <strong>${ userName }</strong> đã gửi cho bạn một lời mời kết bạn!
               </div>`;
-    };
+    }
 
     if (notificationType === NOTIFICATION_TYPE.APPROVE_CONTACT) {
       if (!isRead) {
@@ -95,12 +95,12 @@ const NOTIFICATION_CONTENT = {
                   <img class="avatar-small" src="images/users/${ userAvatar }" alt=""> 
                   <strong>${ userName }</strong> đã chấp nhận lời mời kết bạn của bạn!
                 </div>`;
-      };
+      }
       return `<div data-uid="${ userId }">
                 <img class="avatar-small" src="images/users/${ userAvatar }" alt=""> 
                 <strong>${ userName }</strong> đã chấp nhận lời mời kết bạn của bạn!
               </div>`;
-    };
+    }
     return `No matching  any notification type`;
   }
 }

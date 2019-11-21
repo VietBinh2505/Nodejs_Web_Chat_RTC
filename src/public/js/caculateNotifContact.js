@@ -6,7 +6,7 @@ function increaseNumberNotifContact (className) {
     $(`.${className}`).html("");
   } else {
     $(`.${className}`).html(`(<em>${currentValue}</em>)`);
-  };
+  }
 }; 
 
 function decreaseNumberNotifContact (className) {
@@ -17,5 +17,5 @@ function decreaseNumberNotifContact (className) {
     $(`.${className}`).html("");
   } else {
     $(`.${className}`).html(`(<em>${currentValue}</em>)`);
-  };
+  }
 }; 

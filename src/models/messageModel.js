@@ -5,7 +5,7 @@ let Schema = mongoose.Schema;
 let MessageSchema = new Schema({
 	senderId: String, // id người gửi
 	receiverId: String, // id người nhận
-	convetsationType: String, // lưu kiểu trò chuyện( nhóm hay cá nhân)
+	conversationType: String, // lưu kiểu trò chuyện( nhóm hay cá nhân)
 	messageType: String,
 	sender: {
 		id: String,

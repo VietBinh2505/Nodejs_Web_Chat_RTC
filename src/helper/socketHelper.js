@@ -17,7 +17,7 @@ export let reoveSocketIdFromArray = (clients, currentUserId, socket) => {
   clients[currentUserId] = clients[currentUserId].filter( socketId => socketId !== socket);
   if (!clients[currentUserId].length) {
     delete clients[currentUserId];
-  };
+  }
 
   return clients;
 };

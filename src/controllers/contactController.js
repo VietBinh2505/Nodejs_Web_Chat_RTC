@@ -1,11 +1,11 @@
 import { contact } from './../services/index';
 import { validationResult } from 'express-validator/check';
-let removeContact = async (req, res) =>{
+let removeContact = async (req, res) => {
 	try {
 		let IdCRR = req.user._id;
 		let contactId = req.body.uid;
 		let removeContact = await contact.removeContact(IdCRR, contactId);
-		return res.status(200).send({success: !!removeContact});
+		return res.status(200).send({ success: !!removeContact });
 	} catch (error) {
 		console.log("loi tai removeContact/ctrl");
 		console.log(error);
@@ -23,7 +23,7 @@ let findUsersContact = async (req, res) => {
 		});
 		console.log(errorArr);
 		return res.status(500).send(errorArr);
-	};
+	}
 
 	try {
 		let currentUserId = req.user._id;
@@ -127,5 +127,5 @@ module.exports = {
 	approveRequestContactReceived: approveRequestContactReceived,
 	readMoreContacts: readMoreContacts,
 	readMoreContactsSend: readMoreContactsSend,
-	readMoreContactsReceived:readMoreContactsReceived,
+	readMoreContactsReceived: readMoreContactsReceived,
 };

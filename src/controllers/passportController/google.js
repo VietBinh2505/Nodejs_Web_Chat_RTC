@@ -22,8 +22,7 @@ let initPassportGoogle = () => {
 			let user = await UserModel.findUserByGoogleUid(profile.id);
 			if (user) {
 				return done(null, user, req.flash('success', transSuccess.loginSuccess(user.username)));
-			};
-
+			}
 			let newUserItem = {
 				username: profile.emails[0].value.split('@')[0],
 				gender: profile.gender,
@@ -49,7 +48,7 @@ let initPassportGoogle = () => {
 		done(null, user._id);
 	});
 
-	passport.deserializeUser(async(id, done) => {
+	passport.deserializeUser(async (id, done) => {
 		try {
 			let user = await UserModel.findUserByIdForSessionToUse(id);
 			let getchatGrIds = await chatGrModel.getchatGrIdsByUser(user._id); //Lấy id gr chat cửa user nếu có

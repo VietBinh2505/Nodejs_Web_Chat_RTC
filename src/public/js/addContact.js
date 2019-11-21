@@ -19,7 +19,7 @@ function addContact() {  // addcontact function will inside when called ajax
 
         socket.emit("add-new-contact", {contactId: targetId});
 
-      };
+      }
     });
   })
 };

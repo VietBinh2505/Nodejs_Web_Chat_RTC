@@ -33,17 +33,14 @@ function updateUserInfo() {
 		let fileData = $(this).prop("files")[0];
 		let math = ['image/png', 'image/jpg', 'image/jpeg'];
 		let limit = 1048576; // 1MB
-
-		if ($.isArray(fileData.type, math) === -1) {
+		if ($.inArray(fileData.type, math) === -1) {
 			alertify.notify("Kiểu file không hợp lệ chỉ chấp nhận jpg & png", 'error', 6);
 			return false;
-		};
-
+		}
 		if (fileData.size > limit) {
 			alertify.notify("Ảnh vượt quá dung lượng 1MB", 'error', 6);
 			return false;
-		};
-
+		}
 		if (typeof (FileReader) !== 'undefined') {
 			let imagePreview = $('#image-edit-profile');
 			imagePreview.empty();
@@ -68,7 +65,7 @@ function updateUserInfo() {
 
 		} else {
 			alertify.notify('Trình duyệt của bạn không hỗ trợ FileReader.', 'error', 6);
-		};
+		}
 
 	});
 
@@ -80,7 +77,7 @@ function updateUserInfo() {
 			$(this).val(originUserInfo.username);
 			delete userInfo.username;
 			return false;
-		};
+		}
 		userInfo.username = username;
 	});
 
@@ -91,7 +88,7 @@ function updateUserInfo() {
 			$(this).val(originUserInfo.gender);
 			delete userInfo.gender;
 			return false;
-		};
+		}
 		userInfo.gender = gender;
 	});
 
@@ -102,7 +99,7 @@ function updateUserInfo() {
 			$(this).val(originUserInfo.gender);
 			delete userInfo.gender;
 			return false;
-		};
+		}
 		userInfo.gender = gender;
 	});
 
@@ -113,7 +110,7 @@ function updateUserInfo() {
 			$(this).val(originUserInfo.address);
 			delete userInfo.address;
 			return false;
-		};
+		}
 		userInfo.address = address;
 	});
 
@@ -125,7 +122,7 @@ function updateUserInfo() {
 			$(this).val(originUserInfo.phone);
 			delete userInfo.phone;
 			return false;
-		};
+		}
 		userInfo.phone = phone;
 	});
 
@@ -138,7 +135,6 @@ function updateUserInfo() {
 			delete userUpdatePassword.currentPassword;
 			return false;
 		}
-
 		userUpdatePassword.currentPassword = currentPassword;
 	});
 
@@ -150,30 +146,24 @@ function updateUserInfo() {
 			$(this).val(null);
 			delete userUpdatePassword.newPassword;
 			return false;
-		};
-
+		}
 		userUpdatePassword.newPassword = newPassword;
 	});
 
 	$('#input-change-confirm-new-password').bind('change', function () {
 		let confirmNewPassword = $(this).val();
-
 		if (!userUpdatePassword.newPassword) {
 			alertify.notify("Bạn phải nhập lại mật khẩu mới", "error", 6);
 			$(this).val(null);
 			return false;
-		};
-
+		}
 		if (confirmNewPassword !== userUpdatePassword.newPassword) {
 			alertify.notify("Mật khẩu mới nhập lại không khớp", "error", 6);
 			$(this).val(null);
 			return false;
 		}
-
 		userUpdatePassword.confirmNewPassword = confirmNewPassword;
 	});
-
-
 };
 
 function callUpdateUserAvatar() {
@@ -280,15 +270,15 @@ $(document).ready(function () {
 		if ($.isEmptyObject(userInfo) && !userAvatar) {
 			alertify.notify('vui lòng điền thông tin trước khi apdate', 'error', 6);
 			return false;
-		};
+		}
 
 		if (userAvatar) {
 			callUpdateUserAvatar();
-		};
+		}
 
 		if (!$.isEmptyObject(userInfo)) {
 			callUpdateUserInfo();
-		};
+		}
 
 	});
 
@@ -309,7 +299,7 @@ $(document).ready(function () {
 		if (!userUpdatePassword.currentPassword && !userUpdatePassword.newPassword && !userUpdatePassword.confirmNewPassword) {
 			alertify.notify("Bạn phải nhập đầy đủ thông tin", "error", 6);
 			return false;
-		};
+		}
 
 		Swal.fire({
 			title: "Bạn có chắc chắn muốn thay đổi mật khẩu?",
@@ -324,7 +314,7 @@ $(document).ready(function () {
 			if (!result.value) {
 				$("#input-btn-cancel-update-user-password").click();
 				return false;
-			};
+			}
 			callUpdateUserPassword();
 		});
 

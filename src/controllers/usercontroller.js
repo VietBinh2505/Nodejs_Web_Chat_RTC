@@ -14,16 +14,14 @@ let storageAvatar = multer.diskStorage({
 		let math = app.avatar_type;
 		if (math.indexOf(file.mimetype) === -1) {
 			return callback(transErrors.avatar_type, null);
-		};
-
+		}
 		let avatarName = `${Date.now()}-${uuidv4()}-${file.originalname}`;
 		callback(null, avatarName);
 	}
 });
-
 let avatarUploadFile = multer({
 	storage: storageAvatar,
-	limits: { fileSize: app.avater_limit_size }
+	limits: { fileSize: app.avatar_limit_size }
 }).single('avatar');
 
 let updateAvatar = (req, res) => {
@@ -31,7 +29,7 @@ let updateAvatar = (req, res) => {
 		if (error) {
 			if (error.message) {
 				return res.status(500).send(transErrors.avatar_size);
-			};
+			}
 			return res.status(500).send(error);
 		};
 		try {
@@ -82,13 +80,14 @@ let updateInfo = async (req, res) => {
 let updatePassword = async (req, res) => {
 	let errorArr = [];
 	let validateErrors = validationResult(req);
-	if (!validateErrors.isEmpty()) {
+	
+	 if(!validateErrors.isEmpty()) {
 		let errors = Object.values(validateErrors.mapped());
 		errors.forEach(error => {
 			errorArr.push(error.msg);
 		});
 		return res.status(500).send(errorArr);
-	};
+	}
 	try {
 		let updateUserItem = req.body;
 		await user.updatePassword(req.user.id, updateUserItem);
