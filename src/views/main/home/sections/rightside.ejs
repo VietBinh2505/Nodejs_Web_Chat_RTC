@@ -45,13 +45,13 @@
 									</div>
 								<% } %>
 								<% if(mess.messageType === "image"){%>
-									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %> bubble-image-file" data-mess-id="<%= mess._id %>">
+									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%> bubble-image-file" data-mess-id="<%= mess._id %>">
 										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
 										<img src="data: <%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>" class="show-image-chat" />
 									</div>	
 								<% } %>
 								<% if(mess.messageType === "file"){%>
-									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %> bubble-image-file" data-mess-id="<%= mess._id %>">
+									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%> bubble-image-file" data-mess-id="<%= mess._id %>">
 										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
 										<a href="data: <%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>" download="<%=mess.file.fileName%>"><%=mess.file.fileName%></a>
 								</div>
@@ -108,13 +108,13 @@
 									</div>
 								<% } %>
 								<% if(mess.messageType === "image"){%>
-									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %> bubble-image-file" data-mess-id="<%= mess._id %>">
+									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%> bubble-image-file" data-mess-id="<%= mess._id %>">
 										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
 										<img src="data: <%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>" class="show-image-chat" />
 									</div>	
 								<% } %>
 								<% if(mess.messageType === "file"){%>
-									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %> bubble-image-file" data-mess-id="<%= mess._id %>">
+									<div class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%> bubble-image-file" data-mess-id="<%= mess._id %> " data-mess-id="<%= mess._id %>">
 										<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
 										<a href="data: <%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>" download="<%=mess.file.fileName%>"><%=mess.file.fileName%></a>
 								</div>
