@@ -14,7 +14,7 @@ function removeContact() {
 		}).then((result) => {
 			if (!result.value) {
 				return false;
-			};
+			}
 			$.ajax({
 				url: "/contact/remove-contact",
 				type: "delete",
@@ -25,7 +25,7 @@ function removeContact() {
 						decreaseNumberNotifContact("count-contacts");
 						//sau này làm chức năng chat thì quay lai xử lý tiếp
 						socket.emit("remove-contact", { contactId: targetId });
-					};
+					}
 				},
 			});
 		});

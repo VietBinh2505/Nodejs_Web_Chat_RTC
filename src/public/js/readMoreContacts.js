@@ -12,7 +12,7 @@ $(document).ready(function() {
           $("#link-read-more-contact").css("display", "inline-block");
           $(".read-more-contact-loader").css("display", "none");
           return false;
-        };
+        }
   
         newContactUsers.forEach(user => {
           $("#contacts")

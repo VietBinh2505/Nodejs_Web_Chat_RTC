@@ -19,7 +19,7 @@ let addNewContact = (io) => {
       // emit notification
       if (clients[data.contactId]) {
           emitNotifyToArray(clients, data.contactId, io, "response-add-new-contact", currentUser);
-      };
+      }
     });
     socket.on("disconnect", () => {
       // remove socket when user user disconnect

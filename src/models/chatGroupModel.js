@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
-
 let Schema = mongoose.Schema;
-
 let ChatGroupSchema = new Schema({
 	name: String,
 	usersAmout: { type: Number, min: 3, max: 1999 },

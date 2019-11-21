@@ -11,7 +11,7 @@ let removeRequestContactReceived = (io) => {
 			};
 			if (clients[data.contactId]) {
 				emitNotifyToArray(clients, data.contactId, io, "response-remove-request-contact-received", currentUser);
-			};
+			}
 		});
 		socket.on("disconnect", () => {
 			reoveSocketIdFromArray(clients, currentUserId, socket.id);

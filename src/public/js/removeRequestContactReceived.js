@@ -12,7 +12,7 @@ function removeRequestContactReceived() {
           decreaseNumberNotification("noti_contact_counter", 1);
           // xoa o thong bao, khong muon lam
           socket.emit("remove-request-contact-received", {contactId: targetId});
-        };
+        }
       }
     });
   });

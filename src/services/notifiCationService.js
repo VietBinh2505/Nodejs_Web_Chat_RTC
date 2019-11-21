@@ -8,20 +8,20 @@ import database from "./../config/database";
  * @param {*} limit 
  */
 let getNotifications = (currentUserId) => {
-  return new Promise( async(resolve, reject) => {
-    try {
-      let notificattions = await NotificationModel.model.getByUserIdAndLimit(currentUserId, database.LimitNT);
+	return new Promise(async (resolve, reject) => {
+		try {
+			let notificattions = await NotificationModel.model.getByUserIdAndLimit(currentUserId, database.LimitNT);
 
-      let getNotifContent = notificattions.map(async notification => {
-        let sender = await UserModel.getNormalUserById(notification.senderId);
-        return NotificationModel.contents.getContent(notification.type, notification.isRead, sender._id, sender.username, sender.avatar);
-      });
+			let getNotifContent = notificattions.map(async notification => {
+				let sender = await UserModel.getNormalUserById(notification.senderId);
+				return NotificationModel.contents.getContent(notification.type, notification.isRead, sender._id, sender.username, sender.avatar);
+			});
 
-      resolve(await Promise.all(getNotifContent));
-    } catch (error) {
-      reject(error);
-    }
-  })
+			resolve(await Promise.all(getNotifContent));
+		} catch (error) {
+			reject(error);
+		}
+	})
 };
 
 /**
@@ -30,14 +30,14 @@ let getNotifications = (currentUserId) => {
  */
 
 let countNotifUnread = (currentUserId) => {
-  return new Promise( async(resolve, reject) => {
-    try {
-      let noticationUnread = await NotificationModel.model.noticationUnread(currentUserId);
-      resolve(noticationUnread);
-    } catch (error) {
-      reject(error);
-    }
-  })
+	return new Promise(async (resolve, reject) => {
+		try {
+			let noticationUnread = await NotificationModel.model.noticationUnread(currentUserId);
+			resolve(noticationUnread);
+		} catch (error) {
+			reject(error);
+		}
+	})
 };
 
 /**
@@ -46,20 +46,20 @@ let countNotifUnread = (currentUserId) => {
  * @param {Numcer} skipNumberNotification 
  */
 let readMore = (currentUserId, skipNumberNotification) => {
-  return new Promise( async(resolve, reject) => {
-    try {
-      let newNotifications = await NotificationModel.model.readMore(currentUserId, skipNumberNotification, database.LimitNT);
-      
-      let notifContent = newNotifications.map( async notification => {
-        let sender = await UserModel.getNormalUserById(notification.senderId);
-        return NotificationModel.contents.getContent(notification.type, notification.isRead, sender._id, sender.username, sender.avatar);
-      });
-      
-      resolve(await Promise.all(notifContent));
-    } catch (error) {
-      reject(error);
-    }
-  });
+	return new Promise(async (resolve, reject) => {
+		try {
+			let newNotifications = await NotificationModel.model.readMore(currentUserId, skipNumberNotification, database.LimitNT);
+
+			let notifContent = newNotifications.map(async notification => {
+				let sender = await UserModel.getNormalUserById(notification.senderId);
+				return NotificationModel.contents.getContent(notification.type, notification.isRead, sender._id, sender.username, sender.avatar);
+			});
+
+			resolve(await Promise.all(notifContent));
+		} catch (error) {
+			reject(error);
+		}
+	});
 };
 
 /**
@@ -68,20 +68,20 @@ let readMore = (currentUserId, skipNumberNotification) => {
  * @param {array} targetUsers 
  */
 let markAllAsRead = (currentUserId, targetUsers) => {
-  return new Promise( async (resolve, reject) => {
-    try {
-      await NotificationModel.model.markAllAsRead(currentUserId, targetUsers);
-      resolve(true);
-    } catch (error) {
-      console.log(`Error when mark all notification as read: ${error}`)
-      reject(false);
-    }
-  });
+	return new Promise(async (resolve, reject) => {
+		try {
+			await NotificationModel.model.markAllAsRead(currentUserId, targetUsers);
+			resolve(true);
+		} catch (error) {
+			console.log(`Error when mark all notification as read: ${error}`)
+			reject(false);
+		}
+	});
 };
 
 module.exports = {
-  getNotifications,
-  countNotifUnread,
-  readMore,
-  markAllAsRead
+	getNotifications,
+	countNotifUnread,
+	readMore,
+	markAllAsRead
 };

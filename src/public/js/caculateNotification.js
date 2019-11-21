@@ -6,7 +6,7 @@ function increaseNumberNotification(className, number) {
     $(`.${className}`).css("display", "none").html("");
   } else {
     $(`.${className}`).css("display", "block").html(currentValue);
-  };
+  }
 }; 
 
 function decreaseNumberNotification(className, number) {
@@ -17,5 +17,5 @@ function decreaseNumberNotification(className, number) {
     $(`.${className}`).css("display", "none").html("");
   } else {
     $(`.${className}`).css("display", "block").html(currentValue);
-  };
+  }
 }; 

@@ -50,7 +50,7 @@ let initPassportFacebook = () => {
 	// this is called by passport.session();
 	// return userInfo and assign  req.user
 	// recieved id form serializeUser
-	passport.deserializeUser(async(id, done) => {
+	passport.deserializeUser(async (id, done) => {
 		try {
 			let user = await UserModel.findUserByIdForSessionToUse(id);
 			let getchatGrIds = await chatGrModel.getchatGrIdsByUser(user._id); //Lấy id gr chat cửa user nếu có

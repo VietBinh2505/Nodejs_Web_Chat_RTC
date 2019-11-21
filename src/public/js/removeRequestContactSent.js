@@ -16,7 +16,7 @@ function removeRequestContactSent() {
 					// xoa o model tab dang cho xac nhan
 					$("#request-contact-sent").find(`li[data-uid = ${targetId}]`).remove();
 					socket.emit("remove-request-contact-sent", { contactId: targetId });
-				};
+				}
 			}
 		});
 	})

@@ -7,19 +7,19 @@ function callFindUsers(element) {
     if (!keyword.length) {
       alertify.notify("Bạn phải nhập thông tin tìm kiếm.!", "error", 6);
       return false;
-    };
+    }
 
     if (!regexKeyword.test(keyword)) {
       alertify.notify("Lỗi từ khóa tìm kiếm, bạn chỉ được nhập, chữ cái số và khoảng trống", "error", 6);
       return false;
-    };
+    }
 
     $.get(`/contact/find-users/${keyword}`, function(data) {
       $("#find-user ul").html(data);
       addContact(); // js/addContact.js
       removeRequestContactSent(); 
     });
-  };
+  }
 };
 
 $(document).ready(function() {

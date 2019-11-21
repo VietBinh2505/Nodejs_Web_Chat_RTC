@@ -1,16 +1,18 @@
-function imagesChat(divId) {
+function imagesChat(divId) {  
 	$(`#image-chat-${divId}`).unbind("change").on("change", function(){
 		let fileData = $(this).prop("files")[0];
 		let math = ["image/png", "image/jpg", "image/jpeg"];
 		let limit = 1048576; // 1MB
-		if ($.isArray(fileData.type, math) === -1) {
+		if ($.inArray(fileData.type, math) === -1) {
 			alertify.notify("Kiểu file không hợp lệ chỉ chấp nhận jpg & png", "error", 6);
+			$(this).val(null);
 			return false;
-		};
+		}
 		if (fileData.size > limit) {
-			alertify.notify("Ảnh vượt quá dung lượng 1MB, imgchat", "error", 6);
+			alertify.notify("Ảnh vượt quá dung lượng 1MB", "error", 6);
+			$(this).val(null);
 			return false;
-		};
+		}
 		let targetId = $(this).data("chat");
 		let messageFormData = new FormData();
 		messageFormData.append("my-image-chat", fileData);
