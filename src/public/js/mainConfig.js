@@ -177,7 +177,11 @@ function changeScreenChat() {
 		// Bật emoji, tham số truyền vào là id của box nhập nội dung tin nhắn
 		enableEmojioneArea(divId);
 		imagesChat(divId);
+		attachmentChat(divId);
 	});
+};
+function bufferToBase64(buffer){
+	return btoa(new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ""));
 };
 function convertEmojione() {
 	$(".convert-emoji").each(function () {

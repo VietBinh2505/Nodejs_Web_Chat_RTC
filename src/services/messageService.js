@@ -52,13 +52,10 @@ let getAllConversationItems = (IdCrr) => {
 				allConversationWithMess: allConversationWithMess, //tin nhắn
 			});
 		} catch (error) {
-			console.log(error);
-			console.log("loi tai getAllConversationItems / messageservice");
 			reject(false);
 		}
 	});
 };
-
 let addNewTextEmoji = (sender, receiverId, messageVal, isChatGroup) => {
 	return new Promise(async (resolve, reject) => {
 		try {
@@ -114,13 +111,10 @@ let addNewTextEmoji = (sender, receiverId, messageVal, isChatGroup) => {
 				}
 			}
 		} catch (error) {
-			console.log("loi tai addNewTextEmoji/service");
-			console.log(error);
 			reject(error);
 		}
 	});
 };
-
 let addNewImage = (sender, receiverId, messageVal, isChatGroup) => {
 	return new Promise(async (resolve, reject) => {
 		try {
@@ -179,13 +173,77 @@ let addNewImage = (sender, receiverId, messageVal, isChatGroup) => {
 						createdAt: Date.now(),
 					};
 					let newMessage = await MessageModel.model.createNew(newMessageItem); //gọi đến MessageModel tạo bản ghi message
-					await ContacModel.updateHasNewMessage(sender.id, receiver.id);//truyền qua id người gửi và người nhận
+					await ContacModel.updateHasNewMessage(sender.id, getUserReceiver._id);//truyền qua id người gửi và người nhận
 					resolve(newMessage); //trả về cho user tin nhắn mới tạo
 				}
 			}
 		} catch (error) {
-			console.log("loi tai addNewTextEmoji/service");
-			console.log(error);
+			reject(error);
+		}
+	});
+};
+let addNewAttachment = (sender, receiverId, messageVal, isChatGroup) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			if (isChatGroup) { //nếu là chat group
+				let getChatGroupReceiver = await chatGroupModel.getChatGroupById(receiverId);
+				if (!getChatGroupReceiver) {
+					return reject(transErrors.conversation_not_found);
+				}
+				else{
+					let receiver = {
+						id: getChatGroupReceiver._id, //id người nhận
+						name: getChatGroupReceiver.name, //tên người nhận
+						avatar: app.general_avatar_group_chat, //avatar người nhận
+					};
+					let attachmentBuffer = await fs_extra.readFile(messageVal.path);
+					let attachmentContentType = messageVal.mimetype;
+					let attachmentName = messageVal.originalname;
+					let newMessageItem = { 
+						senderId: sender.id, //id người gửi
+						receiverId: receiver.id, //id người nhận
+						conversationType: MessageModel.conversationTypes.GROUP, //lưu kiểu trò chuyện( nhóm hay cá nhân)
+						messageType: MessageModel.messageTypes.FILE,
+						sender: sender,
+						receiver: receiver,
+						file: { data: attachmentBuffer, contentType: attachmentContentType, fileName: attachmentName },
+						createdAt: Date.now(),
+					};
+					let newMessage = await MessageModel.model.createNew(newMessageItem); //gọi đến MessageModel tạo bản ghi message
+					await chatGroupModel.updateHasNewMessage(getChatGroupReceiver._id, getChatGroupReceiver.messagesAmount + 1);//tổng số tin nhắn + 1
+					resolve(newMessage); //trả về cho user tin nhắn mới tạo
+				}
+			}else {//nếu là chat đơn
+				let getUserReceiver = await UserModel.getNormalUserById(receiverId);
+				if (!getUserReceiver) {
+          		return reject(transErrors.conversation_not_found);
+				}
+				
+				let receiver = {
+					id: getUserReceiver._id, //id người nhận
+					name: getUserReceiver.username, //tên người nhận
+					avatar: getUserReceiver.avatar, //avatar người nhận
+				};
+				let attachmentBuffer = await fs_extra.readFile(messageVal.path);
+				let attachmentContentType = messageVal.mimetype;
+				let attachmentName = messageVal.originalname;
+
+				let newMessageItem = { 
+					senderId: sender.id, //id người gửi
+					receiverId: receiver.id, //id người nhận
+					conversationType: MessageModel.conversationTypes.PERSONAL, //lưu kiểu trò chuyện( nhóm hay cá nhân)
+					messageType: MessageModel.messageTypes.FILE,
+					sender: sender,
+					receiver: receiver,
+					file: { data: attachmentBuffer, contentType: attachmentContentType, fileName: attachmentName },
+					createdAt: Date.now(),
+				};
+				let newMessage = await MessageModel.model.createNew(newMessageItem); //gọi đến MessageModel tạo bản ghi message
+				await ContacModel.updateHasNewMessage(sender.id, getUserReceiver._id);//truyền qua id người gửi và người nhận
+				resolve(newMessage); //trả về cho user tin nhắn mới tạo
+			
+			}
+		} catch (error) {
 			reject(error);
 		}
 	});
@@ -194,4 +252,5 @@ module.exports = {
 	getAllConversationItems,
 	addNewTextEmoji,
 	addNewImage,
+	addNewAttachment,
 };

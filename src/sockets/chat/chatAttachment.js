@@ -1,6 +1,6 @@
-import { pushSocketIdToArray, emitNotifyToArray, reoveSocketIdFromArray } from "../../helper/socketHelper";
+import { pushSocketIdToArray, emitNotifyToArray, reoveSocketIdFromArray } from "./../../helper/socketHelper";
 
-let chatAttachment = (io) => {
+let chatimage = (io) => {
 	let clients = {};
 	io.on("connection", (socket) => {
 		let currentUserId = socket.request.user._id;
@@ -8,7 +8,7 @@ let chatAttachment = (io) => {
 		socket.request.user.chatGrIds.forEach(group => {
 			clients = pushSocketIdToArray(clients, group._id, socket.id);
 		});
-		socket.on("chat-attachment", (data) => {
+		socket.on("chat-image", (data) => {
 			if (data.groupId) {
 				let response = {
 					CrrGroupId: data.groupId,
@@ -17,7 +17,7 @@ let chatAttachment = (io) => {
 				};
 				//emit notification
 				if (clients[data.groupId]) {
-					emitNotifyToArray(clients, data.groupId, io, "response-chat-attachment", response);
+					emitNotifyToArray(clients, data.groupId, io, "response-chat-image", response);
 				}
 			}
 			if (data.contactId) {
@@ -27,7 +27,7 @@ let chatAttachment = (io) => {
 				};
 				//emit notification
 				if (clients[data.contactId]) {
-					emitNotifyToArray(clients, data.contactId, io, "response-chat-attachment", response);
+					emitNotifyToArray(clients, data.contactId, io, "response-chat-image", response);
 				}
 			}
 		});
@@ -41,4 +41,4 @@ let chatAttachment = (io) => {
 	});
 };
 
-module.exports = chatAttachment;
+module.exports = chatimage;
