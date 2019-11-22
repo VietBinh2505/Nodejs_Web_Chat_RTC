@@ -7,6 +7,7 @@ import chatTextEmoji from "./chat/chatTextEmoji";
 import typingOn from "./chat/typingOn";
 import typingOff from "./chat/typingOff";
 import chatimage from "./chat/chatimage";
+import chatAttachment from "./chat/chatAttachment";
 let initSocket = (io) => {
   addNewContact(io);
   removeRequestContactSent(io);
@@ -17,6 +18,7 @@ let initSocket = (io) => {
   typingOn(io);
   typingOff(io);
   chatimage(io);
+  chatAttachment(io);
 };
 
 module.exports = initSocket;

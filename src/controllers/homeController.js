@@ -25,7 +25,7 @@ let getHome = async (req, res) => {
 		countAllContacts, //đếm danh bạ
 		countAllContactsSend, //đếm lời mời kp mk gửi đi
 		countAllContactsReceived, //đếm lời mời kp người khác gửi tới
-        LimitCT: database.LimitCT,
+      LimitCT: database.LimitCT,
 		LimitNT: database.LimitNT,
 		allConversationWithMess, //các tin nhắn (max 20 tin)
 		bufferToBase64,
