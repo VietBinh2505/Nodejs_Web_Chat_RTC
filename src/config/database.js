@@ -29,5 +29,5 @@ module.exports = {
 	image_message_type: ['image/png', 'image/jpg', 'image/jpeg'],
 	image_message_limit_size: 1048576,
 	attachment_message_limit_size: 1048576,
-	defaultMaxListeners: 25,
+	defaultMaxListeners: 40,
 };
