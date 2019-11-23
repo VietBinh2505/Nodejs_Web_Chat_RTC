@@ -70,7 +70,7 @@ function imagesChat(divId) {
 				$(`#imagesModal_${divId}`).find("div.all-images").append(imageChatAddToModal);
 			},
 			error: function (error) {
-				alertify.notify(error.responseText, "error", 5);
+				alertify.notify(error.responseText, "error", 10);
 				console.log("loi tai imagesChat/js/public");
 				console.log(error);
 			},

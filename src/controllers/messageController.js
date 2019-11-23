@@ -1,7 +1,7 @@
 import { validationResult } from 'express-validator/check';
 import { message } from "./../services/index";
 import multer from 'multer';
-import { app } from './../config/app';
+import database from './../config/database';
 import { transErrors, transSuccess } from './../../lang/vi';
 import fsExtra from "fs-extra"
 let addNewTextEmoji = async (req, res) => {
@@ -35,10 +35,10 @@ let addNewTextEmoji = async (req, res) => {
 
 let storageImagechat = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, app.image_message_directory);
+		callback(null, database.image_message_directory);
 	},
 	filename: (req, file, callback) => {
-		let math = app.image_message_type;
+		let math = database.image_message_type;
 		if (math.indexOf(file.mimetype) === -1) {
 			console.log("loi tai filename/messctl");
 			return callback(transErrors.image_message_type, null);
@@ -49,7 +49,7 @@ let storageImagechat = multer.diskStorage({
 });
 let imageMessUploadFile = multer({
 	storage: storageImagechat,
-	limits: { fileSize: app.image_message_limit_size }
+	limits: { fileSize: database.image_message_limit_size }
 }).single("my-image-chat"); 
 
 let addNewImage = (req, res) => {
@@ -73,7 +73,7 @@ let addNewImage = (req, res) => {
 			
 			let newMessage = await message.addNewImage(sender, receiverId, messageVal, isChatGroup);
 			//upload anh vào mongodb sau do xoa di
-			await fsExtra.remove(`${app.image_message_directory}/${newMessage.file.fileName}`);
+			await fsExtra.remove(`${database.image_message_directory}/${newMessage.file.fileName}`);
 			return res.status(200).send({ message: newMessage });
 		} catch (error) {
 			console.log("loi tai addNewImage/ctl 2");
@@ -84,7 +84,7 @@ let addNewImage = (req, res) => {
 };
 let storageAttachmentChat = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, app.attachment_message_directory);
+		callback(null, database.attachment_message_directory);
 	},
 	filename: (req, file, callback) => {
 		let attachmentName = `${file.originalname}`;
@@ -93,7 +93,7 @@ let storageAttachmentChat = multer.diskStorage({
 });
 let AttachmentMessageUploadFile = multer({
 	storage: storageAttachmentChat,
-	limits: { fileSize: app.attachment_message_limit_size }
+	limits: { fileSize: database.attachment_message_limit_size }
 }).single("my-attachment-chat");
 
 let attachment = (req, res) => {
@@ -116,7 +116,7 @@ let attachment = (req, res) => {
 			let isChatGroup = req.body.isChatGroup;
 			let newMessage = await message.addNewAttachment(sender, receiverId, messageVal, isChatGroup);
 			//upload tep tin vào mongodb sau do xoa di
-			await fsExtra.remove(`${app.attachment_message_directory}/${newMessage.file.fileName}`);
+			await fsExtra.remove(`${database.attachment_message_directory}/${newMessage.file.fileName}`);
 			return res.status(200).send({ message: newMessage });
 		} catch (error) {
 			return res.status(500).send(error);

@@ -150,7 +150,7 @@ function cancelCreateGroup() {
 function flashMasterNotify() {
 	let notify = $(".master-success-message").text();
 	if (notify.length) {
-		alertify.notify(notify, 'success', 5);
+		alertify.notify(notify, 'success', 10);
 	}
 }
 function changeTypeChat() {
@@ -178,6 +178,7 @@ function changeScreenChat() {
 		enableEmojioneArea(divId);
 		imagesChat(divId);
 		attachmentChat(divId);
+		chatVideo(divId);
 	});
 };
 function bufferToBase64(buffer){
@@ -212,5 +213,8 @@ $(document).ready(function () {
 	changeScreenChat();
 	convertEmojione();
 	$("ul.people").find("a")[0].click();
+	$("#video-chat-group").bind("click", function(){
+		alertify.notify("Tính năng này chỉ xử dụng được khi trò chuyện cá nhân!", "error", 10);
+	});
 });
 

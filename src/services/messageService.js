@@ -4,7 +4,6 @@ import UserModel from "./../models/userModel";
 import chatGroupModel from "./../models/chatGroupModel";
 import MessageModel from "./../models/messageModel";
 import { transErrors } from "./../../lang/vi";
-import { app } from "./../config/app"
 import _ from "lodash";
 import fs_extra from "fs-extra"
 let getAllConversationItems = (IdCrr) => {

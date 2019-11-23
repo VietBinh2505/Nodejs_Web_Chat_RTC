@@ -12,6 +12,7 @@ import initSocket from './sockets/index';
 import database from './config/database';
 import cookieParser from 'cookie-parser';
 import configSocketio from './config/socketio';
+import events from "events";
 
 // init app
 let app = express();
@@ -19,7 +20,7 @@ let app = express();
 // init server with socket.io & express app
 let server = http.createServer(app);
 let io = socketio(server);
-
+events.EventEmitter.defaultMaxListeners = database.defaultMaxListeners; //khai báo sl envent
 // connect to Mongo
 ConnectDB();
 
