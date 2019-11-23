@@ -78,10 +78,10 @@ let chatVideo = (io) => {
 				listenerName: data.listenerName, //Tên người nhận cuộc gọi
 			};
 			if(clients[data.callerId]){
-				emitNotifyToArray(clients, data.callerId, io, "server-send-accept-to-caller", response);
+				emitNotifyToArray(clients, data.callerId, io, "server-send-accept-call-to-caller", response);
 			}
 			if(clients[data.listenerId]){
-				emitNotifyToArray(clients, data.listenerId, io, "server-send-accept-to-listener", response);
+				emitNotifyToArray(clients, data.listenerId, io, "server-send-accept-call-to-listener", response);
 			}
 		});
 		socket.on("disconnect", () => {
@@ -94,4 +94,4 @@ let chatVideo = (io) => {
 	});
 };
 
-module.exports = chatVideo;
+module.exports = chatVideo; 
