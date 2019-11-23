@@ -65,7 +65,7 @@ function attachmentChat(divId){
 				//$(`#attachmentsModal_${divId}`).find("ul.list-attachments").append(attachmentChatAddToModal);
 			},
 			error: function (error) {
-				alertify.notify(error.responseText, "error", 5);
+				alertify.notify(error.responseText, "error", 10);
 				console.log("loi tai attachmentChat/js/public");
 			},
 		});

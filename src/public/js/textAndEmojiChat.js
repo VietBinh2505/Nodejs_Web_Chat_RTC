@@ -59,7 +59,7 @@ function textAndEmojiChat(divId) {
 					checkTyping.remove();
 				}
 			}).fail(function (response) { //nếu có lỗi
-				alertify.notify(response.responseText, "error", 5);
+				alertify.notify(response.responseText, "error", 10);
 				console.log("loi tai textAndEmojiChat/js/public");
 				console.log(response);
 			});

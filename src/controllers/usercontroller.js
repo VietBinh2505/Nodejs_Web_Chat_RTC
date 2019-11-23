@@ -1,5 +1,5 @@
 import multer from 'multer';
-import { app } from './../config/app';
+import database from './../config/database';
 import { transErrors, transSuccess } from './../../lang/vi';
 import uuidv4 from 'uuid/v4';
 import { user } from './../services/index';
@@ -8,10 +8,10 @@ import { validationResult } from 'express-validator/check'
 
 let storageAvatar = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, app.avatar_directory);
+		callback(null, database.avatar_directory);
 	},
 	filename: (req, file, callback) => {
-		let math = app.avatar_type;
+		let math = database.avatar_type;
 		if (math.indexOf(file.mimetype) === -1) {
 			return callback(transErrors.avatar_type, null);
 		}
@@ -21,7 +21,7 @@ let storageAvatar = multer.diskStorage({
 });
 let avatarUploadFile = multer({
 	storage: storageAvatar,
-	limits: { fileSize: app.avatar_limit_size }
+	limits: { fileSize: database.avatar_limit_size }
 }).single('avatar');
 
 let updateAvatar = (req, res) => {
@@ -41,7 +41,7 @@ let updateAvatar = (req, res) => {
 			let userUpdate = await user.updateUser(req.user._id, updateUserItem);
 			// after update mongoose will return old data
 			// remove old user image
-			//await fsExtra.remove(`${app.avatar_directory}/${userUpdate.avatar}`);
+			//await fsExtra.remove(`${database.avatar_directory}/${userUpdate.avatar}`);
 			let result = {
 				message: transSuccess.user_info_updeted,
 				imageSrc: `images/users/${req.file.filename}`
