@@ -28,12 +28,14 @@ $(document).ready(function () {
       alertify.notify("Người này hiện không online.", "error", 10);
    });
    let timerInterval;
+   let iceServerList = $("#ice-server-list").val();
    const peer = new Peer({
       key: "peerjs",
       host: "server-peerjs-nvb.herokuapp.com",
       secure: true,
       port: 443,
-      debug: 3,
+      config: {"iceServers": JSON.parse(iceServerList)}
+      //debug: 3,
    });
    let getPeerId = "";
    peer.on("open", (peerId) => { //mỗi lần f5 sẽ tạo ra 1 peerId khác nhau
