@@ -45,7 +45,6 @@ let verifyAccout = async (req, res) => {
 		successArr.push(verifySuccess);
 		req.flash("success", successArr);
 		return res.redirect('/login-register');
-
 	} catch (error) {
 
 		errorArr.push(error);
