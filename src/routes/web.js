@@ -59,12 +59,14 @@ let initRoutes = app => {
 	router.get("/contact/read-more-contacts-send", auth.checkLoggedIn, contact.readMoreContactsSend);
 	router.get("/contact/read-more-contacts-received", auth.checkLoggedIn, contact.readMoreContactsReceived);
 	router.delete("/contact/remove-contact", auth.checkLoggedIn, contact.removeContact);
+	router.get("/contact/seach-friends/:keyword", auth.checkLoggedIn, contactValid.seachFriend, contact.seachFriend);
 
 	router.get("/notification/read-more", auth.checkLoggedIn, notification.readMore);
 	router.put("/notification/mark-all-as-read", auth.checkLoggedIn, notification.markAllAsRead);
 	router.post("/message/add-new-text-emoji", auth.checkLoggedIn, MessageValid.checkMessageLength, message.addNewTextEmoji)
 	router.post("/message/add-new-image", auth.checkLoggedIn, message.addNewImage);
 	router.post("/message/add-new-attachment", auth.checkLoggedIn, message.attachment);
+	
 	return app.use("/", router);
 };
 
