@@ -70,16 +70,27 @@ UserSchema.statics = {
 	updatePassword(id, hashedPassword) {
 		return this.findByIdAndUpdate(id, { "local.password": hashedPassword }).exec();
 	},
-	/**
-	 * find all user for contact
-	 * @param {array} deprecateUserIds 
-	 * @param {string} keyword 
-	 */
 	findAllForAddContact(deprecateUserIds, keyword) {
 		return this.find({
 			$and: [
 				{ "_id": { $nin: deprecateUserIds } },
 				{ "local.isActive": true },
+				{
+					$or: [
+						{ "username": { "$regex": new RegExp(keyword, "i") } },
+						{ "local.email": { "$regex": new RegExp(keyword, "i") } },
+						{ "facebook.email": { "$regex": new RegExp(keyword, "i") } },
+						{ "google.email": { "$regex": new RegExp(keyword, "i") } }
+					]
+				}
+			]
+		}, { _id: 1, username: 1, address: 1, avatar: 1 }).exec();
+	},
+	findAllToAddGroupChat(friendIds, keyword) {
+		return this.find({
+			$and: [
+				{ "_id": { $in: friendIds } }, //lấy các id nằm trong mảng friendIds
+				{ "local.isActive": true }, //và đã kết bạn
 				{
 					$or: [
 						{ "username": { "$regex": new RegExp(keyword, "i") } },

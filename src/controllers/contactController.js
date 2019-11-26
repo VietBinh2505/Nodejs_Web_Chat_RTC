@@ -24,13 +24,33 @@ let findUsersContact = async (req, res) => {
 		console.log(errorArr);
 		return res.status(500).send(errorArr);
 	}
-
 	try {
 		let currentUserId = req.user._id;
 		let keyword = req.params.keyword;
 
 		let users = await contact.findUsersContact(currentUserId, keyword);
 		return res.render("main/contact/sessions/_findUserscontact", { users });
+	} catch (error) {
+		return res.status(500).send(error);
+	};
+};
+let seachFriend = async (req, res) => {
+	let errorArr = [];
+	let validateErrors = validationResult(req);
+	if (!validateErrors.isEmpty()) {
+		let errors = Object.values(validateErrors.mapped());
+		errors.forEach(error => {
+			errorArr.push(error.msg);
+		});
+		console.log(errorArr);
+		return res.status(500).send(errorArr);
+	}
+	try {
+		let currentUserId = req.user._id;
+		let keyword = req.params.keyword;
+
+		let users = await contact.seachFriend(currentUserId, keyword);
+		return res.render("main/groupChat/sections/_seachFriend", { users });
 	} catch (error) {
 		return res.status(500).send(error);
 	};
@@ -119,13 +139,14 @@ let readMoreContactsReceived = async (req, res) => {
 
 
 module.exports = {
-	findUsersContact: findUsersContact,
-	addNew: addNew,
-	removeContact: removeContact,
-	removeRequestContactSent: removeRequestContactSent,
-	removeREquestContactReceived: removeREquestContactReceived,
-	approveRequestContactReceived: approveRequestContactReceived,
-	readMoreContacts: readMoreContacts,
-	readMoreContactsSend: readMoreContactsSend,
-	readMoreContactsReceived: readMoreContactsReceived,
+	findUsersContact,
+	addNew,
+	removeContact,
+	removeRequestContactSent,
+	removeREquestContactReceived,
+	approveRequestContactReceived,
+	readMoreContacts,
+	readMoreContactsSend,
+	readMoreContactsReceived,
+	seachFriend,
 };
