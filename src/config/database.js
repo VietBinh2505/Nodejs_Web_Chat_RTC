@@ -3,7 +3,7 @@ module.exports = {
 	DB_Host: "127.0.0.1",
 	DB_Post: 27017,
 	DB_Name: "web_chat",
-	DB_UserName: "",
+	DB_UserName: "", 
 	DB_PassWord: "",
 	hostname: "localhost",
 	port: 2505,

@@ -14,6 +14,9 @@ let ChatGroupSchema = new Schema({
 });
 
 ChatGroupSchema.statics = {
+	createNew(item) {
+		return this.create(item);
+	},
 	getChatGrs(userid, limit) {
 		return this.find({
 			"members" : {$elemMatch: {"userId": userid}}, // elem viết tắt của element, nếu trong csdl có tồn tại "userId" = userid thì lấy hết thong tin của bảng đó
