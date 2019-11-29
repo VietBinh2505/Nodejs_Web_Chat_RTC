@@ -34,6 +34,7 @@ let findUsersContact = async (req, res) => {
 		return res.status(500).send(error);
 	};
 };
+
 let seachFriend = async (req, res) => {
 	let errorArr = [];
 	let validateErrors = validationResult(req);
@@ -53,7 +54,7 @@ let seachFriend = async (req, res) => {
 		return res.render("main/groupChat/sections/_seachFriend", { users });
 	} catch (error) {
 		return res.status(500).send(error);
-	};
+	}
 };
 
 let addNew = async (req, res) => {

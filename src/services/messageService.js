@@ -66,7 +66,7 @@ let addNewTextEmoji = (sender, receiverId, messageVal, isChatGroup) => {
 					let receiver = {
 						id: getChatGroupReceiver._id, //id người nhận
 						name: getChatGroupReceiver.name, //tên người nhận
-						avatar: app.general_avatar_group_chat, //avatar người nhận
+						avatar: database.general_avatar_group_chat, //avatar người nhận
 					};
 					let newMessageItem = {
 						senderId: sender.id, //id người gửi
@@ -126,7 +126,7 @@ let addNewImage = (sender, receiverId, messageVal, isChatGroup) => {
 					let receiver = {
 						id: getChatGroupReceiver._id, //id người nhận
 						name: getChatGroupReceiver.name, //tên người nhận
-						avatar: app.general_avatar_group_chat, //avatar người nhận
+						avatar: database.general_avatar_group_chat, //avatar người nhận
 					};
 					let imageBuffer = await fs_extra.readFile(messageVal.path);
 					let imageContentType = messageVal.mimetype;
@@ -193,7 +193,7 @@ let addNewAttachment = (sender, receiverId, messageVal, isChatGroup) => {
 					let receiver = {
 						id: getChatGroupReceiver._id, //id người nhận
 						name: getChatGroupReceiver.name, //tên người nhận
-						avatar: app.general_avatar_group_chat, //avatar người nhận
+						avatar: database.general_avatar_group_chat, //avatar người nhận
 					};
 					let attachmentBuffer = await fs_extra.readFile(messageVal.path);
 					let attachmentContentType = messageVal.mimetype;
