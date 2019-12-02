@@ -10,6 +10,7 @@ import chatimage from "./chat/chatimage";
 import chatAttachment from "./chat/chatAttachment";
 import chatVideo from "./chat/chatVideo";
 import userOnOffline from "./status/userOnOffline";
+import newGroupChat from "./group/newGroupChat";
 let initSocket = (io) => {
   addNewContact(io);
   removeRequestContactSent(io);
@@ -23,6 +24,7 @@ let initSocket = (io) => {
   chatAttachment(io);
   chatVideo(io);
   userOnOffline(io);
+  newGroupChat(io);
 };
 
 module.exports = initSocket;

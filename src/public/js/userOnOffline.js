@@ -1,3 +1,5 @@
+//B0Check status
+socket.emit("check-status");
 //B1nhận danh sách các user onl từ server gửi về
 socket.on("server-send-list-user-online", (listUserids)=>{ //listuserids mảng các id user onl
    listUserids.forEach(userId => {
