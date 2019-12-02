@@ -1,6 +1,6 @@
 import { pushSocketIdToArray, emitNotifyToArray, reoveSocketIdFromArray } from "./../../helper/socketHelper";
 
-let typingOff = (io) => {
+let newGroupChat = (io) => {
 	let clients = {};
 	io.on("connection", (socket) => {
 		let currentUserId = socket.request.user._id; //lấy được id người dùng hiện tại
@@ -10,32 +10,19 @@ let typingOff = (io) => {
 		});
 		socket.on("new-group-created", (data) => {
 			clients = pushSocketIdToArray(clients, data.groupChat._id, socket.id); //lấy được hết id người dùng hiện tại đang truy cập vào nhóm cho vào 1 mảng
+         let response = {
+            groupChat: data.groupChat,
+         };
+         data.groupChat.members.forEach(member => {
+            if(clients[member.userId] && member.userId != currentUserId){
+               emitNotifyToArray(clients, member.userId, io, "response-new-group-created", response);
+            }
+         });
 		});
 		socket.on("member-received-group-chat", (data)=>{
 			clients = pushSocketIdToArray(clients, data.groupChatId, socket.id); //lấy được hết id người dùng hiện tại đang truy cập vào nhóm cho vào 1 mảng
+        
 		});
-		socket.on("user-is-not-typing", (data) => {
-			if (data.groupId) { // nếu là trò chuyện nhóm
-				let response = {
-					CrrGroupId: data.groupId,
-					CrrUserId: currentUserId,
-				};
-				//emit notification
-				if (clients[data.groupId]) {
-					emitNotifyToArray(clients, data.groupId, io, "response-user-is-not-typing", response);
-				}
-			}
-			if (data.contactId) {//nếu là trò chuyện cá nhân
-				let response = {
-					CrrUserId: currentUserId,
-				};
-				//emit notification
-				if (clients[data.contactId]) {
-					emitNotifyToArray(clients, data.contactId, io, "response-user-is-not-typing", response);
-				}
-			}
-		});
-		
 		socket.on("disconnect", () => {
 			// remove socket when user user disconnect
 			clients = reoveSocketIdFromArray(clients, currentUserId, socket.id);
@@ -46,4 +33,4 @@ let typingOff = (io) => {
 	});
 };
 
-module.exports = typingOff;
+module.exports = newGroupChat;

@@ -8,6 +8,12 @@ let chatTextEmoji = (io) => {
 		socket.request.user.chatGrIds.forEach(group => {
 			clients = pushSocketIdToArray(clients, group._id, socket.id);
 		});
+		socket.on("new-group-created", (data) => {
+			clients = pushSocketIdToArray(clients, data.groupChat._id, socket.id); //lấy được hết id người dùng hiện tại đang truy cập vào nhóm cho vào 1 mảng
+		});
+		socket.on("member-received-group-chat", (data)=>{
+			clients = pushSocketIdToArray(clients, data.groupChatId, socket.id); //lấy được hết id người dùng hiện tại đang truy cập vào nhóm cho vào 1 mảng
+		});
 		socket.on("chat-text-emoji", (data) => {
 			if (data.groupId) {
 				let response = {
@@ -31,6 +37,7 @@ let chatTextEmoji = (io) => {
 				}
 			}
 		});
+
 		socket.on("disconnect", () => {
 			// remove socket when user user disconnect
 			clients = reoveSocketIdFromArray(clients, currentUserId, socket.id);
