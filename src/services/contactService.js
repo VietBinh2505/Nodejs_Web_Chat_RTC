@@ -7,7 +7,7 @@ import _ from 'lodash';
 let removeContact = (IdCRR, contactId) =>{
 	return new Promise(async (resolve, reject) => {
 		let removeContact = await ContacModel.removeContact(IdCRR, contactId);
-		if (removeContact.result.n === 0) {
+		if (removeContact.n === 0) {
 			return reject(false);
 		};
 		resolve(true);
