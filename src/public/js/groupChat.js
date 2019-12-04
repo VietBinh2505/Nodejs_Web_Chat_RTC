@@ -85,7 +85,7 @@ function callCreateGroupChat() {
 			//B1: ẩn modal
 			$("#input-name-group-chat").val("");
 			$("#btn-cancel-group-chat").click()
-			$("#groupChatModal").modal("hide");
+			$("#groupChatModal").modal("hide");contactsModal
 			//B2: thêm vào leftside
 			let subGroupChatName = data.groupChat.name;
 			if (subGroupChatName.length > 15) {
@@ -167,41 +167,41 @@ function callCreateGroupChat() {
 				</div>
 			</div>
 		</div>`;
-			$("#screen-chat").prepend(rightSideData);
-			//B4: call function changscreenChat
-			changeScreenChat();
-			//B5: Bật modal hình ảnh
-			let imageModalData = `<div class="modal fade" id="imagesModal_${data.groupChat._id}" role="dialog">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Những hình ảnh trong cuộc trò chuyện. </h4>
-					</div>
-					<div class="modal-body">
-						<div class="all-images" style="visibility: hidden;">
-						</div>
+		$("#screen-chat").prepend(rightSideData);
+		//B4: call function changscreenChat
+		changeScreenChat();
+		//B5: Bật modal hình ảnh
+		let imageModalData = `<div class="modal fade" id="imagesModal_${data.groupChat._id}" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Những hình ảnh trong cuộc trò chuyện. </h4>
+				</div>
+				<div class="modal-body">
+					<div class="all-images" style="visibility: hidden;">
 					</div>
 				</div>
 			</div>
-			</div>`;
-			$("body").append(imageModalData);
-			//B6: call function gridPhoto
-			gridPhotos(5);
-			//B7: Bật modal tệp tin
-			let attachmentsModalData = `<div class="modal fade" id="attachmentsModal_${data.groupChat._id}" role="dialog">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Tất cả tệp tin.</h4>
-					</div>
-					<div class="modal-body">
-						<ul class="list-attachments"></ul>
-					</div>
+		</div>
+		</div>`;
+		$("body").append(imageModalData);
+		//B6: call function gridPhoto
+		gridPhotos(5);
+		//B7: Bật modal tệp tin
+		let attachmentsModalData = `<div class="modal fade" id="attachmentsModal_${data.groupChat._id}" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Tất cả tệp tin.</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="list-attachments"></ul>
 				</div>
 			</div>
-	  	</div>`;
+		</div>
+		</div>`;
 	  	$("body").append(attachmentsModalData);
 	  	//B8 emit sự kiện khi tạo mới group
 		socket.emit("new-group-created", {groupChat: data.groupChat});
