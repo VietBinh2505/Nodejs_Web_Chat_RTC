@@ -1,0 +1,24 @@
+<% newAllConversations.forEach(Conversation => { %>
+   <div class="modal fade" id="attachmentsModal_<%= Conversation._id%>" role="dialog">
+       <div class="modal-dialog modal-lg">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   <h4 class="modal-title">Tất cả tệp tin.</h4>
+               </div>
+               <div class="modal-body">
+                   <ul class="list-attachments">
+                       <% Conversation.message.forEach(function(mess){ %>
+                           <% if(mess.messageType === "file"){%>
+                               <li>
+                                   <a href="data:<%=mess.file.contentType%>; base64,
+                                   <%= bufferToBase64(mess.file.data)%>" download="<%=mess.file.fileName%>"><%=mess.file.fileName%></a>
+                               </li>
+                           <%}%>
+                       <% }); %>
+                   </ul>
+               </div>
+           </div>
+       </div>
+   </div>
+<% }); %>

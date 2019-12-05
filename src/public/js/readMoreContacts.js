@@ -1,23 +1,22 @@
-$(document).ready(function() {
-  $("#link-read-more-contact").bind("click", function() {
-    let skipNumber = $("#contacts").find("li").length;
+$(document).ready(function () {
+	$("#link-read-more-contact").bind("click", function () {
+		let skipNumber = $("#contacts").find("li").length;
 
-    $("#link-read-more-contact").css("display", "none");
-    $(".read-more-contact-loader").css("display", "inline-block");
+		$("#link-read-more-contact").css("display", "none");
+		$(".read-more-contact-loader").css("display", "inline-block");
 
-    setTimeout(() => {
-      $.get(`/contact/read-more-contacts?skipNumber=${skipNumber}`, function(newContactUsers) {
-        if (!newContactUsers.length) {
-          alertify.notify("Bạn không còn bạn bè nào để xem thêm.!", "error", 6);
-          $("#link-read-more-contact").css("display", "inline-block");
-          $(".read-more-contact-loader").css("display", "none");
-          return false;
-        }
-  
-        newContactUsers.forEach(user => {
-          $("#contacts")
-            .find("ul")
-            .append(` <li class="_contactList" data-uid="${user._id}">
+		setTimeout(() => {
+			$.get(`/contact/read-more-contacts?skipNumber=${skipNumber}`, function (newContactUsers) {
+				if (!newContactUsers.length) {
+					alertify.notify("Bạn không còn bạn bè nào để xem thêm.!", "error", 6);
+					$("#link-read-more-contact").css("display", "inline-block");
+					$(".read-more-contact-loader").css("display", "none");
+					return false;
+				}
+				newContactUsers.forEach(user => {
+					$("#contacts")
+						.find("ul")
+						.append(` <li class="_contactList" data-uid="${user._id}">
 					<div class="contactPanel">
 							<div class="user-avatar">
 								<img src="images/users/${user.avatar}" alt="">
@@ -39,13 +38,13 @@ $(document).ready(function() {
 							</div>
 					</div>
 				</li>`);
-        });
-		  removeContact();
-        $("#link-read-more-contact").css("display", "inline-block");
-        $(".read-more-contact-loader").css("display", "none");
-      });
-    }, 300);
-    
+				});
+				removeContact();
+				$("#link-read-more-contact").css("display", "inline-block");
+				$(".read-more-contact-loader").css("display", "none");
+			});
+		}, 300);
 
-  });
+
+	});
 });

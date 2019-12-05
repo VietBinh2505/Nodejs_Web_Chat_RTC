@@ -13,17 +13,10 @@ intiPassportGoogle();
 
 let router = express.Router();
 
-/**
- * init all routes
- * @param app from exacly express
- */
-
 let initRoutes = app => {
-
 	router.get("/login-register", auth.checkloggedOut, auth.getLoginRegister);
 	router.post("/register", auth.checkloggedOut, authValid.register, auth.postRegister);
 	router.get("/verify/:token", auth.checkloggedOut, auth.verifyAccout);
-
 	router.post("/login", auth.checkloggedOut, passport.authenticate("local", {
 		successRedirect: "/",
 		failureRedirect: "/login-register",
@@ -66,9 +59,10 @@ let initRoutes = app => {
 	router.post("/message/add-new-text-emoji", auth.checkLoggedIn, MessageValid.checkMessageLength, message.addNewTextEmoji)
 	router.post("/message/add-new-image", auth.checkLoggedIn, message.addNewImage);
 	router.post("/message/add-new-attachment", auth.checkLoggedIn, message.attachment);
+	router.get("/message/read-more-all-chat", auth.checkLoggedIn, message.readMoreAllChat);
 
 	router.post("/group-chat/add-new", auth.checkLoggedIn, groupChatValid.addNewGroup,groupChat.addNewGroup );
-	
+
 	return app.use("/", router);
 };
 

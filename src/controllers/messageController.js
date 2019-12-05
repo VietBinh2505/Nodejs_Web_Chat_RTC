@@ -2,8 +2,35 @@ import { validationResult } from 'express-validator/check';
 import { message } from "./../services/index";
 import multer from 'multer';
 import database from './../config/database';
-import { transErrors, transSuccess } from './../../lang/vi';
+import { transErrors } from './../../lang/vi';
 import fsExtra from "fs-extra"
+import ejs from "ejs";
+import {lastItemArray, convertTimestampToHumanTime, bufferToBase64} from "./../helper/clientsHelper";
+import {promisify} from "util";
+const renderFile = promisify(ejs.renderFile).bind(ejs);
+let readMoreAllChat = async (req, res) => {
+	try {
+		let skipPersonal = +(req.query.skipPersonal);
+		let skipGroup = +(req.query.skipGroup);
+		let newAllConversations = await message.readMoreAllChat(req.user._id, skipPersonal, skipGroup);
+		
+		let dataToRender = {
+			newAllConversations,
+			lastItemArray,
+			convertTimestampToHumanTime,
+			bufferToBase64,
+			user: req.user,
+		};
+		let leftSideData = await renderFile("src/views/main/readMoreConversations/_leftSide.ejs", dataToRender);
+		let rightSideData = await renderFile("src/views/main/readMoreConversations/_rightSide.ejs", dataToRender);
+		let attactmentModal = await renderFile("src/views/main/readMoreConversations/_attactmentModal.ejs", dataToRender);
+		let imageModal = await renderFile("src/views/main/readMoreConversations/_imageModal.ejs", dataToRender);
+		
+		return res.status(200).send({leftSideData, rightSideData, attactmentModal, imageModal});
+	} catch (error) {
+		return res.status(500).send(error);
+	}
+};
 let addNewTextEmoji = async (req, res) => {
 	let errorArr = [];
 	let validationErrors = validationResult(req);
@@ -127,4 +154,5 @@ module.exports = {
 	addNewTextEmoji,
 	addNewImage,
 	attachment,
+	readMoreAllChat,
 };

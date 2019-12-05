@@ -8,7 +8,10 @@ function nineScrollLeft() {
 		cursorwidth: '7px',
 		scrollspeed: 50
 	});
-}
+};
+function resizenineScrollLeft() {
+	$('.left').getNiceScroll().resize();
+};
 
 function nineScrollRight(divId) {
 	$(`.right .chat[data-chat = ${divId}]`).niceScroll({
