@@ -1,0 +1,60 @@
+<% newAllConversations.forEach((Conversation)=>{%>
+   <% if(Conversation.members){ %>
+       <a href="#uid_<%=Conversation._id %>" class="room-chat" data-target="#to_<%= Conversation._id %>">
+           <li class="person group-chat" data-chat="<%= Conversation._id %>">
+               <div class="left-avatar">
+                   <img src="images/users/group-avatar-nvb.png" alt="">
+               </div>
+               <span class="name">
+                   <span class="group-chat-name">
+                       <% if(Conversation.name.length > 15){ %>
+                           <%= Conversation.name.substr(0, 14)%> <span>...</span> 
+                       <% } else{%>
+                           <%= Conversation.name %>
+                       <% } %>
+                   </span>
+               </span>
+               <span class="time"><%= convertTimestampToHumanTime(lastItemArray(Conversation.message).createdAt) %></span>
+               <span class="preview" convert-emoji>
+                   <%if(lastItemArray(Conversation.message).messageType ==="text"){%>
+                       <%= lastItemArray(Conversation.message).text %>
+                   <%} %>
+                   <%if(lastItemArray(Conversation.message).messageType ==="file"){%>
+                       Tệp đính kèm ...
+                   <%} %>
+                   <%if(lastItemArray(Conversation.message).messageType ==="image"){%>
+                       Hình ảnh ...
+                   <%} %>
+               </span>
+           </li>
+       </a>
+       <% }else{ %>
+           <a href="#uid_<%=Conversation._id %>" class="room-chat" data-target="#to_<%= Conversation._id %>">
+           <li class="person" data-chat="<%=Conversation._id %>">
+               <div class="left-avatar">
+                   <div class="dot"></div>
+                   <img src="images/users/<%=Conversation.avatar %>" alt="">
+               </div>
+               <span class="name">
+                   <% if(Conversation.username.length > 15){ %>
+                        <%= Conversation.username.substr(0, 14)%> <span>...</span> 
+                   <% } else{%>
+                       <%= Conversation.username %>
+                   <% } %>
+               </span>
+               <span class="time"><%= convertTimestampToHumanTime(lastItemArray(Conversation.message).createdAt) %></span>
+               <span class="preview" convert-emoji>
+                   <%if(lastItemArray(Conversation.message).messageType ==="text"){%>
+                       <%= lastItemArray(Conversation.message).text %>
+                   <%} %>
+                   <%if(lastItemArray(Conversation.message).messageType ==="file"){%>
+                       Tệp đính kèm ...
+                   <%} %>
+                   <%if(lastItemArray(Conversation.message).messageType ==="image"){%>
+                       Hình ảnh ...
+                   <%} %>
+               </span>
+           </li>
+       </a>
+   <% } %>
+<%}); %>

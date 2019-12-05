@@ -18,7 +18,7 @@ module.exports = {
 	secret: "myvietbinh",
 	LimitCT: 2,
 	LimitNT: 10,
-	LimitTaken: 10,
+	LimitConverTaken: 10,
 	LimitMess: 20,
 	avatar_directory: 'src/public/images/users',
 	avatar_type: ['image/png', 'image/jpg', 'image/jpeg'],

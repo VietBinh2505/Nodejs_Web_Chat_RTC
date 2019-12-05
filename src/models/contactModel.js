@@ -14,22 +14,12 @@ ContactSchema.statics = {
 	createNew(item) {
 		return this.create(item); // return Promise so onece will use async/await
 	},
-
-	/**
-	 * find all item that related with user
-	 * @param {string} userId
-	 */
+	
 	findAllByUser(userId) {
 		return this.find({
 			$or: [{ userId: userId }, { contactId: userId }]
 		}).exec();
 	},
-
-	/**
-	 * check exits of 2 user
-	 * @param {string} userId
-	 * @param {string} contactId
-	 */
 	checkExists(userId, contactId) {
 		return this.findOne({
 			$or: [
@@ -39,11 +29,6 @@ ContactSchema.statics = {
 		}).exec();
 	},
 
-	/**
-	 *  remove request contact
-	 * @param {*} userId
-	 * @param {*} contactId
-	 */
 	removeRequestContactSent(userId, contactId) {
 		return this.remove({
 			$and: [{ userId: userId }, { contactId: contactId }, { status: false }]
@@ -149,7 +134,6 @@ ContactSchema.statics = {
 			$and: [{ contactId: userId }, { status: false }]
 		}).exec();
 	},
-
 	readMoreContacts(userId, skip, limit) {
 		return this.find({
 			$and: [
@@ -162,7 +146,6 @@ ContactSchema.statics = {
 			.skip(skip)
 			.exec();
 	},
-
 	readMoreContactsSend(userId, skip, limit) {
 		return this.find({
 			$and: [{ userId: userId }, { status: false }]
