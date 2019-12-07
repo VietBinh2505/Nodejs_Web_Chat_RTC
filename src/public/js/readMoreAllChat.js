@@ -31,8 +31,11 @@ $(document).ready(function () {
 			$("body").append(data.attactmentModal);
 			//B9: kiểm tra online
 			socket.emit("check-status");
+			//B10: xoá loading
 			$("#link-read-more-all-chat").css("display", "inline-block");
 			$(".read-more-all-chat-loader").css("display", "none");
+			//B11: gọi readMoreMessage
+			readMoreMessage();
 		});
 	});
 });
