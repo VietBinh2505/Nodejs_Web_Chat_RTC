@@ -6,6 +6,25 @@ import MessageModel from "./../models/messageModel";
 import { transErrors } from "./../../lang/vi";
 import _ from "lodash";
 import fs_extra from "fs-extra";
+
+let readMore = (currentUserId, skipMessage, targetId, chatInGroup) => {
+	return new Promise(async (resolve, reject) => {
+		try { 
+			if(chatInGroup){ //nếu trò chuyện nhóm
+				let getMessage = await MessageModel.model.readMoreMessageInGroup(targetId, skipMessage, database.LimitMess);
+				getMessage = _.reverse(getMessage);
+				return resolve(getMessage);
+			}
+			// trò chuyện cá nhân
+			let getMessage = await MessageModel.model.readMoreMessageInPersonal(currentUserId, targetId, skipMessage, database.LimitMess);
+			//console.log(getMessage);
+			getMessage = _.reverse(getMessage);
+			return resolve(getMessage);
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
 let readMoreAllChat = (currentUserId, skipPersonal, skipGroup) => {
 	return new Promise(async (resolve, reject) => {
 		try { 
@@ -299,4 +318,5 @@ module.exports = {
 	addNewImage,
 	addNewAttachment,
 	readMoreAllChat,
+	readMore,
 };

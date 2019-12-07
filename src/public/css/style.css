@@ -1608,7 +1608,7 @@ label:focus,
     0% {
         top: 28px;
         left: 28px;
-        width: 0;
+        width: 0; 
         height: 0;
         opacity: 1;
     }
@@ -1619,4 +1619,9 @@ label:focus,
         height: 58px;
         opacity: 0;
     }
+}
+
+.message-loading{
+    display: block;
+    margin: 0 auto;
 }

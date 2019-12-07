@@ -37,31 +37,31 @@
 				</span>
 			</div>
 			<div class="content-chat">
-				<div class="chat" data-chat="<%= Conversation._id%>">
+				<div class="chat chat-in-group" data-chat="<%= Conversation._id%>">
 					<% Conversation.message.forEach(function(mess){ %>
-						<% if(mess.messageType === "text"){%>
-							<div
-								class="convert-emoji bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %>">
-								<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
-								<%= mess.text %>
-							</div>
-						<% } %>
-						<% if(mess.messageType === "image"){%>
-							<div
-								class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%> bubble-image-file" data-mess-id="<%= mess._id %>">
-								<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
-								<img src="data: <%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>"
-									class="show-image-chat" />
-							</div>
-						<% } %>
-						<% if(mess.messageType === "file"){%>
-							<div
-								class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%> bubble-attachment-file" data-mess-id="<%= mess._id %>">
-								<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
-								<a href="data:<%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>"
-									download="<%=mess.file.fileName%>"><%=mess.file.fileName%></a>
-							</div>
-						<% } %>
+					<% if(mess.messageType === "text"){%>
+					<div
+						class="convert-emoji bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %>">
+						<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
+						<%= mess.text %>
+					</div>
+					<% } %>
+					<% if(mess.messageType === "image"){%>
+					<div
+						class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%> bubble-image-file" data-mess-id="<%= mess._id %>">
+						<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
+						<img src="data: <%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>"
+							class="show-image-chat" />
+					</div>
+					<% } %>
+					<% if(mess.messageType === "file"){%>
+					<div
+						class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%> bubble-attachment-file" data-mess-id="<%= mess._id %>">
+						<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
+						<a href="data:<%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>"
+							download="<%=mess.file.fileName%>"><%=mess.file.fileName%></a>
+					</div>
+					<% } %>
 					<% }); %>
 				</div>
 			</div>
@@ -110,30 +110,30 @@
 			<div class="content-chat">
 				<div class="chat" data-chat="<%= Conversation._id%>">
 					<% Conversation.message.forEach((mess)=>{ %>
-						<% if(mess.messageType === "text"){%>
-							<div
-								class="convert-emoji bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %>">
-								<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>"
-									title="">
-								<%= mess.text %>
-							</div>
-						<% } %>
-						<% if(mess.messageType === "image"){%>
-							<div
-								class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%> bubble-image-file" data-mess-id="<%= mess._id %>">
-								<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
-								<img src="data: <%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>"
-									class="show-image-chat" />
-							</div>
-						<% } %>
-						<% if(mess.messageType === "file"){%>
-							<div
-								class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%> bubble-attachment-file" data-mess-id="<%= mess._id %>">
-								<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
-								<a href="data:<%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>"
-									download="<%=mess.file.fileName%>"><%=mess.file.fileName%></a>
-							</div>
-						<% } %>
+					<% if(mess.messageType === "text"){%>
+					<div
+						class="convert-emoji bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%>"data-mess-id="<%= mess._id %>">
+						<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>"
+							title="">
+						<%= mess.text %>
+					</div>
+					<% } %>
+					<% if(mess.messageType === "image"){%>
+					<div
+						class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%> bubble-image-file" data-mess-id="<%= mess._id %>">
+						<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
+						<img src="data: <%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>"
+							class="show-image-chat" />
+					</div>
+					<% } %>
+					<% if(mess.messageType === "file"){%>
+					<div
+						class="bubble <% if(mess.senderId == user._id){ %>me<%}else{%>you<%}%> bubble-attachment-file" data-mess-id="<%= mess._id %>">
+						<img src="/images/users/<%=mess.sender.avatar%>" class="avatar-small" title="<%= mess.sender.name%>">
+						<a href="data:<%=mess.file.contentType%>; base64, <%= bufferToBase64(mess.file.data)%>"
+							download="<%=mess.file.fileName%>"><%=mess.file.fileName%></a>
+					</div>
+					<% } %>
 					<% }); %>
 				</div>
 			</div>
@@ -152,7 +152,8 @@
 							class="attachment-chat" data-chat="<%= Conversation._id%>" />
 						<i class="fa fa-paperclip"></i>
 					</label>
-					<a href="javascript:void(0)" id="video-chat-<%= Conversation._id %>" class="video-chat" data-chat="<%= Conversation._id%>">
+					<a href="javascript:void(0)" id="video-chat-<%= Conversation._id %>" class="video-chat"
+						data-chat="<%= Conversation._id%>">
 						<i class="fa fa-video-camera"></i>
 					</a>
 				</div>
