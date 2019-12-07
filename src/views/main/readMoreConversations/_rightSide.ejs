@@ -35,7 +35,7 @@
             </span>
          </div>
          <div class="content-chat">
-            <div class="chat" data-chat="<%= Conversation._id%>">
+            <div class="chat chat-in-group" data-chat="<%= Conversation._id%>">
                <% Conversation.message.forEach(function(mess){ %>
                <% if(mess.messageType === "text"){%>
                <div

@@ -8,6 +8,27 @@ import ejs from "ejs";
 import {lastItemArray, convertTimestampToHumanTime, bufferToBase64} from "./../helper/clientsHelper";
 import {promisify} from "util";
 const renderFile = promisify(ejs.renderFile).bind(ejs);
+
+let readMore = async (req, res) => {
+	try {
+		let skipMessage = +(req.query.skipMessage);
+		let targetId = req.query.targetId;
+		let chatInGroup = (req.query.chatInGroup === "true");
+		let newMessages = await message.readMore(req.user._id, skipMessage, targetId, chatInGroup);
+		let dataToRender = {
+			newMessages,
+			bufferToBase64,
+			user: req.user,
+		};
+		let rightSideData = await renderFile("src/views/main/readMoreMessages/_rightSide.ejs", dataToRender);
+		let attactmentModalData = await renderFile("src/views/main/readMoreMessages/_attactmentModal.ejs", dataToRender);
+		let imageModalData = await renderFile("src/views/main/readMoreMessages/_imageModal.ejs", dataToRender);
+		
+		return res.status(200).send({rightSideData, imageModalData, attactmentModalData});
+	} catch (error) {
+		return res.status(500).send(error);
+	}
+};
 let readMoreAllChat = async (req, res) => {
 	try {
 		let skipPersonal = +(req.query.skipPersonal);
@@ -155,4 +176,5 @@ module.exports = {
 	addNewImage,
 	attachment,
 	readMoreAllChat,
+	readMore,
 };

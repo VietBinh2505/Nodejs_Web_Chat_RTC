@@ -1,5 +1,5 @@
 import express from "express";
-import { home, auth, user, contact, notification, message,groupChat } from "./../controllers/index";
+import { home, auth, user, contact, notification, message, groupChat } from "./../controllers/index";
 import { authValid, userValid, contactValid, MessageValid, groupChatValid} from "./../validation/index";
 import passport from "passport";
 import initPassportLocal from "./../controllers/passportController/local";
@@ -25,16 +25,9 @@ let initRoutes = app => {
 	}));
 
 	router.get("/auth/facebook", auth.checkloggedOut, passport.authenticate("facebook", { scope: ["email"] }));
-	router.get("/auth/facebook/callback", auth.checkloggedOut, passport.authenticate("facebook", {
-		successRedirect: "/",
-		failureRedirect: "/login-register",
-	}));
-
+	router.get("/auth/facebook/callback", auth.checkloggedOut, passport.authenticate("facebook", {successRedirect: "/",failureRedirect: "/login-register",}));
 	router.get("/auth/google", auth.checkloggedOut, passport.authenticate("google", { scope: ["email"] }));
-	router.get("/auth/google/callback", auth.checkloggedOut, passport.authenticate("google", {
-		successRedirect: "/",
-		failureRedirect: "/login-register"
-	}));
+	router.get("/auth/google/callback", auth.checkloggedOut, passport.authenticate("google", {successRedirect: "/",failureRedirect: "/login-register"}));
 
 	router.get("/", auth.checkLoggedIn, home.getHome);
 	router.get("/logout", auth.checkLoggedIn, auth.getLogout);
@@ -56,10 +49,12 @@ let initRoutes = app => {
 
 	router.get("/notification/read-more", auth.checkLoggedIn, notification.readMore);
 	router.put("/notification/mark-all-as-read", auth.checkLoggedIn, notification.markAllAsRead);
+
 	router.post("/message/add-new-text-emoji", auth.checkLoggedIn, MessageValid.checkMessageLength, message.addNewTextEmoji)
 	router.post("/message/add-new-image", auth.checkLoggedIn, message.addNewImage);
 	router.post("/message/add-new-attachment", auth.checkLoggedIn, message.attachment);
 	router.get("/message/read-more-all-chat", auth.checkLoggedIn, message.readMoreAllChat);
+	router.get("/message/read-more", auth.checkLoggedIn, message.readMore);
 
 	router.post("/group-chat/add-new", auth.checkLoggedIn, groupChatValid.addNewGroup,groupChat.addNewGroup );
 

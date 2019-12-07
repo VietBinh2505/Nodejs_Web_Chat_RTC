@@ -1,0 +1,9 @@
+<% newMessages.forEach(function(mess){ %>
+   <% if(mess.messageType === "file"){%>
+      <li>
+         <a href="data:<%=mess.file.contentType%>; base64,<%= bufferToBase64(mess.file.data)%>"
+            download="<%=mess.file.fileName%>"><%=mess.file.fileName%>
+         </a>
+      </li>
+   <%}%>
+<% }); %>
