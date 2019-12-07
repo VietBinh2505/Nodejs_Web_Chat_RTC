@@ -5,9 +5,9 @@ import { transErrors, transSuccess } from './../../../lang/vi';
 import database from "./../../config/database";
 import chatGrModel from './../../models/chatGroupModel';
 let GoogleStrategy = googlePassport.OAuth2Strategy;
-let ggAppId = database.ggAppId;
-let ggAppSecret = database.ggAppSecret;
-let ggCallbackUrl = database.ggCallbackUrl;
+let ggAppId = "62483867871-5ojmehfbbhfe7a5lef20omg5paggnn4b.apps.googleusercontent.com";
+let ggAppSecret = "jmgitFgYsEMv56VAvAxGRNzv";
+let ggCallbackUrl = "http://localhost:2505/auth/google/callback";
 
 let initPassportGoogle = () => {
 	passport.use(new GoogleStrategy({

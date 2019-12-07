@@ -4,31 +4,31 @@ import { bufferToBase64, lastItemArray, convertTimestampToHumanTime } from "./..
 import request from "request";
 let getICETurnServer = () => {
 	return new Promise(async (resolve, reject) => {
-		let o = {
-			format: "urls"
-		};
-		let bodyString = JSON.stringify(o);
-		let options = {
-			url: "https://global.xirsys.net/_turn/WebChat",
-			// host: "global.xirsys.net",
-			// path: "/_turn/WebChat",
-			method: "PUT",
-			headers: {
-				"Authorization": "Basic " + Buffer.from("VietBinh2505:acfb6948-0e7e-11ea-b7d8-0242ac110003").toString("base64"),
-				"Content-Type": "application/json",
-				"Content-Length": bodyString.length
-			},
+		// let o = {
+		// 	format: "urls"
+		// };
+		// let bodyString = JSON.stringify(o);
+		// let options = {
+		// 	url: "https://global.xirsys.net/_turn/WebChat",
+		// 	// host: "global.xirsys.net",
+		// 	// path: "/_turn/WebChat",
+		// 	method: "PUT",
+		// 	headers: {
+		// 		"Authorization": "Basic " + Buffer.from("VietBinh2505:acfb6948-0e7e-11ea-b7d8-0242ac110003").toString("base64"),
+		// 		"Content-Type": "application/json",
+		// 		"Content-Length": bodyString.length
+		// 	},
 			
-		};
-		request(options, function(error, response, body){
-			if (error) {
-				console.log("Lỗi ở getICETurnServer/homeCTL"+ error);
-			  	return reject(error);
-			} 
-			let bodyJson = JSON.parse(body);
-			resolve(bodyJson.v.iceServers);
-		});
-		//resolve([]);
+		// };
+		// request(options, function(error, response, body){
+		// 	if (error) {
+		// 		console.log("Lỗi ở getICETurnServer/homeCTL"+ error);
+		// 	  	return reject(error);
+		// 	} 
+		// 	let bodyJson = JSON.parse(body);
+		// 	resolve(bodyJson.v.iceServers);
+		// });
+		resolve([]);
 	});
 };
 let getHome = async (req, res) => {
