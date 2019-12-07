@@ -1,5 +1,5 @@
 function readMoreMessage(){ // xem thêm tin nhắn
-   $(".right .chat").scroll(function(){
+   $(".right .chat").unbind("scroll").on("scroll", function(){
       //tìm đến tin nhắn đầu tiên
       let firstMessage = $(this).find(".bubble:first");
       let currentOffset = firstMessage.offset().top - $(this).scrollTop();

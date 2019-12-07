@@ -185,7 +185,9 @@ $(document).ready(function () {
 	changeTypeChat();
 	changeScreenChat();
 	convertEmojione();
-	$("ul.people").find("a")[0].click(); //click vào phần tử đầu tiên
+	if($("ul.people").find("a").length){
+		$("ul.people").find("a")[0].click(); //click vào phần tử đầu tiên	
+	}
 	$("#video-chat-group").bind("click", function(){
 		alertify.notify("Tính năng này chỉ xử dụng được khi trò chuyện cá nhân!", "error", 10);
 	});
