@@ -55,10 +55,12 @@ initSocket(io);
 // config for socketid
 configSocketio(io, cookieParser, session.sessionStore);
 
-server.listen(database.port, database.hostname, () => {
-  console.log(`Run ${database.hostname}:${database.port}`);
+// server.listen(database.port, database.hostname, () => {
+//   console.log(`Run ${database.hostname}:${database.port}`);
+// });
+server.listen(PORT, () => {
+  console.log(`Run ${PORT}`);
 });
-
 // import pem from 'pem';
 // import https from 'https';
 // pem.createCertificate({ days: 1, selfSigned: true }, function (err, keys) {

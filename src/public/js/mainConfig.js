@@ -157,6 +157,13 @@ function changeScreenChat() {
 		chatVideo(divId);
 	});
 };
+function userTalk(){
+	$(".user-talk").unbind("click").on("click", function(){
+		let dataChat = $(this).data("uid");
+		$("ul.people").find(`a[href="#uid_${dataChat}"]`).click();
+		$(this).closest("div.modal").modal("hide");
+	});
+};
 function bufferToBase64(buffer){
 	return btoa(new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ""));
 };

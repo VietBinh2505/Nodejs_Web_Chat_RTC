@@ -7,7 +7,8 @@ let MongoStore = connectMongo(session);
  * this variable is where save session, in this case is mongo
  */
 let sessionStore = new MongoStore({
-	url: `${database.DB_Connection}://${database.DB_Host}:${database.DB_Post}/${database.DB_Name}`,
+	//url: `${database.DB_Connection}://${database.DB_Host}:${database.DB_Post}/${database.DB_Name}`,
+	url : `mongodb+srv://webchat:webchat@cluster0-guetz.mongodb.net/test`,
 	autoReconnect: true,
 	// autoRemove: 'native'
 })
